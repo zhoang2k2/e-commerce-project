@@ -1,0 +1,11 @@
+@import "../../styles/mixin.scss";
+
+button {
+  &.save-btn {
+    @include button(#37b881, #fff);
+  }
+
+  &.cancle-btn {
+    @include button(#3c3d38, #fff);
+  }
+}

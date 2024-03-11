@@ -1,0 +1,76 @@
+.sidebar {
+  width: 15%;
+  height: 100vh;
+  float: left;
+  font-size: 18px;
+  background-color: #001c41;
+  color: #fff;
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .admin {
+    gap: 20px;
+    height: 35%;
+    justify-content: center;
+    border-bottom: 1px solid #ffffff77;
+
+    h4 {
+      font-weight: bold;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: #fff;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 16px;
+
+      &:hover {
+        color: #ffd43a;
+      }
+    }
+  }
+
+  .for-admin {
+    h3 {
+      color: #ffd43a;
+      font-weight: bold;
+      font-size: 22px;
+      margin: 20px 0 35px;
+    }
+
+    ul {
+      height: 80%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      gap: 20px;
+
+      li {
+        list-style: none;
+        font-weight: bold;
+        border: 1px solid #fff;
+        border-radius: 7px;
+        width: 90%;
+        margin: auto;
+        padding: 20px 0;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+          border-color: #c4dffd;
+          color: #001c41;
+          background-color: #c4dffd;
+        }
+      }
+    }
+  }
+
+  .filter {
+  }
+}

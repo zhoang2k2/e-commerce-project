@@ -1,3 +1,4 @@
+import "./styles/resetStyle.css";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./routes/HomePage";

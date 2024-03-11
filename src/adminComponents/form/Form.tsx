@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Button from "./Button";
 import "./form.scss";
 import { ChangeEvent } from "react";
 
@@ -6,87 +8,114 @@ interface FormProps {
     id: string;
     name: string;
     price: number;
+    quantity: number;
     manufacturer: string;
     category: string;
     status: string;
     image: string;
   };
   handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: any) => void;
 }
 
-function Form({ fields, handleOnChange }: FormProps) {
+function Form({ fields, ...props }: FormProps) {
   return (
-    <form>
-      <label htmlFor="product-id">
-        ID:
-        <input
-          type="text"
-          id="product-id"
-          value={fields.id}
-          onChange={handleOnChange}
-        />
-      </label>
+    <div className="form">
+      <form>
+        <label htmlFor="id">
+          ID:
+          <input
+            type="text"
+            name="id"
+            value={fields.id}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      <label htmlFor="product-name">
-        Name:
-        <input
-          type="text"
-          id="product-name"
-          value={fields.name}
-          onChange={handleOnChange}
-        />
-      </label>
+        <label htmlFor="name">
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={fields.name}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      <label htmlFor="product-price">
-        Price:
-        <input
-          type="number"
-          id="product-price"
-          value={fields.price}
-          onChange={handleOnChange}
-        />
-      </label>
+        <label htmlFor="price">
+          Price:
+          <input
+            type="number"
+            name="price"
+            value={fields.price}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      <label htmlFor="product-manufacturer">
-        Manufacturer:
-        <input
-          type="text"
-          id="product-manufacturer"
-          value={fields.manufacturer}
-          onChange={handleOnChange}
-        />
-      </label>
+        <label htmlFor="quantity">
+          Quantity:
+          <input
+            type="number"
+            name="quantity"
+            value={fields.price}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      <label htmlFor="product-category">
-        Category:
-        <input
-          type="text"
-          id="product-category"
-          value={fields.category}
-          onChange={handleOnChange}
-        />
-      </label>
+        <label htmlFor="manufacturer">
+          Manufacturer:
+          <input
+            type="text"
+            name="manufacturer"
+            value={fields.manufacturer}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      <label htmlFor="product-status">
-        Status:
-        <input
-          type="text"
-          id="product-status"
-          value={fields.status}
-          onChange={handleOnChange}
-        />
-      </label>
+        <label htmlFor="category">
+          Category:
+          <input
+            type="text"
+            name="category"
+            value={fields.category}
+            onChange={props.handleOnChange}
+          />
+        </label>
 
-      {/* <label htmlFor="product-image">
-        Image:
-        <input
-          type="file"
-          id="product-image"
-          value={fields.image}
-          onChange={onChangeImage}
+        <label htmlFor="status">
+          Status:
+          <input
+            type="text"
+            name="status"
+            value={fields.status}
+            onChange={props.handleOnChange}
+          />
+        </label>
+
+        <label htmlFor="image">
+          Image:
+          <input
+            className="product-image"
+            type="file"
+            name="image"
+            value={fields.image}
+            onChange={props.handleChangeImage}
+          />
+        </label>
+      </form>
+
+      <textarea rows="20"></textarea>
+
+      <section>
+        <Button
+          name="Save"
+          className="save-btn"
+          handleSubmit={props.handleSubmit}
         />
-      </label> */}
-    </form>
+        <Button name="Cancle" className="cancle-btn" />
+      </section>
+    </div>
   );
 }
 
