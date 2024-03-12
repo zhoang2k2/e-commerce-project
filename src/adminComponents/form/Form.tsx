@@ -7,12 +7,12 @@ interface FormProps {
   fields: {
     id: string;
     name: string;
-    price: number;
-    quantity: number;
+    price: string;
+    quantity: string;
+    image: string;
     manufacturer: string;
     category: string;
     status: string;
-    image: string;
   };
   handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -58,7 +58,7 @@ function Form({ fields, ...props }: FormProps) {
           <input
             type="number"
             name="quantity"
-            value={fields.price}
+            value={fields.quantity}
             onChange={props.handleOnChange}
           />
         </label>
@@ -105,7 +105,7 @@ function Form({ fields, ...props }: FormProps) {
         </label>
       </form>
 
-      <textarea rows="20"></textarea>
+      <textarea rows={20}></textarea>
 
       <section>
         <Button

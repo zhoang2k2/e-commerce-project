@@ -17,7 +17,7 @@ function Thead({ fields }: TheadProps) {
       return <th key={item}>{item}</th>;
     });
     setRenderHead(heads);
-  }, []);
+  }, [fields]);
 
   return (
     <>

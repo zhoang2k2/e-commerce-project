@@ -19,10 +19,10 @@ function Tbody({ itemList }: TbodyProps) {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.quantity}</td>
+                <td>{item.image}</td>
                 <td>{item.manufacturer}</td>
                 <td>{item.category}</td>
                 <td>{item.status}</td>
-                <td>{item.image}</td>
                 <td>
                   <Button name="edit" className="edit-btn" />
                 </td>

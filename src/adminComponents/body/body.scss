@@ -3,17 +3,20 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background-color: #f5f5f5;
   gap: 20px;
 
-  .title {
+  .body-style {
     width: 95%;
     padding: 20px 25px;
     margin: 0 auto;
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 0 10px 1px #aaa5a7;
+  }
+
+  .title {
+    margin-top: 50px;
 
     h1 {
       font-size: 24px;
@@ -22,11 +25,6 @@
   }
 
   .wrap-child {
-    width: 95%;
-    margin: 0 auto;
-    padding: 25px;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 0 10px 1px #aaa5a7;
+    height: 75vh;
   }
 }
