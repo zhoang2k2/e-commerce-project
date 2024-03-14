@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useEffect, useState } from "react";
-
 import Form from "../adminComponents/form/Form";
 import Sidebar from "../adminComponents/sidebar/sideBar";
 import ProductList from "../adminComponents/table/Table";
 import Body from "../adminComponents/body/Body";
+import { useDeleteData, useGetData, usePostData } from "../helpers/database";
 
 interface FieldProps {
   id: string;
@@ -28,6 +28,8 @@ function Admin() {
     category: "",
     status: "",
   });
+
+  const [getId, setGetId] = useState("");
 
   const [itemList, setItemList] = useState<any>([]);
 
@@ -70,10 +72,37 @@ function Admin() {
     }
   };
 
-  const handleSubmit = (e: any) => {
+  const postData = usePostData(fields);
+  const delData = useDeleteData(getId);
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setItemList((prevItemList: any[]) => [...prevItemList, fields]);
+    try {
+      const res = await postData();
+      setItemList((prevItemList: any[]) => [...prevItemList, res]);
+    } catch (err) {
+      console.error("handle add", err);
+    }
   };
+
+  const handleDel = async (id: string) => {
+    setGetId(id);
+  };
+
+  useEffect(() => {
+    const renderAfterDelete = async () => {
+      try {
+        await delData();
+        const newList = itemList.filter((item: any) => item.id !== getId);
+        setItemList(newList);
+      } catch (err) {
+        console.error("handle getId", err);
+      }
+    };
+    if (getId) {
+      renderAfterDelete();
+    }
+  }, [getId]);
 
   // ---------------SIDEBAR EVENT---------------
   const [renderBody, setRenderBody] = useState(
@@ -88,7 +117,9 @@ function Admin() {
   const handleList = (e: any) => {
     e.preventDefault();
     setStyleNav("list");
-    return setRenderBody(<ProductList itemList={itemList} fields={fields} />);
+    return setRenderBody(
+      <ProductList itemList={itemList} fields={fields} handleDel={handleDel} />
+    );
   };
 
   const handleAdd = (e: any) => {
@@ -115,11 +146,23 @@ function Admin() {
         />
       );
     } else if (styleNav === "list") {
-      setRenderBody(<ProductList itemList={itemList} fields={fields} />);
+      setRenderBody(
+        <ProductList
+          itemList={itemList}
+          fields={fields}
+          handleDel={handleDel}
+        />
+      );
     } else {
       console.log("wait");
     }
-  }, [fields, handleChangeImage, handleOnChange]);
+  }, [styleNav]);
+
+  // ===================GET API===================
+  const getApi = useGetData();
+  useEffect(() => {
+    setItemList(getApi);
+  }, [getApi]);
 
   return (
     <>
