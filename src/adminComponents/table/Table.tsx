@@ -7,14 +7,14 @@ import "./table.scss";
 interface TableProps {
   itemList: Array<any>;
   fields: any;
-  handleDel: (id: string) => void;
+  sendIdForDelete: (id: string) => void;
 }
 
-function ProductList({ itemList, fields, handleDel }: TableProps) {
+function ProductList({ itemList, fields, sendIdForDelete }: TableProps) {
   return (
     <table>
       <Thead fields={fields} />
-      <Tbody itemList={itemList} handleDel={handleDel} />
+      <Tbody itemList={itemList} sendIdForDelete={sendIdForDelete} />
     </table>
   );
 }

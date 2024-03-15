@@ -4,7 +4,9 @@ import Form from "../adminComponents/form/Form";
 import Sidebar from "../adminComponents/sidebar/sideBar";
 import ProductList from "../adminComponents/table/Table";
 import Body from "../adminComponents/body/Body";
-import { useDeleteData, useGetData, usePostData } from "../helpers/database";
+import { GetData } from "../helpers/GetData";
+import { DeleteData } from "../helpers/DeleteData";
+import { PostData } from "../helpers/PostData";
 
 interface FieldProps {
   id: string;
@@ -29,8 +31,6 @@ function Admin() {
     status: "",
   });
 
-  const [getId, setGetId] = useState("");
-
   const [itemList, setItemList] = useState<any>([]);
 
   const [styleNav, setStyleNav] = useState("add");
@@ -51,7 +51,7 @@ function Admin() {
     },
   };
 
-  // ---------------BODY EVENT---------------
+  // ===========================BODY EVENT===========================
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFields({
@@ -72,45 +72,42 @@ function Admin() {
     }
   };
 
-  const postData = usePostData(fields);
-  const delData = useDeleteData(getId);
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  // ADD ITEM
+  const getValueToAdd = async (data: any) => {
+    return handleSubmit(data);
+  };
+  const handleSubmit = async (newProduct: any) => {
     try {
-      const res = await postData();
-      setItemList((prevItemList: any[]) => [...prevItemList, res]);
+      await PostData(newProduct);
+      const newList = GetData();
+      setItemList([...itemList, newList]);
     } catch (err) {
-      console.error("handle add", err);
+      console.error("Admin fail to add: ", err);
     }
   };
 
-  const handleDel = async (id: string) => {
-    setGetId(id);
+  // DELETE ITEM
+  const getIdOfDeleteItem = async (id: string) => {
+    handleDelete(id);
+  };
+  const handleDelete = async (idToDelete: string) => {
+    try {
+      await DeleteData(idToDelete);
+      setItemList((prevList: any[]) =>
+        prevList.filter((item: any) => item.id !== idToDelete)
+      );
+    } catch (err) {
+      console.error("Admin file: ", err);
+    }
   };
 
-  useEffect(() => {
-    const renderAfterDelete = async () => {
-      try {
-        await delData();
-        const newList = itemList.filter((item: any) => item.id !== getId);
-        setItemList(newList);
-      } catch (err) {
-        console.error("handle getId", err);
-      }
-    };
-    if (getId) {
-      renderAfterDelete();
-    }
-  }, [getId]);
-
-  // ---------------SIDEBAR EVENT---------------
+  // ===========================SIDEBAR EVENT===========================
   const [renderBody, setRenderBody] = useState(
     <Form
       fields={fields}
       handleOnChange={handleOnChange}
       handleChangeImage={handleChangeImage}
-      handleSubmit={handleSubmit}
+      sendValue={getValueToAdd}
     />
   );
 
@@ -118,7 +115,11 @@ function Admin() {
     e.preventDefault();
     setStyleNav("list");
     return setRenderBody(
-      <ProductList itemList={itemList} fields={fields} handleDel={handleDel} />
+      <ProductList
+        itemList={itemList}
+        fields={fields}
+        sendIdForDelete={getIdOfDeleteItem}
+      />
     );
   };
 
@@ -130,7 +131,7 @@ function Admin() {
         fields={fields}
         handleOnChange={handleOnChange}
         handleChangeImage={handleChangeImage}
-        handleSubmit={handleSubmit}
+        sendValue={getValueToAdd}
       />
     );
   };
@@ -142,7 +143,7 @@ function Admin() {
           fields={fields}
           handleOnChange={handleOnChange}
           handleChangeImage={handleChangeImage}
-          handleSubmit={handleSubmit}
+          sendValue={getValueToAdd}
         />
       );
     } else if (styleNav === "list") {
@@ -150,19 +151,26 @@ function Admin() {
         <ProductList
           itemList={itemList}
           fields={fields}
-          handleDel={handleDel}
+          sendIdForDelete={getIdOfDeleteItem}
         />
       );
     } else {
       console.log("wait");
     }
-  }, [styleNav]);
+  }, [styleNav, fields, itemList]);
 
-  // ===================GET API===================
-  const getApi = useGetData();
+  // ===================GET AND RENDER API===================
   useEffect(() => {
-    setItemList(getApi);
-  }, [getApi]);
+    const renderData = async () => {
+      try {
+        const data = await GetData();
+        setItemList(data);
+      } catch (err) {
+        console.error("Render data: ", err);
+      }
+    };
+    renderData();
+  }, []);
 
   return (
     <>

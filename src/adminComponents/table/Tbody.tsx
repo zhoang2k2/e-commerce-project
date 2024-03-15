@@ -3,10 +3,10 @@ import Button from "../form/Button";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface TbodyProps {
   itemList: Array<any>;
-  handleDel: (id: string) => void;
+  sendIdForDelete: (id: string) => void;
 }
 
-function Tbody({ itemList, handleDel }: TbodyProps) {
+function Tbody({ itemList, sendIdForDelete }: TbodyProps) {
   const randomKey = () => Math.floor(Math.random() * 1000);
 
   return (
@@ -17,7 +17,7 @@ function Tbody({ itemList, handleDel }: TbodyProps) {
             const key = randomKey();
             const handlePassId = () => {
               const id = item.id;
-              handleDel(id);
+              sendIdForDelete(id);
             };
 
             return (

@@ -16,10 +16,14 @@ interface FormProps {
   };
   handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: any) => void;
+  sendValue: (e: any) => void;
 }
 
 function Form({ fields, ...props }: FormProps) {
+  const handleSendValue = () => {
+    props.sendValue(fields);
+  };
+
   return (
     <div className="form">
       <form>
@@ -111,7 +115,7 @@ function Form({ fields, ...props }: FormProps) {
         <Button
           name="Save"
           className="save-btn"
-          handleSubmit={props.handleSubmit}
+          handleSubmit={handleSendValue}
         />
         <Button name="Cancle" className="cancle-btn" />
       </section>

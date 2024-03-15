@@ -29,26 +29,6 @@
       "manufacturer": "Nhà sản xuất C",
       "category": "Danh mục A",
       "status": "Hết hàng"
-    },
-    {
-      "id": "4",
-      "name": "Sản phẩm D",
-      "price": "25000000",
-      "quantity": "8",
-      "image": "https://example.com/image4.jpg",
-      "manufacturer": "Nhà sản xuất B",
-      "category": "Danh mục C",
-      "status": "Còn hàng"
-    },
-    {
-      "id": "5",
-      "name": "Sản phẩm E",
-      "price": "30000000",
-      "quantity": "2",
-      "image": "https://example.com/image5.jpg",
-      "manufacturer": "Nhà sản xuất A",
-      "category": "Danh mục B",
-      "status": "Còn hàng"
     }
   ]
 }
