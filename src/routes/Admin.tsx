@@ -7,6 +7,7 @@ import Body from "../adminComponents/body/Body";
 import { GetData } from "../helpers/GetData";
 import { DeleteData } from "../helpers/DeleteData";
 import { PostData } from "../helpers/PostData";
+import ConfirmPop from "../adminComponents/popUp/ConfirmPop";
 
 interface FieldProps {
   id: string;
@@ -34,10 +35,6 @@ function Admin() {
   const [itemList, setItemList] = useState<any>([]);
 
   const [styleNav, setStyleNav] = useState("add");
-
-  const renderTitle =
-    styleNav === "add" ? "ADDING NEW PRODUCT" : "MANAGING LIST";
-
   const styleNavOnView = {
     onView: {
       backgroundColor: "#c4dffd",
@@ -49,6 +46,38 @@ function Admin() {
       borderColor: "#fff",
       color: "#fff",
     },
+  };
+  const renderTitle =
+    styleNav === "add" ? "ADDING NEW PRODUCT" : "MANAGING LIST";
+
+  const [popupViewStyle, setPopupViewStyle] = useState("offView");
+  const styleWhilePopup = {
+    whilePopUp: {
+      filter: "blur(2px)",
+    },
+    notPopUp: {
+      filter: "blur(0px)",
+    },
+  };
+
+  const [selectedId, setSelectedId] = useState("");
+  // const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [keepAction, setKeepAction] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  const resetField = () => {
+    const fieldAfterSubmit = {
+      id: "",
+      name: "",
+      price: "",
+      quantity: "",
+      image: "",
+      manufacturer: "",
+      category: "",
+      status: "",
+    };
+    setFields(fieldAfterSubmit);
   };
 
   // ===========================BODY EVENT===========================
@@ -72,7 +101,7 @@ function Admin() {
     }
   };
 
-  // ADD ITEM
+  // -------------------------------ADD ITEM-------------------------------
   const getValueToAdd = async (data: any) => {
     return handleSubmit(data);
   };
@@ -84,12 +113,37 @@ function Admin() {
     } catch (err) {
       console.error("Admin fail to add: ", err);
     }
+    resetField();
   };
 
-  // DELETE ITEM
+  // -------------------------------DELETE ITEM-------------------------------
   const getIdOfDeleteItem = async (id: string) => {
-    handleDelete(id);
+    setSelectedId(id); //Get this Id from ProductList
+    setOpenDelete(true); //Open popup modal
+    setPopupViewStyle("onView");
   };
+  const acceptDel = (boolean: boolean) => {
+    setKeepAction(boolean); //True here
+    setOpenDelete(!boolean);
+    setPopupViewStyle("offView");
+  };
+
+  const cancleDel = (boolean: boolean) => {
+    setOpenDelete(boolean);
+    setPopupViewStyle("offView");
+    console.log("cancle success!");
+  };
+
+  useEffect(() => {
+    if (!firstLoad) {
+      if (keepAction) {
+        handleDelete(selectedId);
+      }
+    } else {
+      setFirstLoad(false);
+    }
+  }, [keepAction]);
+
   const handleDelete = async (idToDelete: string) => {
     try {
       await DeleteData(idToDelete);
@@ -110,32 +164,12 @@ function Admin() {
       sendValue={getValueToAdd}
     />
   );
-
-  const handleList = (e: any) => {
-    e.preventDefault();
+  const handleList = () => {
     setStyleNav("list");
-    return setRenderBody(
-      <ProductList
-        itemList={itemList}
-        fields={fields}
-        sendIdForDelete={getIdOfDeleteItem}
-      />
-    );
   };
-
-  const handleAdd = (e: any) => {
-    e.preventDefault();
+  const handleAdd = () => {
     setStyleNav("add");
-    return setRenderBody(
-      <Form
-        fields={fields}
-        handleOnChange={handleOnChange}
-        handleChangeImage={handleChangeImage}
-        sendValue={getValueToAdd}
-      />
-    );
   };
-
   useEffect(() => {
     if (styleNav === "add") {
       setRenderBody(
@@ -155,7 +189,7 @@ function Admin() {
         />
       );
     } else {
-      console.log("wait");
+      console.log("all");
     }
   }, [styleNav, fields, itemList]);
 
@@ -180,7 +214,22 @@ function Admin() {
         styleNav={styleNav}
         styleNavOnView={styleNavOnView}
       />
-      <Body titleByView={renderTitle}>{renderBody}</Body>
+      <Body
+        styleWhilePopup={styleWhilePopup}
+        popupViewStyle={popupViewStyle}
+        titleByView={renderTitle}
+      >
+        {renderBody}
+      </Body>
+      {/* {openEdit && <ConfirmPop content="edit" />} */}
+      {openDelete && (
+        <ConfirmPop
+          content="delete"
+          selectedId={selectedId}
+          acceptDel={acceptDel}
+          cancleDel={cancleDel}
+        />
+      )}
     </>
   );
 }

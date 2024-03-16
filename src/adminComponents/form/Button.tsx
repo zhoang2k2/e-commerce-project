@@ -4,13 +4,15 @@ import "./button.scss";
 interface ButtonProps {
   name: string;
   className: string;
-  handleSubmit?: (e:any)=> void
+  handleSubmit?: (e: any) => void;
 }
 
 function Button({ name, className, ...props }: ButtonProps) {
   return (
     <>
-      <button className={className} onClick={props.handleSubmit}>{name}</button>
+      <button className={className} onClick={props.handleSubmit}>
+        {name}
+      </button>
     </>
   );
 }

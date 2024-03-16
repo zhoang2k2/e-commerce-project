@@ -16,8 +16,7 @@ function Tbody({ itemList, sendIdForDelete }: TbodyProps) {
           itemList.map((item: any) => {
             const key = randomKey();
             const handlePassId = () => {
-              const id = item.id;
-              sendIdForDelete(id);
+              sendIdForDelete(item.id);
             };
 
             return (

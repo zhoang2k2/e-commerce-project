@@ -2,10 +2,10 @@
 
 button {
   &.save-btn {
-    @include button(#37b881, #fff);
+    @include button(#7631fe, #fff);
   }
 
   &.cancle-btn {
-    @include button(#3c3d38, #fff);
+    @include button(#ca434a, #fff);
   }
 }

@@ -5,11 +5,18 @@ import "./body.scss";
 interface BodyProps {
   children: React.ReactNode;
   titleByView: string;
+  styleWhilePopup: any;
+  popupViewStyle: string;
 }
 
-function Body({ children, titleByView }: BodyProps) {
+function Body({ children, titleByView, ...props }: BodyProps) {
+  const style =
+    props.popupViewStyle === "onView"
+      ? props.styleWhilePopup.whilePopUp
+      : props.styleWhilePopup.notPopUp;
+
   return (
-    <div className="body-container">
+    <div style={style} className="body-container">
       <div className="title body-style">
         <h1>{titleByView}</h1>
       </div>
