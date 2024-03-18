@@ -15,6 +15,11 @@
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 0 10px 1px #aaa5a7;
+
+    section {
+      display: flex;
+      gap: 20px;
+    }
   }
 
   .title {

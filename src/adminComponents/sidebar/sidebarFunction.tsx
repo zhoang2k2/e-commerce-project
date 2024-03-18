@@ -2,16 +2,26 @@
 interface SidebarFunctionProps {
   handleList: (e: any) => void;
   handleAdd: (e: any) => void;
-  styleNavOnView: any;
   styleNav: any;
 }
 
 function SidebarFunction({
   handleList,
   handleAdd,
-  styleNavOnView,
   styleNav,
 }: SidebarFunctionProps) {
+  const styleNavOnView = {
+    onView: {
+      backgroundColor: "#c4dffd",
+      borderColor: "#c4dffd",
+      color: "#001C41",
+    },
+    offView: {
+      backgroundColor: "#001C41",
+      borderColor: "#fff",
+      color: "#fff",
+    },
+  };
   return (
     <>
       <div className="for-admin">

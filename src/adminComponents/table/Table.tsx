@@ -9,13 +9,18 @@ interface TableProps {
   itemList: Array<any>;
   fields: any;
   sendIdForDelete: (id: string) => void;
+  sendValueForEdit: (id: string) => void;
 }
 
-function ProductList({ itemList, fields, sendIdForDelete }: TableProps) {
+function ProductList({ ...props }: TableProps) {
   return (
     <table>
-      <Thead fields={fields} />
-      <Tbody itemList={itemList} sendIdForDelete={sendIdForDelete} />
+      <Thead fields={props.fields} />
+      <Tbody
+        itemList={props.itemList}
+        sendIdForDelete={props.sendIdForDelete}
+        sendValueForEdit={props.sendValueForEdit}
+      />
     </table>
   );
 }

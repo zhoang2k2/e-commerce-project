@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from "./Button";
-import "./form.scss";
+import Button from "../../form/Button";
+
 // import { ChangeEvent } from "react";
 
-interface FormProps {
+interface NewFormProps {
   fields: {
     id: string;
     name: string;
@@ -16,14 +16,17 @@ interface FormProps {
   };
   handleOnChange: (e: any) => void;
   handleChangeImage: (e: any) => void;
-  sendValue: (e: any) => void;
+  confirmEditPop: (boolean: boolean, id: string, data: any) => void;
+  cancleChange: (boolean: boolean) => void;
 }
 
-function Form({ fields, ...props }: FormProps) {
-  const handleSendValue = () => {
-    props.sendValue(fields);
+function NewForm({ fields, ...props }: NewFormProps) {
+  const handleSaveClick = () => {
+    props.confirmEditPop(true, fields.id, fields);
   };
-
+  const handleCancleBtn = () => {
+    props.cancleChange(false);
+  };
   return (
     <div className="form">
       <form>
@@ -115,12 +118,16 @@ function Form({ fields, ...props }: FormProps) {
         <Button
           name="Save"
           className="save-btn"
-          handleSubmit={handleSendValue}
+          handleSubmit={handleSaveClick}
         />
-        <Button name="Cancle" className="cancle-btn" />
+        <Button
+          name="Cancle"
+          className="cancle-btn"
+          handleSubmit={handleCancleBtn}
+        />
       </section>
     </div>
   );
 }
 
-export default Form;
+export default NewForm;

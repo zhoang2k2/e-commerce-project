@@ -11,16 +11,6 @@
       "status": "Còn hàng"
     },
     {
-      "id": "2",
-      "name": "Sản phẩm B",
-      "price": "20000000",
-      "quantity": "10",
-      "image": "https://example.com/image2.jpg",
-      "manufacturer": "Nhà sản xuất B",
-      "category": "Danh mục B",
-      "status": "Còn hàng"
-    },
-    {
       "id": "3",
       "name": "Sản phẩm C",
       "price": "15000000",
@@ -29,6 +19,26 @@
       "manufacturer": "Nhà sản xuất C",
       "category": "Danh mục A",
       "status": "Hết hàng"
+    },
+    {
+      "id": "4",
+      "name": "name",
+      "price": "",
+      "quantity": "",
+      "image": "",
+      "manufacturer": "",
+      "category": "",
+      "status": "Store/Dispatch/Action"
+    },
+    {
+      "id": "10",
+      "name": "new 10",
+      "price": "",
+      "quantity": "",
+      "image": "",
+      "manufacturer": "",
+      "category": "",
+      "status": ""
     }
   ]
 }

@@ -6,11 +6,10 @@ import SidebarFunction from "./sidebarFunction";
 interface SidebarProps {
   handleList: (e: any) => void;
   handleAdd: (e: any) => void;
-  styleNavOnView: any;
-  styleNav:any
+  styleNav: any;
 }
 
-function Sidebar({ handleList, handleAdd, styleNavOnView, styleNav }: SidebarProps) {
+function Sidebar({ handleList, handleAdd, styleNav }: SidebarProps) {
   return (
     <>
       <div className="sidebar">
@@ -18,7 +17,6 @@ function Sidebar({ handleList, handleAdd, styleNavOnView, styleNav }: SidebarPro
         <SidebarFunction
           handleList={handleList}
           handleAdd={handleAdd}
-          styleNavOnView={styleNavOnView}
           styleNav={styleNav}
         />
       </div>

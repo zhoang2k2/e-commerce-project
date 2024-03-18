@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "../adminComponents/form/Form";
 import Sidebar from "../adminComponents/sidebar/sideBar";
 import ProductList from "../adminComponents/table/Table";
@@ -7,7 +7,9 @@ import Body from "../adminComponents/body/Body";
 import { GetData } from "../helpers/GetData";
 import { DeleteData } from "../helpers/DeleteData";
 import { PostData } from "../helpers/PostData";
-import ConfirmPop from "../adminComponents/popUp/ConfirmPop";
+import ConfirmPop from "../adminComponents/popUp/confirm/ConfirmPop";
+import EditPop from "../adminComponents/popUp/editpop/EditPop";
+import { PutData } from "../helpers/PutData";
 
 interface FieldProps {
   id: string;
@@ -33,40 +35,17 @@ function Admin() {
   });
 
   const [itemList, setItemList] = useState<any>([]);
-
   const [styleNav, setStyleNav] = useState("add");
-  const styleNavOnView = {
-    onView: {
-      backgroundColor: "#c4dffd",
-      borderColor: "#c4dffd",
-      color: "#001C41",
-    },
-    offView: {
-      backgroundColor: "#001C41",
-      borderColor: "#fff",
-      color: "#fff",
-    },
-  };
-  const renderTitle =
-    styleNav === "add" ? "ADDING NEW PRODUCT" : "MANAGING LIST";
-
   const [popupViewStyle, setPopupViewStyle] = useState("offView");
-  const styleWhilePopup = {
-    whilePopUp: {
-      filter: "blur(2px)",
-    },
-    notPopUp: {
-      filter: "blur(0px)",
-    },
-  };
-
+  // const [imgName, setImgName] = useState("");
   const [selectedId, setSelectedId] = useState("");
-  // const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  // const [confirmEdit, setConfirmEdit] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [keepAction, setKeepAction] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
-  const resetField = () => {
+  const resetFields = () => {
     const fieldAfterSubmit = {
       id: "",
       name: "",
@@ -81,7 +60,7 @@ function Admin() {
   };
 
   // ===========================BODY EVENT===========================
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: any) => {
     const { name, value } = e.target;
     setFields({
       ...fields,
@@ -89,11 +68,10 @@ function Admin() {
     });
   };
 
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = (e: any) => {
     const fileList = e.target.files;
     if (fileList && fileList.length > 0) {
       const file = fileList[0];
-
       setFields({
         ...fields,
         image: file.name,
@@ -113,23 +91,25 @@ function Admin() {
     } catch (err) {
       console.error("Admin fail to add: ", err);
     }
-    resetField();
+    resetFields();
   };
 
   // -------------------------------DELETE ITEM-------------------------------
   const getIdOfDeleteItem = async (id: string) => {
     setSelectedId(id); //Get this Id from ProductList
-    setOpenDelete(true); //Open popup modal
+    setConfirmDelete(true); //Confirm popup modal
     setPopupViewStyle("onView");
   };
   const acceptDel = (boolean: boolean) => {
     setKeepAction(boolean); //True here
-    setOpenDelete(!boolean);
+    setConfirmDelete(!boolean);
     setPopupViewStyle("offView");
   };
 
-  const cancleDel = (boolean: boolean) => {
-    setOpenDelete(boolean);
+  const cancleChange = (boolean: boolean) => {
+    setConfirmDelete(boolean); //false here
+    setOpenEdit(boolean);
+    resetFields();
     setPopupViewStyle("offView");
     console.log("cancle success!");
   };
@@ -155,6 +135,41 @@ function Admin() {
     }
   };
 
+  // -------------------------------EDIT ITEM-------------------------------
+  const getValueForEdit = async (id: string) => {
+    setPopupViewStyle("onView");
+    try {
+      const latestData = await GetData();
+      const selectedItem = latestData.find((item: any) => {
+        return item.id === id;
+      });
+      if (selectedItem) {
+        setOpenEdit(true);
+        setFields(selectedItem);
+      } else {
+        console.error(`item with id ${id} not found`);
+      }
+    } catch (err) {
+      console.error("admin failed edit", err);
+    }
+  }; //Get data, Open edit popup
+
+  const confirmEditPop = async (boolean: boolean, id: string, data: any) => {
+    setSelectedId(id);
+    try {
+      if (boolean) {
+        await PutData(id, data);
+        setPopupViewStyle("offView");
+        setOpenEdit(!boolean);
+        console.log("admin success update");
+      } else {
+        console.log("nothing");
+      }
+    } catch (err) {
+      console.error("admin fail edit", err);
+    }
+  }; //Confirm edit popup
+
   // ===========================SIDEBAR EVENT===========================
   const [renderBody, setRenderBody] = useState(
     <Form
@@ -171,29 +186,33 @@ function Admin() {
     setStyleNav("add");
   };
   useEffect(() => {
-    if (styleNav === "add") {
-      setRenderBody(
-        <Form
-          fields={fields}
-          handleOnChange={handleOnChange}
-          handleChangeImage={handleChangeImage}
-          sendValue={getValueToAdd}
-        />
-      );
-    } else if (styleNav === "list") {
-      setRenderBody(
-        <ProductList
-          itemList={itemList}
-          fields={fields}
-          sendIdForDelete={getIdOfDeleteItem}
-        />
-      );
-    } else {
-      console.log("all");
+    switch (styleNav) {
+      case "add":
+        setRenderBody(
+          <Form
+            fields={fields}
+            handleOnChange={handleOnChange}
+            handleChangeImage={handleChangeImage}
+            sendValue={getValueToAdd}
+          />
+        );
+        break;
+      case "list":
+        setRenderBody(
+          <ProductList
+            itemList={itemList}
+            fields={fields}
+            sendIdForDelete={getIdOfDeleteItem}
+            sendValueForEdit={getValueForEdit}
+          />
+        );
+        break;
+      default:
+        console.log("not yet");
     }
   }, [styleNav, fields, itemList]);
 
-  // ===================GET AND RENDER API===================
+  // ===================GET AND RENDER===================
   useEffect(() => {
     const renderData = async () => {
       try {
@@ -206,30 +225,53 @@ function Admin() {
     renderData();
   }, []);
 
+  const renderTitle =
+    styleNav === "add" ? "ADDING NEW PRODUCT" : "MANAGING LIST";
+
   return (
     <>
       <Sidebar
         handleList={handleList}
         handleAdd={handleAdd}
         styleNav={styleNav}
-        styleNavOnView={styleNavOnView}
       />
       <Body
-        styleWhilePopup={styleWhilePopup}
         popupViewStyle={popupViewStyle}
-        titleByView={renderTitle}
+        styleNav={styleNav}
+        renderTitle={renderTitle}
       >
         {renderBody}
       </Body>
-      {/* {openEdit && <ConfirmPop content="edit" />} */}
-      {openDelete && (
+      {/* DELETE POPUP */}
+      {confirmDelete && (
         <ConfirmPop
           content="delete"
           selectedId={selectedId}
           acceptDel={acceptDel}
-          cancleDel={cancleDel}
+          cancle={cancleChange}
+          // acceptEdit={acceptEdit}
         />
       )}
+      {/* EDIT MODAL POPUP */}
+      {openEdit && (
+        <EditPop
+          fields={fields}
+          handleOnChange={handleOnChange}
+          handleChangeImage={handleChangeImage}
+          sendValue={getValueToAdd}
+          confirmEditPop={confirmEditPop}
+          cancleChange={cancleChange}
+        />
+      )}
+      {/* {confirmEdit && (
+        <ConfirmPop
+          content="edit"
+          selectedId={selectedId}
+          acceptDel={acceptDel}
+          cancle={cancleChange}
+          acceptEdit={acceptEdit}
+        />
+      )} */}
     </>
   );
 }

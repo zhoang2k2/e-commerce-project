@@ -4,9 +4,10 @@ import Button from "../form/Button";
 interface TbodyProps {
   itemList: Array<any>;
   sendIdForDelete: (id: string) => void;
+  sendValueForEdit: (id: string) => void;
 }
 
-function Tbody({ itemList, sendIdForDelete }: TbodyProps) {
+function Tbody({ itemList, ...props }: TbodyProps) {
   const randomKey = () => Math.floor(Math.random() * 1000);
 
   return (
@@ -15,8 +16,15 @@ function Tbody({ itemList, sendIdForDelete }: TbodyProps) {
         {Array.isArray(itemList) &&
           itemList.map((item: any) => {
             const key = randomKey();
-            const handlePassId = () => {
-              sendIdForDelete(item.id);
+
+            //Get id for delete
+            const handlePassIdDel = () => {
+              props.sendIdForDelete(item.id);
+            };
+
+            // Get id & data for edit
+            const handlePassIdEdit = () => {
+              props.sendValueForEdit(item.id);
             };
 
             return (
@@ -30,13 +38,17 @@ function Tbody({ itemList, sendIdForDelete }: TbodyProps) {
                 <td>{item.category}</td>
                 <td>{item.status}</td>
                 <td>
-                  <Button name="edit" className="edit-btn" />
+                  <Button
+                    name="edit"
+                    className="edit-btn"
+                    handleSubmit={handlePassIdEdit}
+                  />
                 </td>
                 <td>
                   <Button
                     name="delete"
                     className="del-btn"
-                    handleSubmit={handlePassId}
+                    handleSubmit={handlePassIdDel}
                   />
                 </td>
               </tr>

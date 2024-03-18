@@ -1,36 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from "../form/Button";
+import Button from "../../form/Button";
 import "./confirmPop.scss";
 
 interface ConfirmPopProps {
   content: any;
   selectedId: string;
+  // acceptEdit: (id: string, boolean?: boolean, data?: any) => void;
   acceptDel: (boolean: boolean) => void;
-  cancleDel: (boolean: boolean) => void;
+  cancle: (boolean: boolean) => void;
 }
 
-function ConfirmPop({ content, selectedId, ...props }: ConfirmPopProps) {
+function ConfirmPop({ ...props }: ConfirmPopProps) {
+  // const handleEdit = () => {
+  //   props.acceptEdit(props.selectedId, true, undefined);
+  // };
   const handleDel = () => {
     props.acceptDel(true);
   };
-  const handleCancle = () => {
-    props.cancleDel(false);
+
+  const handleSubmit = () => {
+    if (props.content === "edit") {
+      // handleEdit();
+    } else if (props.content === "delete") {
+      handleDel();
+    }
   };
+
+  const handleCancle = () => {
+    props.cancle(false);
+  };
+
   return (
     <div className="popup">
       <div className="wrapper">
         <div className="title">Warning!!</div>
         <div className="body">
           <p>
-            Are you sure that you want to <span>{content}</span> item's ID:{" "}
-            <span>{selectedId}</span>?
+            Are you sure that you want to <span>{props.content}</span> item's
+            ID: <span>{props.selectedId}</span>?
           </p>
         </div>
         <div className="footer">
           <Button
             className="confirm-btn"
             name="Continue"
-            handleSubmit={handleDel}
+            handleSubmit={handleSubmit}
           />
           <Button
             className="deny-btn"
