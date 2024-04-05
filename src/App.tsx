@@ -1,17 +1,23 @@
 import "./styles/resetStyle.css";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import HomePage from "./routes/HomePage";
-import Admin from "./routes/Admin";
-import NotFound from "./routes/NotFound";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import Admin from "./pages/Admin";
+import NotFound from "./pages/NotFound";
+import store from "./redux/Store";
+import { Provider } from "react-redux";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/" element={<HomePage />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/admin" component={Admin} exact />
+          <Route path="/" component={HomePage} exact />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from "../../form/Button";
+import Button from "../../button/Button";
 import "./confirmPop.scss";
 
 interface ConfirmPopProps {
