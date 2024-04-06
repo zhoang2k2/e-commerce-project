@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Sản phẩm A",
       "price": "10000000",
       "quantity": "5",
@@ -11,7 +11,7 @@
       "status": "Còn hàng"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Sản phẩm C",
       "price": "15000000",
       "quantity": "3",
@@ -21,68 +21,8 @@
       "status": "Hết hàng"
     },
     {
-      "id": 4,
-      "name": "name",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": "Store/Dispatch/Action"
-    },
-    {
-      "id": 5,
-      "name": "this is new",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
-    },
-    {
-      "id": "6",
+      "id": "31",
       "name": "",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
-    },
-    {
-      "id": "7",
-      "name": " this is new",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
-    },
-    {
-      "id": "8",
-      "name": "ww",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
-    },
-    {
-      "id": "9",
-      "name": "321",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
-    },
-    {
-      "id": "10",
-      "name": "321321",
       "price": "",
       "quantity": "",
       "image": "",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import ProductList from "../table/Table";
+import ProductsTable from "../table/ProductsTable";
 
 function SidebarRoute() {
   const { path } = useRouteMatch();
@@ -8,7 +8,7 @@ function SidebarRoute() {
   return (
     <>
       <Switch>
-        <Route path={`${path}`} render={() => <ProductList />} />
+        <Route path={`${path}`} render={() => <ProductsTable />} />
       </Switch>
     </>
   );

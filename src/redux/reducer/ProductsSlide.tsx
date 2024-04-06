@@ -30,6 +30,17 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+export const editProduct = createAsyncThunk(
+  "products/edit",
+  async (selectedProduct: Product) => {
+    const response = await axios.put(
+      `http://localhost:3000/products/${selectedProduct.id}`,
+      selectedProduct
+    );
+    return response.data as Product;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState,
@@ -47,6 +58,17 @@ const productSlice = createSlice({
       state.products = state.products.filter(
         (product) => product.id !== action.payload
       );
+      console.log(state.products);
+    });
+
+    builder.addCase(editProduct.fulfilled, (state, action) => {
+      const selectedProduct = action.payload;
+      const index = state.products.findIndex(
+        (product) => product.id === selectedProduct.id
+      );
+      if (index !== -1) {
+        state.products[index] = selectedProduct;
+      }
     });
   },
 });

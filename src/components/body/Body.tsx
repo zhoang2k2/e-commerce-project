@@ -1,47 +1,37 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// import { Product } from "../../types/ProductType";
-import Button from "../button/Button";
-import { useAdminContext } from "../context/AdminContext";
 import SidebarRoute from "../routes/SidebarRoute";
 import "./body.scss";
 
+import { useState } from "react";
+import AddingPop from "../popUp/adding/AddingPop";
+import { createPortal } from "react-dom";
+
 function Body() {
-  // const renderTitle =
-  //   styleNav === "add" ? "ADDING NEW PRODUCT" : "MANAGING LIST";
+  const [addModalVisible, setAddModelVisible] = useState(false);
 
-  // const styleWhilePopup = {
-  //   whilePopUp: {
-  //     filter: "blur(2px)",
-  //   },
-  //   notPopUp: {
-  //     filter: "blur(0px)",
-  //   },
-  // };
-
-  // const style =
-  //   props.popupViewStyle === "onView"
-  //     ? styleWhilePopup.whilePopUp
-  //     : styleWhilePopup.notPopUp;
-
-  const { handleOpenAdd } = useAdminContext();
-
-  const handleClick = () => {
-    handleOpenAdd();
+  const handleOpenAdd = () => {
+    setAddModelVisible(true);
   };
 
   return (
     <div className="body-container">
       <div className="title body-style">
-        <Button
-          name="add product"
-          className="add-btn"
-          handleSubmit={handleClick}
-        />
+        <button className="add-btn" onClick={handleOpenAdd}>
+          add product
+        </button>
       </div>
       <div className="wrap-child body-style">
         <SidebarRoute />
       </div>
+      {addModalVisible &&
+        createPortal(
+          <AddingPop
+            onSubmitSuccess={() => {}}
+            mode="add"
+            onCancle={() => setAddModelVisible(false)}
+          />,
+          document.body
+        )}
+      .
     </div>
   );
 }

@@ -1,11 +1,59 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from "../../button/Button";
-import { useAdminContext } from "../../context/AdminContext";
 import "./addingPop.scss";
+import { useDispatch } from "react-redux";
+import { addProduct, editProduct } from "../../../redux/reducer/ProductsSlide";
+import { useEffect, useState, type ChangeEvent } from "react";
+import type { Product } from "../../../types/ProductType";
 
-function AddingPop() {
-  const { fields, handleChange, handleAdd, handleCancleAdd } =
-    useAdminContext();
+type AddingPopProps = {
+  initialState?: Product;
+  mode?: "edit" | "add";
+  onCancle: () => void;
+  onSubmitSuccess: () => void;
+};
+
+function AddingPop({
+  initialState,
+  mode,
+  onCancle,
+  onSubmitSuccess,
+}: AddingPopProps) {
+  const dispatch = useDispatch();
+
+  const [fields, setFields] = useState<Product>({
+    id: "",
+    name: "",
+    price: "",
+    quantity: "",
+    image: "",
+    manufacturer: "",
+    category: "",
+    status: "",
+  });
+  const handleAdd = () => {
+    if (mode === "add") {
+      dispatch(addProduct(fields));
+      onCancle();
+    } else {
+      dispatch(editProduct(fields));
+      onCancle();
+      onSubmitSuccess();
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
+  };
+
+  const handleChangeImg = () => {
+    console.log("img");
+  };
+
+  useEffect(() => {
+    if (initialState) {
+      setFields(initialState);
+    }
+  }, [initialState]);
 
   return (
     <div className="adding-popup">
@@ -88,8 +136,9 @@ function AddingPop() {
                 className="product-image"
                 type="file"
                 name="image"
+                accept="image/*"
                 value={fields.image}
-                onChange={handleChange}
+                onChange={handleChangeImg}
               />
             </label>
           </form>
@@ -97,12 +146,12 @@ function AddingPop() {
           <textarea rows={20}></textarea>
 
           <section>
-            <Button name="Save" className="save-btn" handleSubmit={handleAdd} />
-            <Button
-              name="Cancle"
-              className="cancle-btn"
-              handleSubmit={handleCancleAdd}
-            />
+            <button className="save-btn" onClick={handleAdd}>
+              Save
+            </button>
+            <button className="cancle-btn" onClick={onCancle}>
+              Cancle
+            </button>
           </section>
         </div>
       </div>

@@ -1,24 +1,49 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../button/Button";
-import { selectAdminState } from "../../redux/reducer/AdminSlide";
+import "./table.scss";
+import type { Product } from "../../types/ProductType";
 import { useEffect, useState } from "react";
+import { selectAdminState } from "../../redux/reducer/AdminSlide";
 import {
   deleteProduct,
   fetchProducts,
 } from "../../redux/reducer/ProductsSlide";
-import { createPortal } from "react-dom";
 import AddingPop from "../popUp/adding/AddingPop";
-import type { Product } from "../../types/ProductType";
+import { createPortal } from "react-dom";
+import type { RootState } from "../../redux/Store";
+import { fetchThead } from "../../redux/reducer/TheadSlide";
 
-function Tbody() {
+function ProductsTable() {
   const dispatch = useDispatch();
+
+  // ============TABLE HEAD LOGIC============
+  const tHeadList = useSelector(
+    (state: RootState) => state.getTheadItems.TheadItems
+  );
+
+  const newHeadItem = [
+    {
+      id: "9",
+      thead: "edit",
+    },
+    {
+      id: "10",
+      thead: "delete",
+    },
+  ];
+  const newItems = tHeadList.concat(newHeadItem);
+  const tHeadItem = newItems.map((item) => <th key={item.id}>{item.thead}</th>);
+  useEffect(() => {
+    dispatch(fetchThead());
+  }, []);
+
+  // ============TABLE BODY LOGIC============
   const [initialState, setInitialState] = useState<Product>();
   const [editModalVisible, setEditModelVisible] = useState(false);
 
   const { products } = useSelector(selectAdminState);
   const randomKey = () => Math.floor(Math.random() * 1000);
-
   const [reset, setReset] = useState(1);
 
   useEffect(() => {
@@ -26,10 +51,13 @@ function Tbody() {
   }, [reset]);
 
   return (
-    <>
+    <table>
+      <thead>
+        <tr>{tHeadItem}</tr>
+      </thead>
       <tbody>
         {Array.isArray(products) &&
-          products.map((product: any) => {
+          products.map((product: Product) => {
             const key = randomKey();
             const handleDelete = () => {
               dispatch(deleteProduct(product.id));
@@ -52,18 +80,14 @@ function Tbody() {
                 <td>{product.category}</td>
                 <td>{product.status}</td>
                 <td>
-                  <Button
-                    name="edit"
-                    className="edit-btn"
-                    handleSubmit={handleEditPop}
-                  />
+                  <button className="edit-btn" onClick={handleEditPop}>
+                    Edit
+                  </button>
                 </td>
                 <td>
-                  <Button
-                    name="delete"
-                    className="del-btn"
-                    handleSubmit={handleDelete}
-                  />
+                  <button className="del-btn" onClick={handleDelete}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
@@ -79,8 +103,8 @@ function Tbody() {
           />,
           document.body
         )}
-    </>
+    </table>
   );
 }
 
-export default Tbody;
+export default ProductsTable;

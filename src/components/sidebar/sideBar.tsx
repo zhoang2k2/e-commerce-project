@@ -1,18 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./sidebar.scss";
-import AdminAccount from "./adminAccount";
-import SidebarNav from "./sidebarNav";
-
-// interface SidebarProps {
-//   styleNav: any;
-// }
+import { NavLink, useRouteMatch } from "react-router-dom";
 
 function Sidebar() {
+  const { url } = useRouteMatch();
+
+  const styleNav = {
+    onView: {
+      backgroundColor: "#c4dffd",
+      borderColor: "#c4dffd",
+      color: "#001C41",
+    },
+    offView: {
+      backgroundColor: "#001C41",
+      borderColor: "#fff",
+      color: "#fff",
+    },
+  };
+
   return (
     <>
       <div className="sidebar">
-        <AdminAccount />
-        <SidebarNav />
+        <div className="admin">
+          <h4>Admin ...</h4>
+          <p>Welcome back!</p>
+          <button>Logout</button>
+        </div>
+        <div className="for-admin">
+          <h3>Admin Dashboard</h3>
+          <ul>
+            <li>
+              <NavLink to={`${url}`} activeStyle={styleNav.onView}>
+                Product List
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </div>
     </>
   );
