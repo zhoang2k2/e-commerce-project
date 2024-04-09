@@ -1,9 +1,11 @@
-import SidebarRoute from "../routes/SidebarRoute";
+import SidebarRoute from "../../routes/SidebarRoute";
 import "./body.scss";
 
 import { useState } from "react";
 import AddingPop from "../popUp/adding/AddingPop";
 import { createPortal } from "react-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function Body() {
   const [addModalVisible, setAddModelVisible] = useState(false);
@@ -14,13 +16,14 @@ function Body() {
 
   return (
     <div className="body-container">
-      <div className="title body-style">
+      <div className="body-title">
         <button className="add-btn" onClick={handleOpenAdd}>
+          <FontAwesomeIcon icon={faPlus} />
           add product
         </button>
-      </div>
-      <div className="wrap-child body-style">
-        <SidebarRoute />
+        <div className="body-wrap-child">
+          <SidebarRoute />
+        </div>
       </div>
       {addModalVisible &&
         createPortal(
@@ -31,7 +34,6 @@ function Body() {
           />,
           document.body
         )}
-      .
     </div>
   );
 }

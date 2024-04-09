@@ -58,10 +58,12 @@
         button {
           &.save-btn {
             @include button(#7631fe, #fff);
+            padding: 10px 20px;
           }
 
           &.cancle-btn {
             @include button(#ca434a, #fff);
+            padding: 10px 15px;
           }
         }
       }

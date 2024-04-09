@@ -19,18 +19,9 @@
       "manufacturer": "Nhà sản xuất C",
       "category": "Danh mục A",
       "status": "Hết hàng"
-    },
-    {
-      "id": "31",
-      "name": "",
-      "price": "",
-      "quantity": "",
-      "image": "",
-      "manufacturer": "",
-      "category": "",
-      "status": ""
     }
   ],
+
   "TheadItems": [
     {
       "id": "1",
@@ -63,6 +54,17 @@
     {
       "id": "8",
       "thead": "status"
+    }
+  ],
+
+  "carouselImages": [
+    {
+      "id": "1",
+      "image": "https://i.imgur.com/iJa5LLf.jpg"
+    },
+    {
+      "id": "2",
+      "image": "https://i.imgur.com/ZxXPNhR.jpg"
     }
   ]
 }

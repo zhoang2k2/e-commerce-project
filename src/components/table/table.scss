@@ -5,14 +5,28 @@ table {
 
   thead {
     font-weight: bold;
+    text-transform: capitalize;
+    background-color: #fafafaff;
+    border-bottom: 1px solid #f0f0f0ff;
+
+    text-align: left;
+
     tr {
-      border: 1px solid #000;
+      border-radius: 10px;
 
       th {
-        padding: 15px 0;
+        padding: 20px;
 
-        &:nth-child(even) {
-          border: 1px solid #000;
+        &:nth-child(9),
+        &:nth-child(10) {
+          text-align: center;
+        }
+
+        &:nth-child(1) {
+          border-top-left-radius: 10px;
+        }
+        &:nth-child(10) {
+          border-top-right-radius: 10px;
         }
       }
     }
@@ -21,11 +35,32 @@ table {
   tbody {
     tr {
       td {
-        text-align: center;
-        padding: 20px 0;
-        border: 1px solid #000;
+        text-align: left;
+        padding: 20px;
+        border-bottom: 1px solid #f0f0f0ff;
         overflow: auto;
         white-space: nowrap;
+
+        &:nth-child(9),
+        &:nth-child(10) {
+          text-align: center;
+        }
+
+        button {
+          font-size: 16px;
+          background-color: #fff;
+          border: 1px solid #d9d9d9ff;
+          box-shadow: 0px 2px 0px 0px #d9d9d9ff;
+          padding: 10px 20px;
+          border-radius: 7px;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            border: 1px solid #7631fe;
+            color: #7631fe;
+          }
+        }
       }
     }
   }

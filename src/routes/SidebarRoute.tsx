@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import ProductsTable from "../table/ProductsTable";
+import ProductsTable from "../components/Table/ProductsTable";
+import BlankBody from "../components/Body/BlankBody";
 
 function SidebarRoute() {
   const { path } = useRouteMatch();
@@ -8,7 +9,8 @@ function SidebarRoute() {
   return (
     <>
       <Switch>
-        <Route path={`${path}`} render={() => <ProductsTable />} />
+        <Route exact path={path} render={() => <BlankBody />} />
+        <Route path={`${path}/products`} render={() => <ProductsTable />} />
       </Switch>
     </>
   );

@@ -1,9 +1,9 @@
 .sidebar {
-  width: 15%;
-  height: 100vh;
+  min-width: 350px;
+  height: 1250px;
   float: left;
   font-size: 18px;
-  background-color: #001c41;
+  background-color: #001529ff;
   color: #fff;
 
   & div {
@@ -14,58 +14,70 @@
 
   .admin {
     gap: 20px;
-    height: 35%;
+    height: 150px;
     justify-content: center;
-    border-bottom: 1px solid #ffffff77;
-
-    h4 {
-      font-weight: bold;
-    }
 
     button {
       border: none;
       background-color: transparent;
       color: #fff;
-      cursor: pointer;
-      text-decoration: underline;
       font-size: 16px;
+      cursor: pointer;
 
       &:hover {
         color: #ffd43a;
+      }
+
+      svg {
+        font-size: 18px;
       }
     }
   }
 
   .for-admin {
+    background-color: #000c17ff;
+
     h3 {
-      color: #ffd43a;
+      padding: 30px 0 20px;
+      color: #fff;
       font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       font-size: 22px;
-      margin: 20px 0 35px;
     }
 
     ul {
-      height: 80%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      gap: 20px;
+      display: grid;
+      grid-template-rows: repeat(18, 1fr);
+      align-items: center;
+      height: 1000px;
 
       li {
-        list-style: none;
-        font-weight: bold;
-        border: 1px solid #fff;
-        border-radius: 7px;
-        width: 90%;
-        margin: auto;
-        padding: 20px 0;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
+        a {
+          min-width: 280px;
+          display: inline-block;
+          font-weight: bold;
+          text-align: left;
+          text-transform: capitalize;
+          letter-spacing: 1px;
+          color: #fff;
+          width: 200px;
+          text-decoration-line: none;
+          list-style: none;
+          border-radius: 10px;
+          padding: 15px 20px;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
 
-        &:hover {
-          border-color: #c4dffd;
-          color: #001c41;
-          background-color: #c4dffd;
+          svg {
+            width: 20px !important;
+            margin-right: 15px;
+          }
+
+          &:hover {
+            color: #fff;
+            background-color: #7631fe;
+          }
         }
       }
     }

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useDispatch, useSelector } from "react-redux";
-import "./table.scss";
+import "./table.css";
 import type { Product } from "../../types/ProductType";
 import { useEffect, useState } from "react";
 import { selectAdminState } from "../../redux/reducer/AdminSlide";
