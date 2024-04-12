@@ -1,34 +1,21 @@
 @import "../../styles/mixin.scss";
 
 .body-container {
+  margin-left: 250px;
+  min-width: 1440px;
   height: 1250px;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
   gap: 20px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 
-  .body-title {
+  .body {
     width: 90%;
-    height: 1000px;
+    height: fit-content;
     margin: 50px auto;
     padding: 50px;
     background-color: #fff;
     border-radius: 10px;
-
-    svg {
-      width: 20px !important;
-      margin-right: 10px;
-    }
-
-    .add-btn {
-      @include button(#7631fe, #fff);
-      padding: 10px 15px;
-    }
-
-    .body-wrap-child {
-      min-height: 500px;
-    }
   }
 }

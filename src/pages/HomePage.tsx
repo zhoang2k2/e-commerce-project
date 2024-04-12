@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCarouselImage } from "../redux/reducer/HomepageSlide";
 import type { RootState } from "../redux/Store";
+import Feedback from "../components/Feedback/Feedback";
+import Commitment from "../components/Commitment/Commitment";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -18,6 +20,8 @@ function HomePage() {
     <div>
       <Navbar />
       <Carousel slides={slides} />
+      <Commitment />
+      <Feedback />
     </div>
   );
 }

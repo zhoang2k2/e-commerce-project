@@ -1,109 +1,148 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import { useDispatch, useSelector } from "react-redux";
-import "./table.css";
+import { useSelector } from "react-redux";
+import "./table.scss";
 import type { Product } from "../../types/ProductType";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { selectAdminState } from "../../redux/reducer/AdminSlide";
-import {
-  deleteProduct,
-  fetchProducts,
-} from "../../redux/reducer/ProductsSlide";
 import AddingPop from "../popUp/adding/AddingPop";
 import { createPortal } from "react-dom";
-import type { RootState } from "../../redux/Store";
-import { fetchThead } from "../../redux/reducer/TheadSlide";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowUpShortWide,
+  faArrowUpWideShort,
+  faMagnifyingGlass,
+  faPlus,
+  faRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import TitlePop from "../popUp/Title/TitlePop";
+import Tbody from "./Tbody";
+import Pagination from "../Pagination/Pagination";
 
 function ProductsTable() {
-  const dispatch = useDispatch();
+  const [addModalVisible, setAddModelVisible] = useState(false);
+  const [sortProducts, setSortProducts] = useState<Product[]>([]);
+  const [sortStatus, setSortStatus] = useState("increase");
 
-  // ============TABLE HEAD LOGIC============
-  const tHeadList = useSelector(
-    (state: RootState) => state.getTheadItems.TheadItems
-  );
-
-  const newHeadItem = [
-    {
-      id: "9",
-      thead: "edit",
-    },
-    {
-      id: "10",
-      thead: "delete",
-    },
-  ];
-  const newItems = tHeadList.concat(newHeadItem);
-  const tHeadItem = newItems.map((item) => <th key={item.id}>{item.thead}</th>);
-  useEffect(() => {
-    dispatch(fetchThead());
-  }, []);
-
-  // ============TABLE BODY LOGIC============
-  const [initialState, setInitialState] = useState<Product>();
-  const [editModalVisible, setEditModelVisible] = useState(false);
+  const handleOpenAdd = () => {
+    setAddModelVisible(true);
+  };
 
   const { products } = useSelector(selectAdminState);
-  const randomKey = () => Math.floor(Math.random() * 1000);
-  const [reset, setReset] = useState(1);
+
+  const [filterVal, setFilterVal] = useState("");
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilterVal(e.target.value);
+  };
+  const handleFilter = () => {
+    const filterList = products.filter((filtered) => {
+      return filtered.name.toLowerCase().includes(filterVal.toLowerCase());
+    });
+    setSortProducts(filterList);
+    setCurrentPage(1);
+  };
+
+  // HANDLE SORT
+  const handleSort = () => {
+    const sorted = [...products].sort((a, b) => {
+      const quantityA = parseInt(a.quantity);
+      const quantityB = parseInt(b.quantity);
+      return sortStatus === "decrease"
+        ? quantityA - quantityB
+        : quantityB - quantityA;
+    });
+    setSortProducts(sorted);
+    setSortStatus(sortStatus === "increase" ? "decrease" : "increase");
+  };
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [reset]);
+    setSortProducts(products);
+  }, [products]);
+
+  // HANDLE PAGINATION
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+  const itemsPerPage = 5;
+
+  const totalItem: Product[] = [...sortProducts];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const currentItems: Product[] = totalItem.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   return (
-    <table>
-      <thead>
-        <tr>{tHeadItem}</tr>
-      </thead>
-      <tbody>
-        {Array.isArray(products) &&
-          products.map((product: Product) => {
-            const key = randomKey();
-            const handleDelete = () => {
-              dispatch(deleteProduct(product.id));
-              setReset((prev) => prev + 1);
-            };
+    <>
+      <div className="action-body">
+        <div className="action-buttons">
+          <button className="add-btn" onClick={handleOpenAdd}>
+            <FontAwesomeIcon icon={faPlus} />
+            adding
+          </button>
+          <button className="sort-btn" onClick={handleSort}>
+            {sortStatus === "increase" ? (
+              <FontAwesomeIcon icon={faArrowUpShortWide} />
+            ) : (
+              <FontAwesomeIcon icon={faArrowUpWideShort} />
+            )}
+          </button>
+          <TitlePop title="Sort list by quantity" className="sort-title" />
+        </div>
+        <div className="search-action">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <input
+            type="text"
+            placeholder="Search product's name"
+            value={filterVal}
+            onChange={handleFilterChange}
+          />
+          <button className="search-btn" onClick={handleFilter}>
+            {filterVal === "" ? (
+              <FontAwesomeIcon icon={faRotateLeft} />
+            ) : (
+              <>Search</>
+            )}
+          </button>
+        </div>
+      </div>
 
-            const handleEditPop = () => {
-              setEditModelVisible(true);
-              setInitialState(product);
-            };
+      <table>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>image</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>cat breed</th>
+            <th>age</th>
+            <th>color</th>
+            <th>sales</th>
+            <th>status</th>
+            <th>action</th>
+          </tr>
+        </thead>
+        <Tbody currentItems={currentItems} filterVal={filterVal} />
+      </table>
 
-            return (
-              <tr key={key}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>{product.image}</td>
-                <td>{product.manufacturer}</td>
-                <td>{product.category}</td>
-                <td>{product.status}</td>
-                <td>
-                  <button className="edit-btn" onClick={handleEditPop}>
-                    Edit
-                  </button>
-                </td>
-                <td>
-                  <button className="del-btn" onClick={handleDelete}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-      </tbody>
+      <Pagination
+        totalItem={totalItem}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
 
-      {editModalVisible &&
+      {addModalVisible &&
         createPortal(
           <AddingPop
-            initialState={initialState}
-            onCancle={() => setEditModelVisible(false)}
-            onSubmitSuccess={() => setReset((prev) => prev + 1)}
+            onSubmitSuccess={() => {}}
+            mode="add"
+            onCancle={() => setAddModelVisible(false)}
           />,
           document.body
         )}
-    </table>
+    </>
   );
 }
 

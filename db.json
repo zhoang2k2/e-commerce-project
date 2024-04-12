@@ -1,62 +1,201 @@
 {
   "products": [
     {
-      "id": "1",
-      "name": "Sản phẩm A",
-      "price": "10000000",
-      "quantity": "5",
-      "image": "https://example.com/image1.jpg",
-      "manufacturer": "Nhà sản xuất A",
-      "category": "Danh mục A",
-      "status": "Còn hàng"
-    },
-    {
-      "id": "3",
-      "name": "Sản phẩm C",
+      "id": "1000",
+      "name": "Persiant cat",
       "price": "15000000",
       "quantity": "3",
-      "image": "https://example.com/image3.jpg",
-      "manufacturer": "Nhà sản xuất C",
-      "category": "Danh mục A",
-      "status": "Hết hàng"
+      "image": "https://i.imgur.com/ks54Sb7.jpeg",
+      "catBreed": "Persiant",
+      "age": "18",
+      "color": "black",
+      "rate": "3",
+      "sales": "15",
+      "status": "1"
+    },
+    {
+      "id": "500",
+      "name": "Persiant smoke",
+      "price": "15000000",
+      "quantity": "1",
+      "image": "https://i.imgur.com/AcVXHaH.jpeg",
+      "catBreed": "Persiant",
+      "age": "6",
+      "color": "gray",
+      "rate": "4",
+      "sales": "9",
+      "status": "0"
+    },
+    {
+      "id": "200",
+      "name": "Persiant snow",
+      "price": "15000000",
+      "quantity": "10",
+      "image": "https://i.imgur.com/IPrEFbQ.jpeg",
+      "catBreed": "Persiant",
+      "age": "8",
+      "color": "white",
+      "rate": "1",
+      "sales": "2",
+      "status": "0"
+    },
+    {
+      "id": "888",
+      "name": "Siamese Sasime",
+      "price": "12000000",
+      "quantity": "5",
+      "image": "https://i.imgur.com/CjP3BPJ.jpeg",
+      "catBreed": "Siamese",
+      "age": "12",
+      "color": "gray",
+      "rate": "2",
+      "sales": "20",
+      "status": "1"
+    },
+    {
+      "id": "777",
+      "name": "Bengal Bel",
+      "price": "18000000",
+      "quantity": "2",
+      "image": "https://i.imgur.com/JhvDRfX.jpeg",
+      "catBreed": "Bengal",
+      "age": "4",
+      "color": "brown",
+      "rate": "1",
+      "sales": "12",
+      "status": "0"
+    },
+    {
+      "id": "999",
+      "name": "American Short Assa",
+      "price": "10000000",
+      "quantity": "7",
+      "image": "https://i.imgur.com/ksICYvi.jpeg",
+      "catBreed": "American Shorthair",
+      "age": "8",
+      "color": "gray",
+      "rate": "4",
+      "sales": "18",
+      "status": "1"
+    },
+    {
+      "id": "9203",
+      "name": "American Short Orag",
+      "price": "10000000",
+      "quantity": "3",
+      "image": "https://i.imgur.com/QCIzY6a.jpeg",
+      "catBreed": "American Shorthair",
+      "age": "12",
+      "color": "orange",
+      "rate": "5",
+      "sales": "18",
+      "status": "1"
+    },
+    {
+      "id": "123",
+      "name": "Russian No Fun",
+      "price": "13000000",
+      "quantity": "4",
+      "image": "https://i.imgur.com/9Y06JSw.jpeg",
+      "catBreed": "Russian Blue",
+      "age": "3",
+      "color": "black",
+      "rate": "3",
+      "sales": "10",
+      "status": "1"
+    },
+    {
+      "id": "222",
+      "name": "British Short T",
+      "price": "16000000",
+      "quantity": "2",
+      "image": "https://i.imgur.com/Fs0RINA.jpeg",
+      "catBreed": "British Shorthair",
+      "age": "5",
+      "color": "gray",
+      "rate": "4",
+      "sales": "14",
+      "status": "1"
+    },
+    {
+      "id": "223",
+      "name": "British Short Karen",
+      "price": "16000000",
+      "quantity": "2",
+      "image": "https://i.imgur.com/CPpCmng.jpeg",
+      "catBreed": "British Shorthair",
+      "age": "5",
+      "color": "white",
+      "rate": "4",
+      "sales": "14",
+      "status": "0"
+    },
+    {
+      "id": "555",
+      "name": "Maine Da Lion",
+      "price": "20000000",
+      "quantity": "1",
+      "image": "https://i.imgur.com/xt9aL9N.jpeg",
+      "catBreed": "Maine Coon",
+      "age": "12",
+      "color": "orange",
+      "rate": "5",
+      "sales": "8",
+      "status": "0"
+    },
+    {
+      "id": "556",
+      "name": "Maine Snow White",
+      "price": "20000000",
+      "quantity": "5",
+      "image": "https://i.imgur.com/JUVAC2X.jpeg",
+      "catBreed": "Maine Coon",
+      "age": "14",
+      "color": "white",
+      "rate": "5",
+      "sales": "8",
+      "status": "0"
+    },
+    {
+      "id": "5031",
+      "name": "Maine Da Woff",
+      "price": "20000000",
+      "quantity": "2",
+      "image": "https://i.imgur.com/6P8Assz.jpeg",
+      "catBreed": "Maine Coon",
+      "age": "10",
+      "color": "gray",
+      "rate": "5",
+      "sales": "28",
+      "status": "1"
+    },
+    {
+      "id": "444",
+      "name": "Ragdoll Queen",
+      "price": "19000000",
+      "quantity": "3",
+      "image": "https://i.imgur.com/WlyL2cy.jpeg",
+      "catBreed": "Ragdoll",
+      "age": "7",
+      "color": "white",
+      "rate": "4",
+      "sales": "11",
+      "status": "1"
+    },
+    {
+      "id": "666",
+      "name": "Sphynx twin twin",
+      "price": "25000000",
+      "quantity": "1",
+      "image": "https://i.imgur.com/DcrbAfB.jpeg",
+      "catBreed": "Sphynx",
+      "age": "1",
+      "color": "other",
+      "rate": "4.3",
+      "sales": "6",
+      "status": "0"
     }
   ],
-
-  "TheadItems": [
-    {
-      "id": "1",
-      "thead": "id"
-    },
-    {
-      "id": "2",
-      "thead": "name"
-    },
-    {
-      "id": "3",
-      "thead": "price"
-    },
-    {
-      "id": "4",
-      "thead": "quantity"
-    },
-    {
-      "id": "5",
-      "thead": "image"
-    },
-    {
-      "id": "6",
-      "thead": "manufacturer"
-    },
-    {
-      "id": "7",
-      "thead": "category"
-    },
-    {
-      "id": "8",
-      "thead": "status"
-    }
-  ],
-
   "carouselImages": [
     {
       "id": "1",

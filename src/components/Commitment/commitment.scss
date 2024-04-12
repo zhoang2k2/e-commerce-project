@@ -1,0 +1,38 @@
+.commitment-container {
+  width: 100%;
+
+  background-color: #90bedb;
+  padding: 50px 0;
+
+  .commitment-card-wrapper {
+    width: 1440px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+
+    .commitment-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      color: rgba($color: #000000, $alpha: 0.5);
+
+      svg {
+        width: 60px;
+        height: 80px;
+        opacity: 0.75;
+      }
+
+      h5 {
+        font-size: 22px;
+        color: 2B2B2B;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+}

@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./sidebar.scss";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import {
+  faHouse,
   faRightFromBracket,
   faTableList,
-  faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -31,27 +31,34 @@ function Sidebar() {
   const handleMode = (mode: string) => {
     setLoginSignup(mode);
   };
-  const handleLogin = () => {
-    setLoginSignup("login");
-  };
 
   return (
     <>
       <div className="sidebar">
         <div className="admin">
           <p>Welcome back, ng hoang!</p>
-          {/* <button>
+          <button>
             <FontAwesomeIcon icon={faRightFromBracket} /> Logout
-          </button> */}
-          <button onClick={handleLogin}>
-            Change account <FontAwesomeIcon icon={faUser} />
           </button>
+          {/* <button onClick={handleLogin}>
+            Change account <FontAwesomeIcon icon={faUser} />
+          </button> */}
         </div>
         <div className="for-admin">
           <h3>Admin Dashboard</h3>
           <ul>
             <li>
-              <NavLink to={`${url}/products`} activeStyle={styleNav.onView}>
+              <NavLink exact to="/" activeStyle={styleNav.onView} >
+                <FontAwesomeIcon icon={faHouse} />
+                Back to Shop
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                exact
+                to={`${url}/products`}
+                activeStyle={styleNav.onView}
+              >
                 <FontAwesomeIcon icon={faTableList} />
                 Product List
               </NavLink>
@@ -65,6 +72,7 @@ function Sidebar() {
           </ul>
         </div>
       </div>
+
       {loginSignup === "login" &&
         createPortal(
           <Login

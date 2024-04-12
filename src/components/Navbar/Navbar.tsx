@@ -14,7 +14,7 @@ function Navbar() {
       <nav>
         <div className="navbar-items">
           <div className="nav-link">
-            <div className="logo">E-commerce</div>
+            <div className="logo">DA KATTY</div>
             <Link to="/">Shop</Link>
             <Link to="/">About</Link>
           </div>

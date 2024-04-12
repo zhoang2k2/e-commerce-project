@@ -4,8 +4,11 @@ export interface Product {
   price: string;
   quantity: string;
   image: string;
-  manufacturer: string;
-  category: string;
+  catBreed: string;
+  age: string;
+  color: string;
+  rate: string;
+  sales: string;
   status: string;
 }
 

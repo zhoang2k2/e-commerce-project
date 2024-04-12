@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Slide } from "../../types/Slide";
 import "./carousel.scss";
 import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type CarouselProps = {
   slides: Slide[];
@@ -19,6 +19,14 @@ function Carousel({ slides }: CarouselProps) {
     setCurrent(current === slides.length ? 1 : current + 1);
     console.log(current);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((current) => (current === slides.length ? 1 : current + 1));
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <>
@@ -44,6 +52,15 @@ function Carousel({ slides }: CarouselProps) {
           <button onClick={toNext}>
             <FontAwesomeIcon icon={faGreaterThan} />
           </button>
+        </div>
+        <div className="carousel-title">
+          <h2>DA KATTY</h2>
+          <p>Looking for something beautiful?</p>
+          <p>
+            This is a right place where you find the cutest things in the world
+            !!
+          </p>
+          <button>Explore now</button>
         </div>
       </div>
     </>

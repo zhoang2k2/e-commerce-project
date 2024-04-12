@@ -1,9 +1,11 @@
 .sidebar {
-  min-width: 350px;
-  height: 1250px;
-  float: left;
-  font-size: 18px;
-  background-color: #001529ff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  font-size: 14px;
+  background-color: #11113c;
   color: #fff;
 
   & div {
@@ -21,29 +23,22 @@
       border: none;
       background-color: transparent;
       color: #fff;
-      font-size: 16px;
       cursor: pointer;
 
       &:hover {
         color: #ffd43a;
       }
-
-      svg {
-        font-size: 18px;
-      }
     }
   }
 
   .for-admin {
-    background-color: #000c17ff;
-
     h3 {
       padding: 30px 0 20px;
       color: #fff;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 22px;
+      font-size: 18px;
     }
 
     ul {
@@ -54,24 +49,22 @@
 
       li {
         a {
-          min-width: 280px;
           display: inline-block;
-          font-weight: bold;
+          width: 75%;
+          color: #fff;
           text-align: left;
           text-transform: capitalize;
-          letter-spacing: 1px;
-          color: #fff;
-          width: 200px;
           text-decoration-line: none;
-          list-style: none;
           border-radius: 10px;
+          letter-spacing: 1px;
+          list-style: none;
           padding: 15px 20px;
           cursor: pointer;
           transition: 0.2s ease-in-out;
 
           svg {
             width: 20px !important;
-            margin-right: 15px;
+            margin-right: 10px;
           }
 
           &:hover {

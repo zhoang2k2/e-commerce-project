@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { Product, ProductState } from "../../types/ProductType";
 import axios from "axios";
 
@@ -23,7 +27,7 @@ export const addProduct = createAsyncThunk(
 );
 
 export const deleteProduct = createAsyncThunk(
-  "propducts/delete",
+  "products/delete",
   async (id: string) => {
     await axios.delete(`http://localhost:3000/products/${id}`);
     return id;
@@ -46,30 +50,42 @@ const productSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.fulfilled, (state, action) => {
-      state.products = action.payload;
-    });
-
-    builder.addCase(addProduct.fulfilled, (state, action) => {
-      state.products.push(action.payload);
-    });
-
-    builder.addCase(deleteProduct.fulfilled, (state, action) => {
-      state.products = state.products.filter(
-        (product) => product.id !== action.payload
-      );
-      console.log(state.products);
-    });
-
-    builder.addCase(editProduct.fulfilled, (state, action) => {
-      const selectedProduct = action.payload;
-      const index = state.products.findIndex(
-        (product) => product.id === selectedProduct.id
-      );
-      if (index !== -1) {
-        state.products[index] = selectedProduct;
+    builder.addCase(
+      fetchProducts.fulfilled,
+      (state, action: PayloadAction<Product[]>) => {
+        state.products = action.payload;
       }
-    });
+    );
+
+    builder.addCase(
+      addProduct.fulfilled,
+      (state, action: PayloadAction<Product>) => {
+        state.products.push(action.payload);
+      }
+    );
+
+    builder.addCase(
+      deleteProduct.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.products = state.products.filter(
+          (product) => product.id !== action.payload
+        );
+        console.log(state.products);
+      }
+    );
+
+    builder.addCase(
+      editProduct.fulfilled,
+      (state, action: PayloadAction<Product>) => {
+        const selectedProduct = action.payload;
+        const index = state.products.findIndex(
+          (product) => product.id === selectedProduct.id
+        );
+        if (index !== -1) {
+          state.products[index] = selectedProduct;
+        }
+      }
+    );
   },
 });
 
