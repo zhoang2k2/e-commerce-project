@@ -11,7 +11,7 @@
       "color": "black",
       "rate": "3",
       "sales": "15",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "500",
@@ -24,7 +24,7 @@
       "color": "gray",
       "rate": "4",
       "sales": "9",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "200",
@@ -37,7 +37,7 @@
       "color": "white",
       "rate": "1",
       "sales": "2",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "888",
@@ -50,7 +50,7 @@
       "color": "gray",
       "rate": "2",
       "sales": "20",
-      "status": "1"
+      "status": "old"
     },
     {
       "id": "777",
@@ -63,7 +63,7 @@
       "color": "brown",
       "rate": "1",
       "sales": "12",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "999",
@@ -76,7 +76,7 @@
       "color": "gray",
       "rate": "4",
       "sales": "18",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "9203",
@@ -89,7 +89,7 @@
       "color": "orange",
       "rate": "5",
       "sales": "18",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "123",
@@ -102,7 +102,7 @@
       "color": "black",
       "rate": "3",
       "sales": "10",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "222",
@@ -115,7 +115,7 @@
       "color": "gray",
       "rate": "4",
       "sales": "14",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "223",
@@ -128,7 +128,7 @@
       "color": "white",
       "rate": "4",
       "sales": "14",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "555",
@@ -141,7 +141,7 @@
       "color": "orange",
       "rate": "5",
       "sales": "8",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "556",
@@ -154,7 +154,7 @@
       "color": "white",
       "rate": "5",
       "sales": "8",
-      "status": "0"
+      "status": "old"
     },
     {
       "id": "5031",
@@ -167,7 +167,7 @@
       "color": "gray",
       "rate": "5",
       "sales": "28",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "444",
@@ -180,7 +180,7 @@
       "color": "white",
       "rate": "4",
       "sales": "11",
-      "status": "1"
+      "status": "new"
     },
     {
       "id": "666",
@@ -193,7 +193,7 @@
       "color": "other",
       "rate": "4.3",
       "sales": "6",
-      "status": "0"
+      "status": "old"
     }
   ],
   "carouselImages": [

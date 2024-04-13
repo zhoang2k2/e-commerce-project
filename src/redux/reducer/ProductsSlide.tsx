@@ -1,92 +1,90 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
-import { Product, ProductState } from "../../types/ProductType";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import type { Product, ProductState } from "../../types/ProductType";
 import axios from "axios";
+import type { RootState } from "../Store";
 
 const initialState: ProductState = {
   products: [],
+  status: "IDLE",
 };
 
 export const fetchProducts = createAsyncThunk("products/fetch", async () => {
-  const response = await axios.get("http://localhost:3000/products");
-  return response.data as Product[];
+  try {
+    const response = await axios.get("http://localhost:3000/products");
+    return response.data as Product[];
+  } catch (error) {
+    console.error("Error when get data");
+    throw error;
+  }
 });
 
 export const addProduct = createAsyncThunk(
   "products/post",
   async (newProduct: Product) => {
-    const response = await axios.post(
-      "http://localhost:3000/products",
-      newProduct
-    );
-    return response.data as Product;
+    try {
+      const response = await axios.post<Product>(
+        "http://localhost:3000/products",
+        newProduct
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error when adding product");
+      throw error;
+    }
   }
 );
 
 export const deleteProduct = createAsyncThunk(
   "products/delete",
   async (id: string) => {
-    await axios.delete(`http://localhost:3000/products/${id}`);
-    return id;
+    try {
+      await axios.delete(`http://localhost:3000/products/${id}`);
+      return id;
+    } catch (error) {
+      console.error("Error when deleting product");
+      throw error;
+    }
   }
 );
 
 export const editProduct = createAsyncThunk(
   "products/edit",
   async (selectedProduct: Product) => {
-    const response = await axios.put(
-      `http://localhost:3000/products/${selectedProduct.id}`,
-      selectedProduct
-    );
-    return response.data as Product;
+    try {
+      const response = await axios.put<Product>(
+        `http://localhost:3000/products/${selectedProduct.id}`,
+        selectedProduct
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error when editing product");
+      throw error;
+    }
   }
 );
 
+// ==============================PRODUCT SLICE==============================
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchProducts.fulfilled,
-      (state, action: PayloadAction<Product[]>) => {
-        state.products = action.payload;
-      }
-    );
-
-    builder.addCase(
-      addProduct.fulfilled,
-      (state, action: PayloadAction<Product>) => {
-        state.products.push(action.payload);
-      }
-    );
-
-    builder.addCase(
-      deleteProduct.fulfilled,
-      (state, action: PayloadAction<string>) => {
-        state.products = state.products.filter(
-          (product) => product.id !== action.payload
-        );
-        console.log(state.products);
-      }
-    );
-
-    builder.addCase(
-      editProduct.fulfilled,
-      (state, action: PayloadAction<Product>) => {
-        const selectedProduct = action.payload;
-        const index = state.products.findIndex(
-          (product) => product.id === selectedProduct.id
-        );
-        if (index !== -1) {
-          state.products[index] = selectedProduct;
+    builder
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.products = action.payload;
+          state.status = "SUCCESS";
         }
-      }
-    );
+      })
+      .addCase(fetchProducts.pending, (state) => {
+        state.status = "LOADING";
+      })
+      .addCase(fetchProducts.rejected, (state) => {
+        state.status = "FAIL";
+      });
   },
 });
 
-export default productSlice.reducer;
+export default productSlice;
+export const selectProductState = (state: RootState) => state.products;

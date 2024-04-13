@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addProduct, editProduct } from "../../../redux/reducer/ProductsSlide";
 import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../../types/ProductType";
+import TitlePop from "../Title/TitlePop";
 
 type AddingPopProps = {
   initialState?: Product;
@@ -17,7 +18,8 @@ function AddingPop({
   onCancle,
   onSubmitSuccess,
 }: AddingPopProps) {
-  const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
 
   const [fields, setFields] = useState<Product>({
     id: "",
@@ -35,6 +37,7 @@ function AddingPop({
   const handleAdd = () => {
     if (mode === "add") {
       dispatch(addProduct(fields));
+      onSubmitSuccess();
       onCancle();
     } else {
       dispatch(editProduct(fields));
@@ -50,33 +53,32 @@ function AddingPop({
     setFields({ ...fields, [name]: value });
   };
 
-  const handleChangeImg = () => {
-    console.log("img");
-  };
+  // const [uploadImage, setUploadImage] = useState<File | null>(null);
+  // const handleChangeImg = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     setUploadImage(file);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (uploadImage) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setFields((prevFields) => ({
+  //         ...prevFields,
+  //         image: reader.result as string,
+  //       }));
+  //     };
+  //     reader.readAsDataURL(uploadImage);
+  //   }
+  // }, [uploadImage]);
 
   const handleRandomID = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const randomID = Math.floor(Math.random() * 10000);
     fields.id = randomID.toString();
-    window.alert("Random ID success!");
-  };
-
-  // const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   setFields((prevFields) => ({
-  //     ...prevFields,
-  //     color: prevFields.color,
-  //   }));
-  // };
-
-  const [toggleState, setToggleState] = useState(false);
-  const [toggleBtn, setToggleBtn] = useState(false);
-  const handleCheckBoxChange = () => {
-    setToggleBtn(!toggleBtn);
-    setToggleState(!toggleState);
-    setFields((prevFields) => ({
-      ...prevFields,
-      status: toggleBtn ? "1" : "0",
-    }));
+    window.alert("Get ID successfully!");
   };
 
   useEffect(() => {
@@ -196,32 +198,32 @@ function AddingPop({
               />
             </label>
 
-            <label htmlFor="status" className="label-checkbox">
-              Status:
-              <div className="checkbox-container">
-                <div className={toggleState ? "toggle-active" : "toggle-style"}>
-                  <input
-                    className="checkbox"
-                    type="checkbox"
-                    name="status"
-                    checked={toggleBtn}
-                    value={fields.status}
-                    onChange={handleCheckBoxChange}
-                  />
-                </div>
-              </div>
-            </label>
-
             <label htmlFor="image">
-              Image:
+              <a href="https://imgur.com/a/PiSwOET" target="_blank">
+                Image:
+              </a>
+              {/* CSS HOVER */}
+              <TitlePop title="Image Source" className="image-source-title" />
               <input
                 className="product-image"
-                type="file"
+                type="text"
                 name="image"
-                accept="image/*"
                 value={fields.image}
-                onChange={handleChangeImg}
+                onChange={handleChange}
+                placeholder="Enter URL..."
               />
+            </label>
+
+            <label htmlFor="status">
+              Status:
+              <select
+                name="status"
+                value={fields.status}
+                onChange={handleChange}
+              >
+                <option value="old">Old</option>
+                <option value="new">New</option>
+              </select>
             </label>
           </form>
 

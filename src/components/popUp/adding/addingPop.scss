@@ -34,6 +34,15 @@
           gap: 5px 0;
           position: relative;
 
+          a {
+            color: #7631fe;
+            position: relative;
+
+            &:hover + .image-source-title {
+              display: block;
+            }
+          }
+
           input,
           select {
             font-size: 16px;
@@ -57,6 +66,7 @@
           select {
             width: 265px;
           }
+
           .id-random-btn {
             width: 60px;
             height: 33px;
@@ -70,55 +80,6 @@
             font-weight: bold;
             right: 0;
             transform: translate(-60px, 25px);
-          }
-
-          .product-image {
-            padding: 0;
-            border: none;
-            background-color: transparent;
-          }
-        }
-
-        .label-checkbox {
-          .checkbox-container {
-            width: 265px;
-
-            .toggle-style,
-            .toggle-active {
-              width: 60px;
-              height: 30px;
-              border: 3px solid #cccccc;
-              border-radius: 20px;
-              position: relative;
-
-              &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                width: 26px;
-                height: 26px;
-                transform: translate(2px, 2px);
-                background-color: #7631fe;
-                border-radius: 50px;
-              }
-
-              .checkbox {
-                transform: translate(-5px, -20px);
-                width: 65px;
-                height: 65px;
-                cursor: pointer;
-                opacity: 0;
-              }
-            }
-
-            .toggle-active {
-              background-color: #7631fe;
-              &::before {
-                right: 5px;
-                background-color: #fff;
-              }
-            }
           }
         }
       }

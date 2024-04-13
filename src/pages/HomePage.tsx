@@ -9,7 +9,8 @@ import Feedback from "../components/Feedback/Feedback";
 import Commitment from "../components/Commitment/Commitment";
 
 function HomePage() {
-  const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
   const slides = useSelector((state: RootState) => state.homepage.slides);
 
   useEffect(() => {

@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ProductsSlide from "./reducer/ProductsSlide";
-import adminSlice from "./reducer/AdminSlide";
-import { homepageSlice } from "./reducer/HomepageSlide";
+import { HomepageSlice } from "./reducer/HomepageSlide";
 
 const store = configureStore({
   reducer: {
-    getProducts: ProductsSlide,
-    admin: adminSlice,
-    homepage: homepageSlice.reducer,
+    products: ProductsSlide.reducer,
+    homepage: HomepageSlice.reducer,
   },
 });
 

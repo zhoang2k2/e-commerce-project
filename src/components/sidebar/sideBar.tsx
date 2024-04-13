@@ -48,7 +48,7 @@ function Sidebar() {
           <h3>Admin Dashboard</h3>
           <ul>
             <li>
-              <NavLink exact to="/" activeStyle={styleNav.onView} >
+              <NavLink exact to="/" activeStyle={styleNav.onView}>
                 <FontAwesomeIcon icon={faHouse} />
                 Back to Shop
               </NavLink>
@@ -64,9 +64,9 @@ function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to={`${url} stf`} activeStyle={styleNav.onView}>
+              <NavLink to={`${url}/adm-accounts`} activeStyle={styleNav.onView}>
                 <FontAwesomeIcon icon={faUsers} />
-                managing account
+                admin account
               </NavLink>
             </li>
           </ul>

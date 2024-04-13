@@ -27,6 +27,41 @@
         display: block;
       }
     }
+
+    .set-total-item-btn {
+      @include button(#37d1b4, #fff);
+      padding: 10px 15px;
+
+      &:hover select {
+        color: #fff;
+      }
+
+      svg {
+        font-size: 18px;
+        margin-right: 10px;
+      }
+
+      select {
+        color: #37d1b4;
+        padding: 0 5px;
+        text-align: left;
+        width: 125px;
+        height: 20px;
+        border: none;
+        appearance: none;
+        font-size: 16px;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+        }
+
+        option {
+          color: #000;
+        }
+      }
+    }
   }
 
   .search-action {

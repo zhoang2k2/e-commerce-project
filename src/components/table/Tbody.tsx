@@ -6,7 +6,7 @@ import {
 } from "../../redux/reducer/ProductsSlide";
 import type { Product } from "../../types/ProductType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import AddingPop from "../popUp/adding/AddingPop";
 import { createPortal } from "react-dom";
@@ -38,7 +38,7 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
         <tbody>
           <tr>
             <td colSpan={columnSpan}>
-              Cannot find any product with the name of <span>{filterVal}</span>
+              Cannot find the item <span>{filterVal}</span>
             </td>
           </tr>
         </tbody>
@@ -69,10 +69,10 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
                 <td>{product.age} months</td>
                 <td>{product.color}</td>
                 <td>{product.sales} sales</td>
-                <td>{product.status === "0" ? "New" : "Old"}</td>
+                <td>{product.status}</td>
                 <td>
                   <button className="edit-btn" onClick={handleEditPop}>
-                    Edit
+                    <FontAwesomeIcon icon={faPenToSquare} />
                   </button>
                   <button className="del-btn" onClick={handleDelete}>
                     <FontAwesomeIcon icon={faTrash} />
