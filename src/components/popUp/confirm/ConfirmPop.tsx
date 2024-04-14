@@ -1,33 +1,60 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from "../../button/Button";
+import { useDispatch } from "react-redux";
 import "./confirmPop.scss";
+import {
+  deleteProduct,
+  editProduct,
+  fetchProducts,
+} from "../../../redux/reducer/ProductsSlide";
+import type { Product } from "../../../types/ProductType";
 
 interface ConfirmPopProps {
-  content: any;
-  selectedId: string;
-  // acceptEdit: (id: string, boolean?: boolean, data?: any) => void;
-  acceptDel: (boolean: boolean) => void;
-  cancle: (boolean: boolean) => void;
+  onCancle: () => void;
+  onSubmitSuccess: () => void;
+  mode: "delete" | "edit";
+  selectedFields?: Product;
+  selectedID?: string;
 }
 
-function ConfirmPop({ ...props }: ConfirmPopProps) {
-  // const handleEdit = () => {
-  //   props.acceptEdit(props.selectedId, true, undefined);
-  // };
-  const handleDel = () => {
-    props.acceptDel(true);
-  };
+function ConfirmPop({
+  onCancle,
+  onSubmitSuccess,
+  selectedID,
+  selectedFields,
+  mode,
+}: ConfirmPopProps) {
+  const dispatch = useDispatch<any>();
 
-  const handleSubmit = () => {
-    if (props.content === "edit") {
-      // handleEdit();
-    } else if (props.content === "delete") {
-      handleDel();
+  const handleAcceptDelete = (id: string | undefined) => {
+    if (id) {
+      dispatch(deleteProduct(id))
+        .then(() => {
+          dispatch(fetchProducts());
+          onSubmitSuccess();
+          onCancle();
+        })
+        .catch((error: any) => {
+          console.error("Error deleting product:", error);
+        });
+    } else {
+      console.log("fail to accept delete");
     }
   };
 
-  const handleCancle = () => {
-    props.cancle(false);
+  const handleAcceptEdit = (selectedFields: Product | undefined) => {
+    if (selectedFields) {
+      dispatch(editProduct(selectedFields))
+        .then(() => {
+          dispatch(fetchProducts());
+          onCancle();
+          onSubmitSuccess();
+        })
+        .catch((error: any) => {
+          console.error("Error editing product:", error);
+        });
+    } else {
+      console.log("fail to accept edit");
+    }
   };
 
   return (
@@ -35,22 +62,30 @@ function ConfirmPop({ ...props }: ConfirmPopProps) {
       <div className="wrapper">
         <div className="title">Warning!!</div>
         <div className="body">
-          <p>
-            Are you sure that you want to <span>{props.content}</span> item's
-            ID: <span>{props.selectedId}</span>?
-          </p>
+          {mode === "delete" ? (
+            <p>
+              Are you sure to
+              <br />
+              <span> {mode}</span> item's ID: <span>{selectedID}</span>?
+            </p>
+          ) : (
+            <p>Are you sure about saving this change?</p>
+          )}
         </div>
         <div className="footer">
-          <Button
+          <button
             className="confirm-btn"
-            name="Continue"
-            handleSubmit={handleSubmit}
-          />
-          <Button
-            className="deny-btn"
-            name="Cancle"
-            handleSubmit={handleCancle}
-          />
+            onClick={() =>
+              mode === "delete"
+                ? handleAcceptDelete(selectedID)
+                : handleAcceptEdit(selectedFields)
+            }
+          >
+            Accept
+          </button>
+          <button className="deny-btn" onClick={onCancle}>
+            Cancle
+          </button>
         </div>
       </div>
     </div>

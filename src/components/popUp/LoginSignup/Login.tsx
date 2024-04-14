@@ -5,18 +5,14 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type LoginProps = {
   onCloseModal: () => void;
-  handleMode: (param: string) => void;
+  onChangeMode: () => void;
 };
 
-function Login({ onCloseModal, handleMode }: LoginProps) {
+function Login({ onCloseModal, onChangeMode }: LoginProps) {
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
   });
-
-  const changeMode = () => {
-    handleMode("signup");
-  };
 
   // const navigate = useNavigate();
 
@@ -59,34 +55,48 @@ function Login({ onCloseModal, handleMode }: LoginProps) {
     console.log("login");
   };
 
+  const handleMode = () => {
+    onChangeMode();
+  };
+
   return (
     <div className="form-container">
       <form>
-        <FontAwesomeIcon icon={faXmark} onClick={onCloseModal} />
+        <FontAwesomeIcon
+          className="close-icon"
+          icon={faXmark}
+          onClick={onCloseModal}
+        />
         <h2>Login</h2>
-        <label htmlFor="email">Email:</label>
-        <input
-          name="email"
-          type="email"
-          placeholder="Enter Email"
-          onChange={handleChange}
-          value={inputVal.email}
-        />
+        <label htmlFor="email">
+          Email:
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter Email"
+            onChange={handleChange}
+            value={inputVal.email}
+          />
+        </label>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          name="password"
-          type="password"
-          placeholder="Enter Password"
-          onChange={handleChange}
-          value={inputVal.password}
-        />
+        <label htmlFor="password">
+          Password:
+          <input
+            name="password"
+            type="password"
+            placeholder="Enter Password"
+            onChange={handleChange}
+            value={inputVal.password}
+          />
+        </label>
 
         <p>
-          Not having account yet? <a onClick={changeMode}>Register</a>
+          Not having any accounts yet? <a onClick={handleMode}>Register</a>
         </p>
 
-        <button onClick={handleLogin}>login</button>
+        <button className="submit-btn" onClick={handleLogin}>
+          login
+        </button>
       </form>
     </div>
   );

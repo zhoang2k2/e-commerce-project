@@ -20,7 +20,7 @@ export const fetchProducts = createAsyncThunk("products/fetch", async () => {
 });
 
 export const addProduct = createAsyncThunk(
-  "products/post",
+  "products/add",
   async (newProduct: Product) => {
     try {
       const response = await axios.post<Product>(

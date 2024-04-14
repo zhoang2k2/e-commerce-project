@@ -21,7 +21,7 @@
     border-radius: 10px;
     padding: 30px;
 
-    svg {
+    .close-icon {
       font-size: 20px;
       position: fixed;
       right: 0;
@@ -53,18 +53,33 @@
       }
     }
 
-    input {
-      font-size: 18px;
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
     label {
       font-size: 18px;
       text-transform: capitalize;
-      margin-bottom: 10px;
       font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      input {
+        font-size: 18px;
+        margin: 5px 0 20px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      button {
+        position: absolute;
+        right: 2%;
+        top: 40%;
+        border: none;
+        background-color: transparent;
+
+        svg {
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
     }
 
     p {
@@ -82,7 +97,7 @@
       }
     }
 
-    button {
+    .submit-btn {
       @include button(#7631fe, #fff);
       margin: 30px 0 10px;
       padding: 10px 0;

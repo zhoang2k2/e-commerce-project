@@ -33,24 +33,32 @@
     .body {
       p {
         font-size: 20px;
-        line-height: 35px;
+        line-height: 1.75;
         letter-spacing: 2px;
+        word-spacing: 2.5px;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 15px 0;
+        margin: auto;
         span {
           font-weight: bold;
-          text-transform: uppercase;
         }
       }
       display: flex;
     }
     .footer {
       border-top: 1px solid #a0a0a0;
-      padding-top: 20px;
+      padding-top: 10px;
       display: flex;
       justify-content: flex-end;
       gap: 10px;
 
+      button {
+        padding: 10px 15px;
+      }
+
       .confirm-btn {
-        @include button(#5d39a5, #fff);
+        @include button(#7631fe, #fff);
       }
       .deny-btn {
         @include button(#ca434a, #fff);

@@ -17,14 +17,8 @@ function Sidebar() {
   const { url } = useRouteMatch();
 
   const styleNav = {
-    onView: {
-      backgroundColor: "#7631fe",
-      color: "#fff",
-    },
-    offView: {
-      backgroundColor: "#001C41",
-      color: "#fff",
-    },
+    backgroundColor: "#7631fe",
+    color: "#fff",
   };
 
   const [loginSignup, setLoginSignup] = useState("");
@@ -48,23 +42,19 @@ function Sidebar() {
           <h3>Admin Dashboard</h3>
           <ul>
             <li>
-              <NavLink exact to="/" activeStyle={styleNav.onView}>
+              <NavLink exact to="/" activeStyle={styleNav}>
                 <FontAwesomeIcon icon={faHouse} />
                 Back to Shop
               </NavLink>
             </li>
             <li>
-              <NavLink
-                exact
-                to={`${url}/products`}
-                activeStyle={styleNav.onView}
-              >
+              <NavLink exact to={`${url}/products`} activeStyle={styleNav}>
                 <FontAwesomeIcon icon={faTableList} />
                 Product List
               </NavLink>
             </li>
             <li>
-              <NavLink to={`${url}/adm-accounts`} activeStyle={styleNav.onView}>
+              <NavLink to={`${url}/adm-accounts`} activeStyle={styleNav}>
                 <FontAwesomeIcon icon={faUsers} />
                 admin account
               </NavLink>

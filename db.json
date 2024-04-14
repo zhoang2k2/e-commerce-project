@@ -1,4 +1,25 @@
 {
+  "carouselImages": [
+    {
+      "id": "1",
+      "image": "https://i.imgur.com/iJa5LLf.jpg"
+    },
+    {
+      "id": "2",
+      "image": "https://i.imgur.com/ZxXPNhR.jpg"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "test",
+      "fullname": "test",
+      "email": "test",
+      "password": "test",
+      "phone": "test",
+      "birthday": "test",
+      "address": "test"
+    }
+  ],
   "products": [
     {
       "id": "1000",
@@ -194,16 +215,6 @@
       "rate": "4.3",
       "sales": "6",
       "status": "old"
-    }
-  ],
-  "carouselImages": [
-    {
-      "id": "1",
-      "image": "https://i.imgur.com/iJa5LLf.jpg"
-    },
-    {
-      "id": "2",
-      "image": "https://i.imgur.com/ZxXPNhR.jpg"
     }
   ]
 }

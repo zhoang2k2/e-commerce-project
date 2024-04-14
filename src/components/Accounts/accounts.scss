@@ -1,0 +1,112 @@
+@import "../../styles/mixin.scss";
+
+.add-btn {
+  @include button(#7631fe, #fff);
+  padding: 10px 15px;
+  svg {
+    margin-right: 10px;
+  }
+}
+
+.accounts-table {
+  width: 1500px;
+  margin: 50px auto;
+  font-size: 16px;
+  line-height: 1.25;
+
+  thead {
+    font-weight: bold;
+    text-transform: capitalize;
+    background-color: rgb(230, 230, 230);
+    border-bottom: 3px solid #f0f0f0ff;
+    text-align: left;
+
+    tr {
+      border-radius: 10px;
+
+      th {
+        padding: 20px;
+
+        &:nth-child(1) {
+          border-top-left-radius: 10px;
+        }
+        &:nth-child(7) {
+          border-top-right-radius: 10px;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      height: 100px;
+
+      &:hover img {
+        opacity: 1;
+        box-shadow: 0px 0px 5px 0px #000;
+        transform: scale(1.5);
+        display: flex;
+      }
+
+      &:hover button {
+        &.edit-btn {
+          border: 1px solid #7631fe;
+          color: #7631fe;
+        }
+
+        &.del-btn {
+          border: 1px solid #ca434a;
+          color: #ca434a;
+        }
+      }
+
+      td {
+        text-align: left;
+        border-bottom: 3px solid #f0f0f0ff;
+        overflow: auto;
+        vertical-align: middle;
+        position: relative;
+        padding: 10px 20px;
+        white-space: normal;
+
+        &:nth-child(7) {
+          gap: 10px;
+
+          button {
+            font-size: 16px;
+            background-color: #fff;
+            border: 1px solid #d9d9d9ff;
+            box-shadow: 0px 2px 0px 0px #d9d9d9ff;
+            padding: 10px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: 0.2s ease-in-out;
+
+            svg {
+              margin: 0 !important;
+            }
+          }
+
+          .edit-btn {
+            &:hover {
+              color: #fff;
+              background-color: #7631fe;
+            }
+          }
+
+          .del-btn {
+            &:hover {
+              color: #fff;
+              background-color: #ca434a;
+            }
+          }
+        }
+
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

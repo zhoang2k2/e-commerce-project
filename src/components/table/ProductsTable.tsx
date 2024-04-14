@@ -67,7 +67,6 @@ function ProductsTable() {
 
   useEffect(() => {
     setSortProducts(products);
-    console.log(products);
   }, [products]);
 
   // HANDLE PAGINATION
@@ -156,7 +155,7 @@ function ProductsTable() {
       </div>
 
       {/* ==================TABLE================== */}
-      <table>
+      <table className="products-table">
         <thead>
           <tr>
             <th>id</th>
@@ -187,6 +186,7 @@ function ProductsTable() {
             onSubmitSuccess={handleAfterSave}
             mode="add"
             onCancle={() => setAddModelVisible(false)}
+            onClose={() => {}}
           />,
           document.body
         )}
