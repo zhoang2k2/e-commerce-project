@@ -17,6 +17,9 @@ import "./accounts.scss";
 import Login from "../popUp/LoginSignup/Login";
 import { createPortal } from "react-dom";
 import SignUp from "../popUp/LoginSignup/Signup";
+import EditAccount from "../popUp/EditAccount/EditAccount";
+import type { AccountType } from "../../types/AccountType";
+import ConfirmAccount from "../popUp/confirm/ConfirmAccount";
 
 function AdminAccounts() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,17 +31,30 @@ function AdminAccounts() {
   const [showPopup, setShowPopup] = useState({
     login: false,
     signup: false,
+    confirm: false,
+    edit: false,
   });
 
+  const [reset, setReset] = useState(1);
   useEffect(() => {
     dispatch(fetchAccounts());
-  }, []);
+  }, [reset]);
 
   const handleAddAccount = () => {
-    setShowPopup({ ...showPopup, login: true });
+    setShowPopup({ ...showPopup, signup: true });
   };
 
-  // const autoNum = for(let i=1; i++) {}
+  const [selectedID, setSelectedID] = useState("");
+  const handleConfirmDelete = (id: string) => {
+    setShowPopup({ ...showPopup, confirm: true });
+    setSelectedID(id);
+  };
+
+  const [initialFields, setInitialFields] = useState<AccountType>();
+  const handleOpenEdit = (selectedAccount: AccountType) => {
+    setShowPopup({ ...showPopup, edit: true });
+    setInitialFields(selectedAccount);
+  };
 
   return (
     <>
@@ -72,10 +88,18 @@ function AdminAccounts() {
                   <td>{account.phone}</td>
                   <td>{account.address}</td>
                   <td>
-                    <button className="edit-btn">
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleOpenEdit(account)}
+                    >
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
-                    <button className="del-btn">
+                    <button
+                      className="del-btn"
+                      onClick={() =>
+                        account.id && handleConfirmDelete(account.id)
+                      }
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </td>
@@ -100,10 +124,31 @@ function AdminAccounts() {
       {showPopup.signup &&
         createPortal(
           <SignUp
+            onSubmitSuccess={() => setReset(reset + 1)}
             onCloseModal={() => setShowPopup({ ...showPopup, signup: false })}
             onChangeMode={() =>
               setShowPopup({ ...showPopup, signup: false, login: true })
             }
+          />,
+          document.body
+        )}
+
+      {showPopup.confirm &&
+        createPortal(
+          <ConfirmAccount
+            mode="delete"
+            onCancle={() => setShowPopup({ ...showPopup, confirm: false })}
+            onSubmitSuccess={() => {}}
+            selectedID={selectedID}
+          />,
+          document.body
+        )}
+
+      {showPopup.edit &&
+        createPortal(
+          <EditAccount
+            initialFields={initialFields}
+            onClose={() => setShowPopup({ ...showPopup, edit: false })}
           />,
           document.body
         )}

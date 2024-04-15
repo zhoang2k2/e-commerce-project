@@ -1,5 +1,5 @@
 export interface AccountType {
-  id: string;
+  id?: string
   fullname: string;
   email: string;
   password: string;

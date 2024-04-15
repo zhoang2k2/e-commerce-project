@@ -11,13 +11,22 @@
   ],
   "accounts": [
     {
-      "id": "test",
-      "fullname": "test",
-      "email": "test",
-      "password": "test",
-      "phone": "test",
-      "birthday": "test",
-      "address": "test"
+      "id": "7890",
+      "fullname": "nguyen van hoang",
+      "email": "nvhoang2012002@gmail.com",
+      "password": "123456",
+      "phone": "0905734471",
+      "birthday": "2002-01-20",
+      "address": "hai chau, da nang"
+    },
+    {
+      "id": "5431",
+      "fullname": "32312",
+      "email": "",
+      "password": "",
+      "phone": "",
+      "birthday": "",
+      "address": ""
     }
   ],
   "products": [

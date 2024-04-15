@@ -1,9 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
 import type { AccountState, AccountType } from "../../types/AccountType";
-
-
 
 const initialState: AccountState = {
   accounts: [],
@@ -22,9 +21,9 @@ export const fetchAccounts = createAsyncThunk("accounts/fetch", async () => {
 
 export const addAccount = createAsyncThunk(
   "accounts/add",
-  async (newAccount) => {
+  async (newAccount: AccountType) => {
     try {
-      const response = await axios.post<AccountType>(
+      const response = await axios.post(
         "http://localhost:3000/accounts",
         newAccount
       );
@@ -53,13 +52,17 @@ export const editAccount = createAsyncThunk(
   "accounts/edit",
   async (account: AccountType) => {
     try {
-      const response = await axios.put<AccountType>(
+      if (!account.id) {
+        throw new Error("Invalid account ID");
+      }
+
+      const response = await axios.put(
         `http://localhost:3000/accounts/${account.id}`,
         account
       );
       return response.data;
     } catch (error) {
-      console.error("Error when adding account");
+      console.error("Error when editing account:", error);
       throw error;
     }
   }

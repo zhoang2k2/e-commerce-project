@@ -262,9 +262,7 @@ function AddingPop({
             onCancle={() => {
               setModalEditConfirm(false);
             }}
-            onSubmitSuccess={() => {
-              onClose();
-            }}
+            onSubmitSuccess={() => onClose()}
           />,
           document.body
         )}

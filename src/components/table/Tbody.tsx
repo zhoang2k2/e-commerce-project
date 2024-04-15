@@ -41,9 +41,9 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
     setSelectedID(id);
   };
 
-  const handleEditPop = (product: Product) => {
+  const handleEditPop = (selectedProduct: Product) => {
     setShowPopup({ ...showPopup, addingPop: true });
-    setInitialState(product);
+    setInitialState(selectedProduct);
   };
 
   return (

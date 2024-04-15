@@ -1,14 +1,17 @@
 import "./login-signup.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { addAccount } from "../../../redux/reducer/AccountsSlide";
+import { useDispatch } from "react-redux";
 
 type SignupProps = {
   onCloseModal: () => void;
   onChangeMode: () => void;
+  onSubmitSuccess: () => void;
 };
 
-function SignUp({ onCloseModal, onChangeMode }: SignupProps) {
+function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
   // const accountList = JSON.parse(localStorage.getItem("accounts")) || [];
   const [confirmPassword, setConfirmPassword] = useState("");
   const [inputVal, setInputVal] = useState({
@@ -22,9 +25,23 @@ function SignUp({ onCloseModal, onChangeMode }: SignupProps) {
   });
 
   // const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
 
   const handleRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (confirmPassword === inputVal.password) {
+      const randomID = Math.floor(Math.random() * 10000);
+      setInputVal({ ...inputVal, id: randomID.toString() });
+      if (inputVal.id !== "") {
+        dispatch(addAccount(inputVal));
+        alert("Register Sucessfully");
+        onSubmitSuccess();
+        onCloseModal();
+      }
+    } else {
+      window.alert("Your confirmation is different from password!!");
+    }
 
     //   if (confirmPassword === inputVal.password) {
     //     navigate("/login");
@@ -54,6 +71,8 @@ function SignUp({ onCloseModal, onChangeMode }: SignupProps) {
     e.preventDefault();
     setVisiblePassword(!visiblePassword);
   };
+
+  useEffect(() => {}, [inputVal]);
 
   return (
     <div className="form-container">

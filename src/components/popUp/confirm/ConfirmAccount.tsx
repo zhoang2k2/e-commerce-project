@@ -1,59 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch } from "react-redux";
-import "./confirmPop.scss";
+import "../confirm/confirmPop.scss";
+import type { AccountType } from "../../../types/AccountType";
 import {
-  deleteProduct,
-  editProduct,
-  fetchProducts,
-} from "../../../redux/reducer/ProductsSlide";
-import type { Product } from "../../../types/ProductType";
+  deleteAccount,
+  editAccount,
+  fetchAccounts,
+} from "../../../redux/reducer/AccountsSlide";
 
-interface ConfirmPopProps {
+type ConfirmmAccount = {
   onCancle: () => void;
   onSubmitSuccess: () => void;
   mode: "delete" | "edit";
-  selectedFields?: Product;
+  selectedAccount?: AccountType;
   selectedID?: string;
-}
+};
 
-function ConfirmPop({
+function ConfirmAccount({
   onCancle,
   onSubmitSuccess,
   selectedID,
-  selectedFields,
+  selectedAccount,
   mode,
-}: ConfirmPopProps) {
+}: ConfirmmAccount) {
   const dispatch = useDispatch<any>();
 
   const handleAcceptDelete = (id: string) => {
     if (id) {
-      dispatch(deleteProduct(id))
+      dispatch(deleteAccount(id))
         .then(() => {
-          dispatch(fetchProducts());
+          dispatch(fetchAccounts());
           onSubmitSuccess();
           onCancle();
         })
         .catch((error: any) => {
-          console.error("Error deleting product:", error);
+          console.error("Error deleting account:", error);
         });
     } else {
       console.log("fail to accept delete");
     }
   };
 
-  const handleAcceptEdit = (selectedFields: Product) => {
-    if (selectedFields) {
-      dispatch(editProduct(selectedFields))
+  const handleAcceptEdit = (selectedAccount: AccountType) => {
+    if (selectedAccount) {
+      dispatch(editAccount(selectedAccount))
         .then(() => {
-          dispatch(fetchProducts());
-          onCancle();
+          dispatch(fetchAccounts());
           onSubmitSuccess();
+          onCancle();
         })
         .catch((error: any) => {
-          console.error("Error editing product:", error);
+          console.error("Error editing account:", error);
         });
     } else {
-      console.log("fail to accept edit");
+      console.log(
+        "Failed to accept edit: Selected account is null or undefined."
+      );
     }
   };
 
@@ -78,7 +80,7 @@ function ConfirmPop({
             onClick={() =>
               mode === "delete"
                 ? selectedID && handleAcceptDelete(selectedID)
-                : selectedFields && handleAcceptEdit(selectedFields)
+                : selectedAccount && handleAcceptEdit(selectedAccount)
             }
           >
             Accept
@@ -92,4 +94,4 @@ function ConfirmPop({
   );
 }
 
-export default ConfirmPop;
+export default ConfirmAccount;
