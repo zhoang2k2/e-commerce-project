@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import "./table.scss";
 import type { Product } from "../../types/ProductType";
 import { useEffect, useState, type ChangeEvent } from "react";
-import AddingPop from "../popUp/adding/AddingPop";
+import AddingPop from "../popUp/Adding/AddingPop";
 import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -97,6 +97,7 @@ function ProductsTable() {
 
   const handleUpdateItemPerPage = () => {
     setItemPerPage(newQuantity);
+    setCurrentPage(1);
   };
 
   return (

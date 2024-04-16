@@ -7,7 +7,7 @@ import {
 import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../../types/ProductType";
 import TitlePop from "../Title/TitlePop";
-import ConfirmPop from "../confirm/ConfirmPop";
+import ConfirmPop from "../Confirm/ConfirmPop";
 import { createPortal } from "react-dom";
 
 type AddingPopProps = {
@@ -41,13 +41,21 @@ function AddingPop({
     sales: "",
     status: "",
   });
+
+  const [addState, setAddState] = useState(false);
   const handleAdd = async () => {
-    if (mode === "add") {
-      await dispatch(addProduct(fields));
-      onSubmitSuccess();
-      onCancle();
-      dispatch(fetchProducts());
-    } else {
+    if (!addState && mode === "add") {
+      setAddState(true);
+      const randomID = Math.floor(Math.random() * 10000);
+      const updatedFields = { ...fields, id: randomID.toString() };
+      if (updatedFields.id !== "") {
+        await dispatch(addProduct(updatedFields));
+        onSubmitSuccess();
+        onCancle();
+        dispatch(fetchProducts());
+      }
+      setAddState(false);
+    } else if (mode === "edit") {
       setModalEditConfirm(true);
     }
   };
@@ -59,33 +67,12 @@ function AddingPop({
     setFields({ ...fields, [name]: value });
   };
 
-  // const [uploadImage, setUploadImage] = useState<File | null>(null);
-  // const handleChangeImg = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     setUploadImage(file);
-  //   }
+  // const handleRandomID = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   const randomID = Math.floor(Math.random() * 10000);
+  //   fields.id = randomID.toString();
+  //   window.alert("Get ID successfully!");
   // };
-
-  // useEffect(() => {
-  //   if (uploadImage) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setFields((prevFields) => ({
-  //         ...prevFields,
-  //         image: reader.result as string,
-  //       }));
-  //     };
-  //     reader.readAsDataURL(uploadImage);
-  //   }
-  // }, [uploadImage]);
-
-  const handleRandomID = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const randomID = Math.floor(Math.random() * 10000);
-    fields.id = randomID.toString();
-    window.alert("Get ID successfully!");
-  };
 
   useEffect(() => {
     if (initialState) {
@@ -101,7 +88,7 @@ function AddingPop({
         <div className="wrap-form">
           <div className="form">
             <form>
-              <label htmlFor="id">
+              {/* <label htmlFor="id">
                 ID:
                 <input
                   type="text"
@@ -115,7 +102,7 @@ function AddingPop({
                     Get ID
                   </button>
                 )}
-              </label>
+              </label> */}
 
               <label htmlFor="name">
                 Name:

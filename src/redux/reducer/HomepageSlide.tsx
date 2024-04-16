@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { RootState } from "../Store";
 
-interface Slide {
+export interface Slide {
   id: string;
   image: string;
 }
@@ -49,3 +50,5 @@ export const HomepageSlice = createSlice({
 });
 
 export default HomepageSlice;
+export const selectHomepageState = (state: RootState) => state.homepage;
+

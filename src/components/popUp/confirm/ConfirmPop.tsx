@@ -57,6 +57,12 @@ function ConfirmPop({
     }
   };
 
+  const handleClick = () => {
+    mode === "delete"
+      ? selectedID && handleAcceptDelete(selectedID)
+      : selectedFields && handleAcceptEdit(selectedFields);
+  };
+
   return (
     <div className="popup">
       <div className="wrapper">
@@ -73,14 +79,7 @@ function ConfirmPop({
           )}
         </div>
         <div className="footer">
-          <button
-            className="confirm-btn"
-            onClick={() =>
-              mode === "delete"
-                ? selectedID && handleAcceptDelete(selectedID)
-                : selectedFields && handleAcceptEdit(selectedFields)
-            }
-          >
+          <button className="confirm-btn" onClick={handleClick}>
             Accept
           </button>
           <button className="deny-btn" onClick={onCancle}>

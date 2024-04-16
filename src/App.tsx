@@ -1,11 +1,11 @@
 import "./styles/resetStyle.css";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
 import store from "./redux/Store";
 import { Provider } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import Admin from "./pages/Admin";
+import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (

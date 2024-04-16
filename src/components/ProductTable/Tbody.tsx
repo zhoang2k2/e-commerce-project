@@ -5,9 +5,9 @@ import type { Product } from "../../types/ProductType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import AddingPop from "../popUp/adding/AddingPop";
+import AddingPop from "../popUp/Adding/AddingPop";
 import { createPortal } from "react-dom";
-import ConfirmPop from "../popUp/confirm/ConfirmPop";
+import ConfirmPop from "../popUp/Confirm/ConfirmPop";
 
 type TbodyProps = {
   currentItems: Product[];
@@ -25,7 +25,6 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [reset]);
-
 
   const [selectedID, setSelectedID] = useState("");
 
@@ -84,7 +83,9 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
                   </button>
                   <button
                     className="del-btn"
-                    onClick={() => handleConfirmDelete(product.id)}
+                    onClick={() =>
+                      product.id && handleConfirmDelete(product.id)
+                    }
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>

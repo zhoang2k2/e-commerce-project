@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { Slide } from "../../types/Slide";
 import "./carousel.scss";
 import { faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import type { Slide } from "../../redux/reducer/HomepageSlide";
 
 type CarouselProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   slides: Slide[];
 };
 
@@ -17,13 +18,12 @@ function Carousel({ slides }: CarouselProps) {
 
   const toNext = () => {
     setCurrent(current === slides.length ? 1 : current + 1);
-    console.log(current);
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((current) => (current === slides.length ? 1 : current + 1));
-    }, 4500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [slides.length]);
@@ -31,20 +31,21 @@ function Carousel({ slides }: CarouselProps) {
   return (
     <>
       <div className="carousel-container">
-        {slides.map((slide) => {
-          return (
-            <div
-              className={
-                current.toString() === slide.id
-                  ? "carousel-card carousel-card-active"
-                  : "carousel-card"
-              }
-              key={slide.id}
-            >
-              <img src={slide.image} alt={`img ${slide.id}`} />
-            </div>
-          );
-        })}
+        {Array.isArray(slides) &&
+          slides.map((slide: Slide) => {
+            return (
+              <div
+                className={
+                  current.toString() === slide.id
+                    ? "carousel-card carousel-card-active"
+                    : "carousel-card"
+                }
+                key={slide.id}
+              >
+                <img src={slide.image} alt={`img ${slide.id}`} />
+              </div>
+            );
+          })}
         <div className="carousel-btn">
           <button onClick={toPrev}>
             <FontAwesomeIcon icon={faLessThan} />

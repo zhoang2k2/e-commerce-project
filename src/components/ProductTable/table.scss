@@ -168,8 +168,8 @@
 
       &:hover button {
         &.edit-btn {
-          border: 1px solid #7631fe;
-          color: #7631fe;
+          border: 1px solid orange;
+          color: orange;
         }
 
         &.del-btn {
@@ -237,7 +237,7 @@
           .edit-btn {
             &:hover {
               color: #fff;
-              background-color: #7631fe;
+              background-color: orange;
             }
           }
 

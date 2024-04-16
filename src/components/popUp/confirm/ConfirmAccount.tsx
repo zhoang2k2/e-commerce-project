@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch } from "react-redux";
-import "../confirm/confirmPop.scss";
+import "./confirmPop.scss";
 import type { AccountType } from "../../../types/AccountType";
 import {
   deleteAccount,
@@ -42,6 +42,7 @@ function ConfirmAccount({
   };
 
   const handleAcceptEdit = (selectedAccount: AccountType) => {
+    console.log("hello");
     if (selectedAccount) {
       dispatch(editAccount(selectedAccount))
         .then(() => {
@@ -57,6 +58,12 @@ function ConfirmAccount({
         "Failed to accept edit: Selected account is null or undefined."
       );
     }
+  };
+
+  const handleClick = () => {
+    mode === "delete"
+      ? selectedID && handleAcceptDelete(selectedID)
+      : selectedAccount && handleAcceptEdit(selectedAccount);
   };
 
   return (
@@ -75,14 +82,7 @@ function ConfirmAccount({
           )}
         </div>
         <div className="footer">
-          <button
-            className="confirm-btn"
-            onClick={() =>
-              mode === "delete"
-                ? selectedID && handleAcceptDelete(selectedID)
-                : selectedAccount && handleAcceptEdit(selectedAccount)
-            }
-          >
+          <button className="confirm-btn" onClick={handleClick}>
             Accept
           </button>
           <button className="deny-btn" onClick={onCancle}>

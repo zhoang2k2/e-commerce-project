@@ -8,10 +8,6 @@ import {
   faTableList,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import Login from "../popUp/LoginSignup/Login";
-import SignUp from "../popUp/LoginSignup/Signup";
-import { createPortal } from "react-dom";
 
 function Sidebar() {
   const { url } = useRouteMatch();
@@ -19,11 +15,6 @@ function Sidebar() {
   const styleNav = {
     backgroundColor: "#7631fe",
     color: "#fff",
-  };
-
-  const [loginSignup, setLoginSignup] = useState("");
-  const handleMode = (mode: string) => {
-    setLoginSignup(mode);
   };
 
   return (
@@ -34,9 +25,6 @@ function Sidebar() {
           <button>
             <FontAwesomeIcon icon={faRightFromBracket} /> Logout
           </button>
-          {/* <button onClick={handleLogin}>
-            Change account <FontAwesomeIcon icon={faUser} />
-          </button> */}
         </div>
         <div className="for-admin">
           <h3>Admin Dashboard</h3>
@@ -54,7 +42,7 @@ function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to={`${url}/adm-accounts`} activeStyle={styleNav}>
+              <NavLink exact to={`${url}/adm-accounts`} activeStyle={styleNav}>
                 <FontAwesomeIcon icon={faUsers} />
                 admin account
               </NavLink>
@@ -62,23 +50,6 @@ function Sidebar() {
           </ul>
         </div>
       </div>
-
-      {loginSignup === "login" &&
-        createPortal(
-          <Login
-            onCloseModal={() => setLoginSignup("")}
-            handleMode={handleMode}
-          />,
-          document.body
-        )}
-      {loginSignup === "signup" &&
-        createPortal(
-          <SignUp
-            onCloseModal={() => setLoginSignup("")}
-            handleMode={handleMode}
-          />,
-          document.body
-        )}
     </>
   );
 }

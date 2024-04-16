@@ -1,11 +1,16 @@
 import Sidebar from "../components/Sidebar/Sidebar";
-import Body from "../components/Body/Body";
+import SidebarRoutes from "../routes/SidebarRoutes";
+import "../components/Body/body.scss";
 
 function Admin() {
   return (
     <>
       <Sidebar />
-      <Body />
+      <div className="body-container">
+        <div className="body">
+          <SidebarRoutes />
+        </div>
+      </div>
     </>
   );
 }

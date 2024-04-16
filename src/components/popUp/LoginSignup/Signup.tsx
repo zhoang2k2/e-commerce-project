@@ -17,6 +17,7 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
   const [inputVal, setInputVal] = useState({
     id: "",
     fullname: "",
+    gender: "",
     email: "",
     password: "",
     phone: "",
@@ -28,32 +29,31 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
 
-  const handleRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const [registerState, setRegisterState] = useState(false);
+  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (confirmPassword === inputVal.password) {
-      const randomID = Math.floor(Math.random() * 10000);
-      setInputVal({ ...inputVal, id: randomID.toString() });
-      if (inputVal.id !== "") {
-        dispatch(addAccount(inputVal));
-        alert("Register Sucessfully");
-        onSubmitSuccess();
-        onCloseModal();
+    if (!registerState) {
+      if (confirmPassword === inputVal.password) {
+        const randomID = Math.floor(Math.random() * 10000);
+        const updatedVal = { ...inputVal, id: randomID.toString() };
+        if (updatedVal.id !== "") {
+          await dispatch(addAccount(updatedVal));
+          alert("Register Sucessfully");
+          onSubmitSuccess();
+          onCloseModal();
+        }
       }
+      setRegisterState(false);
     } else {
       window.alert("Your confirmation is different from password!!");
     }
-
-    //   if (confirmPassword === inputVal.password) {
-    //     navigate("/login");
-    //     const updateAccountList = [...accountList, inputVal];
-    //     localStorage.setItem("accounts", JSON.stringify(updateAccountList));
-    //     alert("Register Sucessfully");
-    //   } else {
-    //     return console.log("Check your password again");
-    //   }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setInputVal({ ...inputVal, [name]: value });
   };
@@ -93,6 +93,15 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
             value={inputVal.fullname}
             onChange={handleChange}
           />
+        </label>
+
+        <label htmlFor="fullname">
+          Gender
+          <select name="gender" value={inputVal.gender} onChange={handleChange}>
+            <option value="prefer not to say">Prefer not to say</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
         </label>
 
         <label htmlFor="email">

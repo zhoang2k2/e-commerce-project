@@ -13,6 +13,7 @@
     {
       "id": "7890",
       "fullname": "nguyen van hoang",
+      "gender": "male",
       "email": "nvhoang2012002@gmail.com",
       "password": "123456",
       "phone": "0905734471",
@@ -20,8 +21,9 @@
       "address": "hai chau, da nang"
     },
     {
-      "id": "5431",
-      "fullname": "32312",
+      "id": "3538",
+      "fullname": "333",
+      "gender": "",
       "email": "",
       "password": "",
       "phone": "",
@@ -29,6 +31,12 @@
       "address": ""
     }
   ],
+  "adminOnWork": {
+    "id": "",
+    "fullname": "",
+    "email": "",
+    "password": ""
+  },
   "products": [
     {
       "id": "1000",
@@ -224,6 +232,19 @@
       "rate": "4.3",
       "sales": "6",
       "status": "old"
+    },
+    {
+      "id": "3651",
+      "name": "52",
+      "price": "",
+      "quantity": "",
+      "image": "",
+      "catBreed": "",
+      "age": "",
+      "color": "",
+      "rate": "",
+      "sales": "",
+      "status": ""
     }
   ]
 }

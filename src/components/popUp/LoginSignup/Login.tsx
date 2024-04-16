@@ -2,17 +2,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./login-signup.scss";
 import { useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import type { AccountAuth } from "../../../types/AccountType";
 
 type LoginProps = {
   onCloseModal: () => void;
   onChangeMode: () => void;
+  authChecked: () => void;
+  selectedAccount: AccountAuth;
+  mode: "login" | "auth";
 };
 
-function Login({ onCloseModal, onChangeMode }: LoginProps) {
+function Login({
+  onCloseModal,
+  onChangeMode,
+  selectedAccount,
+  authChecked,
+  mode,
+}: LoginProps) {
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
   });
+
+  const [inputAuth] = useState<AccountAuth>({
+    email: selectedAccount.email,
+    password: selectedAccount.password,
+  });
+
+  const checkAuthorization = () => {
+    if (inputVal.email === inputAuth.email) {
+      if (inputVal.password === inputAuth.password) {
+        authChecked();
+        onCloseModal();
+      } else {
+        window.alert("Wrong password!");
+      }
+    } else {
+      window.alert("Wrong email!");
+    }
+  };
 
   // const navigate = useNavigate();
 
@@ -44,15 +72,9 @@ function Login({ onCloseModal, onChangeMode }: LoginProps) {
     setInputVal({ ...inputVal, [name]: value });
   };
 
-  //   useEffect(() => {
-  //     let userLogin = JSON.parse(localStorage.getItem("user_login"));
-  //     if (userLogin) {
-  //       return navigate("/account");
-  //     }
-  //   }, []);
-
-  const handleLogin = () => {
-    console.log("login");
+  const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    mode === "auth" ? checkAuthorization() : console.log("this is login");
   };
 
   const handleMode = () => {
@@ -90,9 +112,11 @@ function Login({ onCloseModal, onChangeMode }: LoginProps) {
           />
         </label>
 
-        <p>
-          Not having any accounts yet? <a onClick={handleMode}>Register</a>
-        </p>
+        {mode === "login" && (
+          <p>
+            Not having any accounts yet? <a onClick={handleMode}>Register</a>
+          </p>
+        )}
 
         <button className="submit-btn" onClick={handleLogin}>
           login

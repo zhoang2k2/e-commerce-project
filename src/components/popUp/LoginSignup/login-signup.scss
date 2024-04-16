@@ -10,7 +10,7 @@
   form {
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 450px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -61,11 +61,17 @@
       flex-direction: column;
       position: relative;
 
-      input {
+      input,
+      select {
         font-size: 18px;
         margin: 5px 0 20px;
         padding: 10px;
         border-radius: 5px;
+
+        &:focus {
+          outline: 3px solid #7631fe;
+          border: transparent;
+        }
       }
 
       button {

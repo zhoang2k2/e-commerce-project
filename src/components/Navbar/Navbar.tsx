@@ -6,7 +6,7 @@ import {
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -14,8 +14,12 @@ function Navbar() {
       <nav>
         <div className="navbar-items">
           <div className="nav-link">
-            <div className="logo">DA KATTY</div>
-            <Link to="/">Shop</Link>
+            <NavLink exact to={"/"} className="logo">
+              DA KATTY
+            </NavLink>
+            <NavLink exact to={"/shop"}>
+              Shop
+            </NavLink>
             <Link to="/">About</Link>
           </div>
 
@@ -26,8 +30,10 @@ function Navbar() {
             <button className="cart-btn">
               <FontAwesomeIcon icon={faCartShopping} />
             </button>
-            <button>
-              <FontAwesomeIcon icon={faUserShield} />
+            <button className="admin-btn">
+              <NavLink exact to={"/admin"}>
+                <FontAwesomeIcon icon={faUserShield} />
+              </NavLink>
             </button>
           </div>
         </div>

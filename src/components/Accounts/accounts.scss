@@ -8,8 +8,13 @@
   }
 }
 
+.verify {
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
 .accounts-table {
-  width: 1500px;
+  width: 100%;
   margin: 50px auto;
   font-size: 16px;
   line-height: 1.25;
@@ -25,12 +30,13 @@
       border-radius: 10px;
 
       th {
+        text-align: center;
         padding: 20px;
 
         &:nth-child(1) {
           border-top-left-radius: 10px;
         }
-        &:nth-child(7) {
+        &:nth-child(9) {
           border-top-right-radius: 10px;
         }
       }
@@ -49,9 +55,14 @@
       }
 
       &:hover button {
-        &.edit-btn {
+        &.auth-btn {
           border: 1px solid #7631fe;
           color: #7631fe;
+        }
+
+        &.edit-btn {
+          border: 1px solid orange;
+          color: orange;
         }
 
         &.del-btn {
@@ -61,7 +72,7 @@
       }
 
       td {
-        text-align: left;
+        text-align: center;
         border-bottom: 3px solid #f0f0f0ff;
         overflow: auto;
         vertical-align: middle;
@@ -69,7 +80,8 @@
         padding: 10px 20px;
         white-space: normal;
 
-        &:nth-child(7) {
+        &:nth-child(9) {
+          width: 275px;
           gap: 10px;
 
           button {
@@ -88,10 +100,17 @@
             }
           }
 
-          .edit-btn {
+          .auth-btn {
             &:hover {
               color: #fff;
               background-color: #7631fe;
+            }
+          }
+
+          .edit-btn {
+            &:hover {
+              color: #fff;
+              background-color: orange;
             }
           }
 

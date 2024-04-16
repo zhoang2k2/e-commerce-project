@@ -3,7 +3,7 @@ import "./editAccount.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { AccountType } from "../../../types/AccountType";
-import ConfirmAccount from "../confirm/ConfirmAccount";
+import ConfirmAccount from "../Confirm/ConfirmAccount";
 
 type EditAccountProps = {
   initialFields: AccountType | undefined;
@@ -11,11 +11,11 @@ type EditAccountProps = {
 };
 
 function EditAccount({ onClose, initialFields }: EditAccountProps) {
-  // const [visibleInputPassword, setVisibleInputPassword] = useState(true);
-  // const handleChangePass = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   setVisibleInputPassword(!visibleInputPassword);
-  // };
+  const [visibleInputPassword, setVisibleInputPassword] = useState(true);
+  const handleChangePass = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setVisibleInputPassword(!visibleInputPassword);
+  };
 
   const handleCloseModal = () => {
     onClose();
@@ -23,12 +23,14 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
 
   const [inputVal, setInputVal] = useState({
     fullname: "",
+    gender: "",
     email: "",
     password: "",
     birthday: "",
     phone: "",
     address: "",
   });
+
   useEffect(() => {
     initialFields && setInputVal(initialFields);
   }, [initialFields]);
@@ -106,7 +108,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
             </div>
 
             <div className="edit-login">
-              {/* <div className="change-password-container">
+              <div className="change-password-container">
                 {visibleInputPassword ? (
                   <>
                     <button
@@ -152,7 +154,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
                     Change my password
                   </button>
                 )}
-              </div> */}
+              </div>
 
               <button className="save-btn" onClick={handleEdit}>
                 Save
@@ -167,6 +169,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
           mode="edit"
           onCancle={() => setModalEditConfirm(false)}
           onSubmitSuccess={() => onClose()}
+          selectedAccount={inputVal}
         />
       )}
     </>

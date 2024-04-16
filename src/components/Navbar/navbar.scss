@@ -20,17 +20,22 @@
 
       .nav-link {
         display: flex;
+        align-items: center;
         gap: 50px;
 
         a {
           text-decoration-line: none;
           color: #000;
+          font-size: 18px;
+          letter-spacing: 2px;
+          font-weight: 600;
+
           &::after {
             content: "";
             border-radius: 10px;
             width: 100%;
             height: 4px;
-            background-color: #000;
+            background-color: #a8deff;
             display: block;
             transform-origin: right;
             transform: scaleX(0);
@@ -45,7 +50,8 @@
 
         .logo {
           font-weight: bold;
-          font-size: 20px;
+          font-size: 28px;
+          letter-spacing: 2px;
         }
       }
 
@@ -57,10 +63,19 @@
           border: none;
           background-color: transparent;
           cursor: pointer;
+
+          &:hover svg {
+            color: #a8deff;
+          }
+
+          a {
+            color: #000;
+          }
         }
 
         svg {
           font-size: 18px;
+          transition: 0.2s ease-in-out;
         }
       }
     }
