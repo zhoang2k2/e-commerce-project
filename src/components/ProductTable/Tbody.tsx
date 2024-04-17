@@ -60,6 +60,11 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
           {currentItems.map((product: Product) => {
             const key = randomKey();
 
+            const formatCurrence = new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(parseInt(product.price));
+
             return (
               <tr key={key}>
                 <td>{product.id}</td>
@@ -67,7 +72,7 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
                 <td>
                   <img src={product.image} alt={`cat ${product.id}`} />
                 </td>
-                <td>{product.price}</td>
+                <td>{formatCurrence}</td>
                 <td>{product.quantity}</td>
                 <td>{product.catBreed}</td>
                 <td>{product.age} months</td>

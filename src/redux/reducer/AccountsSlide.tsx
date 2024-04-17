@@ -55,7 +55,6 @@ export const editAccount = createAsyncThunk(
       if (!account.id) {
         throw new Error("Invalid account ID");
       }
-
       const response = await axios.put(
         `http://localhost:3000/accounts/${account.id}`,
         account

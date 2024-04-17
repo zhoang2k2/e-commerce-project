@@ -12,7 +12,6 @@ type SignupProps = {
 };
 
 function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
-  // const accountList = JSON.parse(localStorage.getItem("accounts")) || [];
   const [confirmPassword, setConfirmPassword] = useState("");
   const [inputVal, setInputVal] = useState({
     id: "",
@@ -25,7 +24,6 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
     address: "",
   });
 
-  // const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
 

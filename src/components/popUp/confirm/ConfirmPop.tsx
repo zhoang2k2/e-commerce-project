@@ -7,6 +7,9 @@ import {
   fetchProducts,
 } from "../../../redux/reducer/ProductsSlide";
 import type { Product } from "../../../types/ProductType";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import Loading from "../../Loading/Loading";
 
 interface ConfirmPopProps {
   onCancle: () => void;
@@ -25,36 +28,51 @@ function ConfirmPop({
 }: ConfirmPopProps) {
   const dispatch = useDispatch<any>();
 
+  const [loading, setLoading] = useState(false);
   const handleAcceptDelete = (id: string) => {
-    if (id) {
-      dispatch(deleteProduct(id))
-        .then(() => {
-          dispatch(fetchProducts());
-          onSubmitSuccess();
-          onCancle();
-        })
-        .catch((error: any) => {
-          console.error("Error deleting product:", error);
-        });
-    } else {
-      console.log("fail to accept delete");
-    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    setTimeout(() => {
+      if (id) {
+        dispatch(deleteProduct(id))
+          .then(() => {
+            dispatch(fetchProducts());
+            onSubmitSuccess();
+            onCancle();
+          })
+          .catch((error: any) => {
+            console.error("Error deleting product:", error);
+          });
+      } else {
+        console.log("fail to accept delete");
+      }
+    }, 2000);
   };
 
   const handleAcceptEdit = (selectedFields: Product) => {
-    if (selectedFields) {
-      dispatch(editProduct(selectedFields))
-        .then(() => {
-          dispatch(fetchProducts());
-          onCancle();
-          onSubmitSuccess();
-        })
-        .catch((error: any) => {
-          console.error("Error editing product:", error);
-        });
-    } else {
-      console.log("fail to accept edit");
-    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    setTimeout(() => {
+      if (selectedFields) {
+        dispatch(editProduct(selectedFields))
+          .then(() => {
+            dispatch(fetchProducts());
+            onCancle();
+            onSubmitSuccess();
+          })
+          .catch((error: any) => {
+            console.error("Error editing product:", error);
+          });
+      } else {
+        console.log("fail to accept edit");
+      }
+    }, 2000);
   };
 
   const handleClick = () => {
@@ -64,30 +82,34 @@ function ConfirmPop({
   };
 
   return (
-    <div className="popup">
-      <div className="wrapper">
-        <div className="title">Warning!!</div>
-        <div className="body">
-          {mode === "delete" ? (
-            <p>
-              Are you sure to
-              <br />
-              <span> {mode}</span> item's ID: <span>{selectedID}</span>?
-            </p>
-          ) : (
-            <p>Are you sure about saving this change?</p>
-          )}
-        </div>
-        <div className="footer">
-          <button className="confirm-btn" onClick={handleClick}>
-            Accept
-          </button>
-          <button className="deny-btn" onClick={onCancle}>
-            Cancle
-          </button>
+    <>
+      <div className="popup">
+        <div className="wrapper">
+          <div className="title">Warning!!</div>
+          <div className="body">
+            {mode === "delete" ? (
+              <p>
+                Are you sure to
+                <br />
+                <span> {mode}</span> item's ID: <span>{selectedID}</span>?
+              </p>
+            ) : (
+              <p>Are you sure about saving this change?</p>
+            )}
+          </div>
+          <div className="footer">
+            <button className="confirm-btn" onClick={handleClick}>
+              Accept
+            </button>
+            <button className="deny-btn" onClick={onCancle}>
+              Cancle
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {loading && createPortal(<Loading />, document.body)}
+    </>
   );
 }
 

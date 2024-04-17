@@ -123,6 +123,12 @@ function ProductsTable() {
             onClick={handleUpdateItemPerPage}
           >
             <FontAwesomeIcon icon={faTableList} />
+          </button>
+          <TitlePop
+            title="Reset total visible items per page"
+            className="visible-title"
+          />
+          <div className="select-quantity">
             <select
               name="rate"
               value={newQuantity}
@@ -133,7 +139,7 @@ function ProductsTable() {
               <option value="10">Visible 10 items</option>
               <option value="15">Visible 15 items</option>
             </select>
-          </button>
+          </div>
         </div>
 
         {/* ==================SEARCH================== */}

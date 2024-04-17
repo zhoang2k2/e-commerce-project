@@ -43,6 +43,24 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
     }));
   };
 
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const [newPassword, setNewPassword] = useState("");
+  const handleNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(e.target.value);
+  };
+
+  const inputValWithNewPassword = {
+    ...inputVal,
+    password:
+      newPassword === confirmPassword && newPassword !== ""
+        ? newPassword
+        : inputVal.password,
+  };
+
   const [modalEditConfirm, setModalEditConfirm] = useState(false);
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -134,6 +152,8 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
                         name="new password"
                         type="password"
                         placeholder="Enter new password..."
+                        value={newPassword}
+                        onChange={handleNewPassword}
                       />
                     </label>
 
@@ -143,6 +163,8 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
                         name="confirm-password"
                         type="password"
                         placeholder="Confirm new password..."
+                        value={confirmPassword}
+                        onChange={handleConfirmPassword}
                       />
                     </label>
                   </>
@@ -169,7 +191,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
           mode="edit"
           onCancle={() => setModalEditConfirm(false)}
           onSubmitSuccess={() => onClose()}
-          selectedAccount={inputVal}
+          selectedAccount={inputValWithNewPassword}
         />
       )}
     </>

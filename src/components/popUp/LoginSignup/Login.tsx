@@ -1,8 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./login-signup.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { AccountAuth } from "../../../types/AccountType";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAccounts,
+  selectAccountState,
+} from "../../../redux/reducer/AccountsSlide";
+import { addAuthAccount } from "../../../redux/reducer/AuthAccountSlides";
 
 type LoginProps = {
   onCloseModal: () => void;
@@ -19,6 +25,46 @@ function Login({
   authChecked,
   mode,
 }: LoginProps) {
+  // ==========================LOGIN PART==========================
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
+  const { accounts } = useSelector(selectAccountState);
+  const [accountList, setAccountList] = useState<AccountAuth[]>([]);
+
+  useEffect(() => {
+    dispatch(fetchAccounts());
+  }, []);
+
+  useEffect(() => {
+    if (accounts && accounts.length > 0) {
+      setAccountList(accounts);
+    }
+  }, [accounts]);
+
+  const handleCheckedAmin = () => {
+    let found = false;
+    for (let i = 0; i <= accountList.length - 1; i++) {
+      const checkAccountByIndex = accountList[i];
+      if (inputVal.email === checkAccountByIndex.email) {
+        if (inputVal.password === checkAccountByIndex.password) {
+          found = true;
+          onCloseModal();
+          authChecked();
+          dispatch(addAuthAccount(inputVal));
+          window.alert(`${checkAccountByIndex.email} login successfully`);
+          return;
+        } else {
+          window.alert("wrong password!");
+          return;
+        }
+      }
+    }
+    if (!found) {
+      window.alert("wrong email!");
+    }
+  };
+
+  // ==========================AUTH PART==========================
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
@@ -42,39 +88,15 @@ function Login({
     }
   };
 
-  // const navigate = useNavigate();
-
-  // const listAccount = JSON.parse(localStorage.getItem("accounts"));
-
-  // const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   const loggedIn = listAccount.find(
-  //     (account) =>
-  //       account.email === inputVal.email &&
-  //       account.password === inputVal.password
-  //   );
-
-  //   if (loggedIn) {
-  //     alert("Login successfully");
-  //     let userLogin = {
-  //       Email: inputVal.email,
-  //       Password: inputVal.password,
-  //     };
-  //     localStorage.setItem("user_login", JSON.stringify(userLogin));
-  //     navigate("/account");
-  //   } else {
-  //     alert("Invalid email or password!");
-  //   }
-  // };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputVal({ ...inputVal, [name]: value });
   };
 
+  // =========================COMMON=========================
   const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    mode === "auth" ? checkAuthorization() : console.log("this is login");
+    mode === "auth" ? checkAuthorization() : handleCheckedAmin();
   };
 
   const handleMode = () => {

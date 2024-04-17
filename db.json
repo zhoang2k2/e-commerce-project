@@ -21,21 +21,29 @@
       "address": "hai chau, da nang"
     },
     {
-      "id": "3538",
-      "fullname": "333",
-      "gender": "",
-      "email": "",
-      "password": "",
+      "id": "1111",
+      "fullname": "nguyen van hoang",
+      "gender": "male",
+      "email": "admin1@gmail.com",
+      "password": "123123",
+      "phone": "333",
+      "birthday": "",
+      "address": "hcm"
+    },
+    {
+      "id": "2222",
+      "fullname": "nguyen van hoang",
+      "gender": "male",
+      "email": "admin2@gmail.com",
+      "password": "123456",
       "phone": "",
       "birthday": "",
-      "address": ""
+      "address": "ha noi"
     }
   ],
-  "adminOnWork": {
-    "id": "",
-    "fullname": "",
-    "email": "",
-    "password": ""
+  "admin-on-work": {
+    "email": "nvhoang2012002@gmail.com",
+    "password": "123456"
   },
   "products": [
     {
@@ -234,8 +242,21 @@
       "status": "old"
     },
     {
-      "id": "3651",
-      "name": "52",
+      "id": "9629",
+      "name": "",
+      "price": "",
+      "quantity": "",
+      "image": "",
+      "catBreed": "444",
+      "age": "",
+      "color": "",
+      "rate": "3",
+      "sales": "",
+      "status": "old"
+    },
+    {
+      "id": "7120",
+      "name": "123",
       "price": "",
       "quantity": "",
       "image": "",

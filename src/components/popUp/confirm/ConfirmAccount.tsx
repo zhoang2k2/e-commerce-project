@@ -42,7 +42,6 @@ function ConfirmAccount({
   };
 
   const handleAcceptEdit = (selectedAccount: AccountType) => {
-    console.log("hello");
     if (selectedAccount) {
       dispatch(editAccount(selectedAccount))
         .then(() => {

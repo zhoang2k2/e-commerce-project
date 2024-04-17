@@ -9,6 +9,7 @@ import type { Product } from "../../../types/ProductType";
 import TitlePop from "../Title/TitlePop";
 import ConfirmPop from "../Confirm/ConfirmPop";
 import { createPortal } from "react-dom";
+import Loading from "../../Loading/Loading";
 
 type AddingPopProps = {
   initialState?: Product;
@@ -42,20 +43,31 @@ function AddingPop({
     status: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const [addState, setAddState] = useState(false);
   const handleAdd = async () => {
-    if (!addState && mode === "add") {
-      setAddState(true);
-      const randomID = Math.floor(Math.random() * 10000);
-      const updatedFields = { ...fields, id: randomID.toString() };
-      if (updatedFields.id !== "") {
-        await dispatch(addProduct(updatedFields));
-        onSubmitSuccess();
-        onCancle();
-        dispatch(fetchProducts());
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2400);
+
+    setTimeout(() => {
+      if (!addState && mode === "add") {
+        setAddState(true);
+        const randomID = Math.floor(Math.random() * 10000);
+        const updatedFields = { ...fields, id: randomID.toString() };
+        if (updatedFields.id !== "") {
+          dispatch(addProduct(updatedFields));
+          onSubmitSuccess();
+          onCancle();
+          dispatch(fetchProducts());
+        }
+        setAddState(false);
       }
-      setAddState(false);
-    } else if (mode === "edit") {
+    }, 2400);
+
+    if (mode === "edit") {
+      setLoading(false);
       setModalEditConfirm(true);
     }
   };
@@ -66,13 +78,6 @@ function AddingPop({
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
-
-  // const handleRandomID = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   const randomID = Math.floor(Math.random() * 10000);
-  //   fields.id = randomID.toString();
-  //   window.alert("Get ID successfully!");
-  // };
 
   useEffect(() => {
     if (initialState) {
@@ -88,22 +93,6 @@ function AddingPop({
         <div className="wrap-form">
           <div className="form">
             <form>
-              {/* <label htmlFor="id">
-                ID:
-                <input
-                  type="text"
-                  name="id"
-                  value={fields.id}
-                  onChange={handleChange}
-                  disabled
-                />
-                {mode === "add" && (
-                  <button className="id-random-btn" onClick={handleRandomID}>
-                    Get ID
-                  </button>
-                )}
-              </label> */}
-
               <label htmlFor="name">
                 Name:
                 <input
@@ -253,6 +242,8 @@ function AddingPop({
           />,
           document.body
         )}
+
+      {loading && createPortal(<Loading />, document.body)}
     </>
   );
 }

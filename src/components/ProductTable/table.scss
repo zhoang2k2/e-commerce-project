@@ -25,6 +25,7 @@
 
       &:hover + .sort-title {
         display: block;
+        transform: translate(50px, 50px);
       }
     }
 
@@ -36,10 +37,18 @@
         color: #fff;
       }
 
+      &:hover + .visible-title {
+        display: block;
+        transform: translate(150px, 50px);
+      }
+
       svg {
         font-size: 18px;
-        margin-right: 10px;
       }
+    }
+
+    .select-quantity {
+      margin-top: auto;
 
       select {
         color: #7631fe;
@@ -47,8 +56,8 @@
         text-align: left;
         width: 125px;
         height: 20px;
-        border: none;
         appearance: none;
+        border: none;
         font-size: 16px;
         background-color: transparent;
         cursor: pointer;
@@ -60,6 +69,14 @@
         option {
           color: #000;
         }
+      }
+      &::after {
+        content: "";
+        width: 100%;
+        height: 2px;
+        background-color: #7631fe;
+        border-radius: 50px;
+        display: block;
       }
     }
   }
