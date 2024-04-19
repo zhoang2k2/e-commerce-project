@@ -182,6 +182,7 @@ function ProductsTable() {
       </table>
 
       <Pagination
+        mode="full"
         totalPage={totalPage}
         onPageChange={handlePageChange}
         currentPage={currentPage}

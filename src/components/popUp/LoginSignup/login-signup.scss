@@ -3,20 +3,31 @@
 .form-container {
   position: fixed;
   top: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   box-shadow: 0 0 10px 0px #333333;
   background-color: transparent;
 
+  .login-form {
+    height: 350px;
+    opacity: 0.9;
+  }
+
+  .active {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
   form {
+    transition: 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
     width: 450px;
+    height: 500px;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-
+    transform: translate(-100%, -50%);
     background-color: #fff;
     box-shadow: 0 0 5px 1px #5a5a5a;
     border-radius: 10px;
@@ -39,9 +50,11 @@
     }
 
     h2 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
       text-align: center;
       font-size: 32px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
 
       &::after {
         content: "";
@@ -54,44 +67,94 @@
       }
     }
 
-    label {
-      font-size: 18px;
-      text-transform: capitalize;
-      font-weight: bold;
+    .stages {
       display: flex;
-      flex-direction: column;
+      gap: 50px;
+      justify-content: center;
+      margin-bottom: 20px;
       position: relative;
 
-      input,
-      select {
-        font-size: 18px;
-        margin: 5px 0 20px;
-        padding: 10px;
-        border-radius: 5px;
-
-        &:focus {
-          outline: 3px solid #7631fe;
-          border: transparent;
-        }
+      svg {
+        display: flex;
+        transform: translateX(-200%);
+        color: #7631fe;
+        font-size: 20px;
+        opacity: 0.25;
       }
 
-      button {
-        position: absolute;
-        right: 2%;
-        top: 40%;
-        border: none;
-        background-color: transparent;
+      .stage1,
+      .stage2,
+      .stage3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 26px;
+        height: 26px;
+        border: 3px solid #7631fe; /* Border mặc định */
+        border-radius: 100px; /* Độ cong tạo thành hình tròn */
+        background-color: #fff; /* Màu nền */
+        z-index: 2;
 
-        svg {
-          font-size: 16px;
-          cursor: pointer;
+        div {
+          width: 20px;
+          height: 20px;
+          border-radius: 100px;
+          position: absolute;
+          transition: 0.25s ease-in-out;
+        }
+      }
+    }
+
+    .active-stage {
+      background-color: #7631fe;
+    }
+
+    .active-svg {
+      opacity: 1 !important;
+    }
+
+    .form-content {
+      height: 255px;
+
+      label {
+        font-size: 18px;
+        text-transform: capitalize;
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        input,
+        select {
+          font-size: 18px;
+          margin: 5px 0 20px;
+          padding: 10px;
+          border-radius: 5px;
+
+          &:focus {
+            outline: 3px solid #7631fe;
+            border: transparent;
+          }
+        }
+
+        button {
+          position: absolute;
+          right: 2%;
+          top: 40%;
+          border: none;
+          background-color: transparent;
+
+          svg {
+            font-size: 16px;
+            cursor: pointer;
+          }
         }
       }
     }
 
     p {
       text-align: right;
-      margin-top: 5px;
+      margin-top: auto;
       font-size: 14px;
 
       a {
@@ -104,10 +167,41 @@
       }
     }
 
-    .submit-btn {
-      @include button(#7631fe, #fff);
-      margin: 30px 0 10px;
-      padding: 10px 0;
+    .form-btns {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: auto;
+
+      .submit-btn,
+      .next-btn,
+      .prev-btn {
+        width: 200px;
+        margin: 30px 0 10px;
+        padding: 10px 0;
+      }
+
+      .login-btn {
+        width: 100%;
+        margin: 30px 0 10px;
+        padding: 10px 0;
+      }
+
+      .submit-btn {
+        @include button(#09bc8a, #fff);
+      }
+
+      .next-btn,
+      .login-btn {
+        @include button(#7631fe, #fff);
+      }
+
+      .prev-btn {
+        @include button(#9562fa, #fff);
+        &:disabled {
+          cursor: alias;
+        }
+      }
     }
   }
 }

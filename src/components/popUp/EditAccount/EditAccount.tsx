@@ -64,7 +64,9 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
   const [modalEditConfirm, setModalEditConfirm] = useState(false);
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setModalEditConfirm(true);
+    newPassword === confirmPassword
+      ? setModalEditConfirm(true)
+      : window.alert("there is no match in your confirm password");
   };
 
   return (

@@ -1,5 +1,7 @@
+import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import NavbarRoutes from "../routes/NavbarRoutes";
+import "../components/Body/content-body.scss";
 
 function HomePage() {
   return (
@@ -10,6 +12,7 @@ function HomePage() {
           <NavbarRoutes />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

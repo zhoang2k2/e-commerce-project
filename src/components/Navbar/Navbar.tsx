@@ -3,7 +3,6 @@ import "./navbar.scss";
 import {
   faCartShopping,
   faGears,
-  faMagnifyingGlass,
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,27 +15,46 @@ import {
   fetchAuthAccount,
   selectAuthAccountState,
 } from "../../redux/reducer/AuthAccountSlides";
+import SignUp from "../popUp/LoginSignup/Signup";
 
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { currentAccount } = useSelector(selectAuthAccountState);
+  const history = useHistory();
 
-  const [adminLogin, setAdminLogin] = useState(false);
+  const [modal, setModal] = useState({
+    login: false,
+    signup: false,
+  });
   const handleFirstLogin = () => {
     if (currentAccount.email === "" || currentAccount.password === "") {
-      setAdminLogin(true);
+      setModal({ ...modal, login: true });
     } else {
       history.push("/admin");
     }
   };
 
   const handleCloseLogin = () => {
-    setAdminLogin(false);
+    setModal({ ...modal, login: false });
+  };
+  const handleCloseSignup = () => {
+    setModal({ ...modal, signup: false });
+  };
+
+  const handleSwitchToLogin = () => {
+    setModal({ ...modal, signup: false, login: true });
+  };
+  const handleSwitchToSingup = () => {
+    setModal({ ...modal, signup: true, login: false });
+  };
+  const handleRegisterSuccess = () => {
+    setTimeout(() => {
+      setModal({ ...modal, signup: false, login: true });
+    }, 250);
   };
 
   const [iconAfterLogin, setIconAfterLogin] = useState(false);
-  const history = useHistory();
   const handleForAdmin = () => {
     handleCloseLogin();
     history.push("/admin");
@@ -44,7 +62,7 @@ function Navbar() {
 
   useEffect(() => {
     dispatch(fetchAuthAccount());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (currentAccount.email !== "" && currentAccount.password !== "") {
@@ -70,9 +88,6 @@ function Navbar() {
             </div>
 
             <div className="nav-buttons">
-              <button className="search-btn">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </button>
               <button className="cart-btn">
                 <FontAwesomeIcon icon={faCartShopping} />
               </button>
@@ -83,19 +98,30 @@ function Navbar() {
                   <FontAwesomeIcon icon={faUserShield} />
                 )}
               </button>
+              <button>Login</button>
             </div>
           </div>
         </nav>
       </div>
 
-      {adminLogin &&
+      {modal.login &&
         createPortal(
           <Login
             mode="login"
             onCloseModal={handleCloseLogin}
-            onChangeMode={() => {}}
+            onChangeMode={handleSwitchToSingup}
             authChecked={handleForAdmin}
             selectedAccount={{ id: "", email: "", password: "" }}
+          />,
+          document.body
+        )}
+
+      {modal.signup &&
+        createPortal(
+          <SignUp
+            onChangeMode={handleSwitchToLogin}
+            onSubmitSuccess={handleRegisterSuccess}
+            onCloseModal={handleCloseSignup}
           />,
           document.body
         )}

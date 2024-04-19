@@ -1,11 +1,13 @@
 .feedback-container {
+  padding: 50px 0 75px;
+
   h2 {
     text-align: center;
     font-weight: bold;
     font-size: 32px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin: 30px 0 40px;
+    padding-bottom: 65px;
   }
 
   .customer-feedback {
@@ -22,6 +24,7 @@
       background-color: #fff;
       border: none;
       border-radius: 25px;
+      border-top-right-radius: 0;
       box-shadow: 0 0 10px 0px #9c9c9c;
       display: flex;
       flex-direction: row;
@@ -67,12 +70,12 @@
 
         svg {
           color: #000;
-          opacity: 0.25;
+          opacity: 0.1;
           position: absolute;
-          font-size: 48px;
+          font-size: 52px;
           right: 0;
           top: 0;
-          transform: translate(15px, -20px);
+          transform: translate(22px, -30px);
           transition: 0.25s ease-out;
           z-index: 1;
         }

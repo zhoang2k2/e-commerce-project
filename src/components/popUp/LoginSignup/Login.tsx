@@ -33,7 +33,7 @@ function Login({
 
   useEffect(() => {
     dispatch(fetchAccounts());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (accounts && accounts.length > 0) {
@@ -103,46 +103,54 @@ function Login({
     onChangeMode();
   };
 
+  const [showForm, setShowForm] = useState(false);
+  useEffect(() => {
+    setShowForm(true);
+  }, []);
+
   return (
     <div className="form-container">
-      <form>
+      <form className={showForm ? "login-form active" : "login-form"}>
         <FontAwesomeIcon
           className="close-icon"
           icon={faXmark}
           onClick={onCloseModal}
         />
         <h2>Login</h2>
-        <label htmlFor="email">
-          Email:
-          <input
-            name="email"
-            type="email"
-            placeholder="Enter Email"
-            onChange={handleChange}
-            value={inputVal.email}
-          />
-        </label>
+        <div className="form-content">
+          <label htmlFor="email">
+            Email:
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter Email"
+              onChange={handleChange}
+              value={inputVal.email}
+            />
+          </label>
 
-        <label htmlFor="password">
-          Password:
-          <input
-            name="password"
-            type="password"
-            placeholder="Enter Password"
-            onChange={handleChange}
-            value={inputVal.password}
-          />
-        </label>
+          <label htmlFor="password">
+            Password:
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter Password"
+              onChange={handleChange}
+              value={inputVal.password}
+            />
+          </label>
+        </div>
 
         {mode === "login" && (
           <p>
             Not having any accounts yet? <a onClick={handleMode}>Register</a>
           </p>
         )}
-
-        <button className="submit-btn" onClick={handleLogin}>
-          login
-        </button>
+        <div className="form-btns">
+          <button className="login-btn" onClick={handleLogin}>
+            login
+          </button>
+        </div>
       </form>
     </div>
   );

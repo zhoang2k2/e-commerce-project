@@ -13,8 +13,6 @@ import AccountTbody from "./AccountTbody";
 function AdminAccounts() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-
-  // const [fields, setFields] = useState<AccountType[]>([]);
   const [showPopup, setShowPopup] = useState({
     auth: false,
     login: false,
@@ -26,7 +24,7 @@ function AdminAccounts() {
   const [reset, setReset] = useState(1);
   useEffect(() => {
     dispatch(fetchAccounts());
-  }, [reset]);
+  }, [reset, dispatch]);
 
   const handleAddAccount = () => {
     setShowPopup({ ...showPopup, signup: true });

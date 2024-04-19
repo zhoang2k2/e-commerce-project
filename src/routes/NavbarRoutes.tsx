@@ -1,13 +1,14 @@
 import { Route, Switch } from "react-router-dom";
 import Shop from "../components/Shop/Shop";
-import Home from "../components/Home/Home";
+
+import DefaultHome from "../components/DefaultHome/DefaultHome";
 
 function NavbarRoutes() {
   return (
     <>
       <Switch>
-        <Route exact path={"/"} component={Home} />
-        <Route exact path={"/homepage"} component={Home} />
+        <Route exact path={"/"} component={DefaultHome} />
+        <Route exact path={"/homepage"} component={DefaultHome} />
         <Route exact path={"/shop"} component={Shop} />
       </Switch>
     </>
