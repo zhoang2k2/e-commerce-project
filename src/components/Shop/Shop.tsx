@@ -95,7 +95,7 @@ function Shop() {
 
   useEffect(() => {
     window.scrollTo({
-      top: 650,
+      top: 1050,
       behavior: "smooth",
     });
   }, [currentPage]);

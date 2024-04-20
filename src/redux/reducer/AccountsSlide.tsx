@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
-import type { AccountState, AccountType} from "../../types/AccountType";
+import type { AccountEditedType, AccountState, AccountType} from "../../types/AccountType";
 
 
 const initialState: AccountState = {
@@ -51,7 +51,7 @@ export const deleteAccount = createAsyncThunk(
 
 export const editAccount = createAsyncThunk(
   "accounts/edit",
-  async (account: AccountType) => {
+  async (account: AccountEditedType) => {
     try {
       if (!account.id) {
         throw new Error("Invalid account ID");

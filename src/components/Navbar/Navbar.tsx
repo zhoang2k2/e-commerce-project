@@ -122,7 +122,6 @@ function Navbar() {
             onCloseModal={handleCloseLogin}
             onChangeMode={handleSwitchToSingup}
             authChecked={handleForAdmin}
-            selectedAccount={{ id: "", email: "", password: "" }}
           />,
           document.body
         )}

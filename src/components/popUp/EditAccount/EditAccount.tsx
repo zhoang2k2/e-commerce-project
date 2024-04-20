@@ -1,186 +1,143 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./editAccount.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import type { AccountType } from "../../../types/AccountType";
+import type { AccountEditedType } from "../../../types/AccountType";
 import ConfirmAccount from "../Confirm/ConfirmAccount";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 type EditAccountProps = {
-  initialFields: AccountType | undefined;
+  initialFields: AccountEditedType;
   onClose: () => void;
 };
 
 function EditAccount({ onClose, initialFields }: EditAccountProps) {
-  const [visibleInputPassword, setVisibleInputPassword] = useState(true);
-  const handleChangePass = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setVisibleInputPassword(!visibleInputPassword);
-  };
-
   const handleCloseModal = () => {
     onClose();
   };
 
-  const [inputVal, setInputVal] = useState({
-    fullname: "",
-    gender: "",
-    email: "",
-    password: "",
-    birthday: "",
-    phone: "",
-    address: "",
-  });
-
-  useEffect(() => {
-    initialFields && setInputVal(initialFields);
-  }, [initialFields]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputVal((prevInputVal) => ({
-      ...prevInputVal,
-      [name]: value,
-    }));
-  };
-
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-  };
-
-  const [newPassword, setNewPassword] = useState("");
-  const handleNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
-  };
-
-  const inputValWithNewPassword = {
-    ...inputVal,
-    password:
-      newPassword === confirmPassword && newPassword !== ""
-        ? newPassword
-        : inputVal.password,
-  };
-
   const [modalEditConfirm, setModalEditConfirm] = useState(false);
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    newPassword === confirmPassword
-      ? setModalEditConfirm(true)
-      : window.alert("there is no match in your confirm password");
-  };
+
+  const formik = useFormik({
+    initialValues: {
+      id: initialFields && initialFields.id,
+      fullname: initialFields && initialFields.fullname,
+      password: initialFields && initialFields.password,
+      email: initialFields && initialFields.email,
+      gender: initialFields && initialFields.gender,
+      phone: initialFields && initialFields.phone,
+      birthday: initialFields && initialFields.birthday,
+      address: initialFields && initialFields.address,
+    },
+    validationSchema: Yup.object({
+      fullname: Yup.string()
+        .min(2, "at least 2 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      gender: Yup.string().required("Required"),
+
+      phone: Yup.string()
+        .min(10, "at least 10 characters")
+        .max(12, "less than 12 characters")
+        .required("required"),
+
+      birthday: Yup.date().required("Required"),
+
+      address: Yup.string().required("Required"),
+    }),
+    onSubmit: () => {
+      setModalEditConfirm(true);
+    },
+  });
 
   return (
     <>
       <div className="edit-admin-container">
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <FontAwesomeIcon
             icon={faXmark}
             className="close-icon"
             onClick={handleCloseModal}
           />
           <h2>
-            Editing: <span>123@gmail.com</span>
+            Editing: <span>{formik.values.email}</span>
           </h2>
           <div className="form-content">
             <div className="edit-information">
               <label htmlFor="fullname">
-                fullname:
+                fullname:{" "}
+                {formik.touched.fullname && formik.errors.fullname ? (
+                  <div className="error">{formik.errors.fullname}</div>
+                ) : null}
                 <input
                   name="fullname"
                   type="text"
                   placeholder="Enter admin's name..."
-                  value={inputVal.fullname}
-                  onChange={handleChange}
+                  value={formik.values.fullname}
+                  onChange={formik.handleChange}
                 />
               </label>
 
               <label htmlFor="phone">
-                phone:
+                phone:{" "}
+                {formik.touched.phone && formik.errors.phone ? (
+                  <div className="error">{formik.errors.phone}</div>
+                ) : null}
                 <input
                   name="phone"
-                  type="number"
-                  placeholder="Enter phone number..."
-                  value={inputVal.phone}
-                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter your phone number..."
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
                 />
               </label>
 
+              <label htmlFor="gender">
+                Gender:{" "}
+                {formik.touched.gender && formik.errors.gender ? (
+                  <div className="error">{formik.errors.gender}</div>
+                ) : null}
+                <select
+                  name="gender"
+                  value={formik.values.gender}
+                  onChange={formik.handleChange}
+                >
+                  <option value="prefer not to say">Prefer not to say</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </label>
+
               <label htmlFor="birthday">
-                birthday:
+                birthday:{" "}
+                {formik.touched.birthday && formik.errors.birthday ? (
+                  <div className="error">{formik.errors.birthday}</div>
+                ) : null}
                 <input
                   name="birthday"
                   type="date"
-                  value={inputVal.birthday}
-                  onChange={handleChange}
+                  value={formik.values.birthday}
+                  onChange={formik.handleChange}
                 />
               </label>
 
               <label htmlFor="address">
-                address:
+                address:{" "}
+                {formik.touched.address && formik.errors.address ? (
+                  <div className="error">{formik.errors.address}</div>
+                ) : null}
                 <input
                   name="address"
                   type="text"
                   placeholder="Enter address..."
-                  value={inputVal.address}
-                  onChange={handleChange}
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
                 />
               </label>
-            </div>
 
-            <div className="edit-login">
-              <div className="change-password-container">
-                {visibleInputPassword ? (
-                  <>
-                    <button
-                      className="change-password-btn"
-                      onClick={handleChangePass}
-                    >
-                      Keep the previous password...
-                    </button>
-
-                    <label htmlFor="old password">
-                      old password:
-                      <input
-                        name="old password"
-                        type="text"
-                        placeholder={inputVal.password}
-                        disabled
-                      />
-                    </label>
-
-                    <label htmlFor="new password">
-                      new password:
-                      <input
-                        name="new password"
-                        type="password"
-                        placeholder="Enter new password..."
-                        value={newPassword}
-                        onChange={handleNewPassword}
-                      />
-                    </label>
-
-                    <label htmlFor="confirm new password">
-                      confirm new password:
-                      <input
-                        name="confirm-password"
-                        type="password"
-                        placeholder="Confirm new password..."
-                        value={confirmPassword}
-                        onChange={handleConfirmPassword}
-                      />
-                    </label>
-                  </>
-                ) : (
-                  <button
-                    className="change-password-btn"
-                    onClick={handleChangePass}
-                  >
-                    Change my password
-                  </button>
-                )}
-              </div>
-
-              <button className="save-btn" onClick={handleEdit}>
+              <button className="save-btn" type="submit">
                 Save
               </button>
             </div>
@@ -193,7 +150,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
           mode="edit"
           onCancle={() => setModalEditConfirm(false)}
           onSubmitSuccess={() => onClose()}
-          selectedAccount={inputValWithNewPassword}
+          selectedAccount={formik.values}
         />
       )}
     </>

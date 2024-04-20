@@ -35,7 +35,7 @@ function DefaultHome() {
   // ========================NEW PRODUCT========================
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   const onlyNewProduct: Product[] = products.filter(
     (product) => product.status.toLocaleLowerCase() === "new"

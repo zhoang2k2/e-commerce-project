@@ -38,10 +38,10 @@ function AccountTbody() {
 
   const [authenticatedRow, setAuthenticatedRow] = useState<string>("");
   const [authForSetting, setAuthForSetting] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState<AccountAuth>();
+
   const handleAuthorization = (account: AccountAuth) => {
     setAuthenticatedRow(account.id ?? "");
-    setSelectedAccount(account);
+   
     setShowPopup({ ...showPopup, auth: true });
   };
 
@@ -140,9 +140,6 @@ function AccountTbody() {
             extraMode="on-admin"
             onCloseModal={handleCloseAuth}
             onChangeMode={() => {}}
-            selectedAccount={
-              selectedAccount ?? { id: "", email: "", password: "" }
-            }
             authChecked={() => {
               handleCloseAuth;
               setAuthForSetting(true);

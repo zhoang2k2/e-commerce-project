@@ -13,9 +13,9 @@
   "accounts": [
     {
       "id": "7890",
-      "fullname": "Nguyen Van Hoang",
-      "email": "nvhoang2012002@gmail.com",
+      "fullname": "Hoang Nguyen",
       "password": "Hoang201",
+      "email": "nvhoang2012002@gmail.com",
       "gender": "male",
       "phone": "0905734471",
       "birthday": "2002-01-20",
@@ -40,17 +40,6 @@
       "confirmPassword": "Hoang201",
       "phone": "0905111111",
       "birthday": "2002-02-20",
-      "address": "da nang"
-    },
-    {
-      "id": "5766",
-      "fullname": "admin3",
-      "email": "admin3@gmail.com",
-      "gender": "male",
-      "password": "Hoang201",
-      "confirmPassword": "Hoang201",
-      "phone": "0905777777",
-      "birthday": "1111-11-11",
       "address": "da nang"
     }
   ],
