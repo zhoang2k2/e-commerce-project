@@ -2,7 +2,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
-import type { AccountState, AccountType } from "../../types/AccountType";
+import type { AccountState, AccountType} from "../../types/AccountType";
+
 
 const initialState: AccountState = {
   accounts: [],

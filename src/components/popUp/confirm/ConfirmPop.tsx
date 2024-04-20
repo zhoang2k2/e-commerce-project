@@ -8,7 +8,6 @@ import {
 } from "../../../redux/reducer/ProductsSlide";
 import type { Product } from "../../../types/ProductType";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import Loading from "../../Loading/Loading";
 
 interface ConfirmPopProps {
@@ -99,7 +98,7 @@ function ConfirmPop({
           </div>
           <div className="footer">
             <button className="confirm-btn" onClick={handleClick}>
-              Accept
+              {loading ? <Loading /> : <>Accept</>}
             </button>
             <button className="deny-btn" onClick={onCancle}>
               Cancle
@@ -107,8 +106,6 @@ function ConfirmPop({
           </div>
         </div>
       </div>
-
-      {loading && createPortal(<Loading />, document.body)}
     </>
   );
 }

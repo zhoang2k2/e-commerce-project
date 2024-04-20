@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch } from "react-redux";
 import "./confirmPop.scss";
-import type { AccountType } from "../../../types/AccountType";
 import {
   deleteAccount,
   editAccount,
   fetchAccounts,
 } from "../../../redux/reducer/AccountsSlide";
+import type { AccountType,  } from "../../../types/AccountType";
+
+
 
 type ConfirmmAccount = {
   onCancle: () => void;

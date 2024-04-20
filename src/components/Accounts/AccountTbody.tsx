@@ -137,6 +137,7 @@ function AccountTbody() {
         createPortal(
           <Login
             mode="auth"
+            extraMode="on-admin"
             onCloseModal={handleCloseAuth}
             onChangeMode={() => {}}
             selectedAccount={
@@ -164,7 +165,18 @@ function AccountTbody() {
       {showPopup.edit &&
         createPortal(
           <EditAccount
-            initialFields={initialFields}
+            initialFields={
+              initialFields ?? {
+                id: "",
+                fullname: "",
+                email: "",
+                password: "",
+                gender: "",
+                phone: "",
+                birthday: "",
+                address: "",
+              }
+            }
             onClose={handleCloseEdit}
           />,
           document.body

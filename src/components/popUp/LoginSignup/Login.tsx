@@ -9,6 +9,8 @@ import {
   selectAccountState,
 } from "../../../redux/reducer/AccountsSlide";
 import { addAuthAccount } from "../../../redux/reducer/AuthAccountSlides";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 type LoginProps = {
   onCloseModal: () => void;
@@ -16,6 +18,7 @@ type LoginProps = {
   authChecked: () => void;
   selectedAccount: AccountAuth;
   mode: "login" | "auth";
+  extraMode: "on-admin" | "off-admin";
 };
 
 function Login({
@@ -24,6 +27,7 @@ function Login({
   selectedAccount,
   authChecked,
   mode,
+  extraMode,
 }: LoginProps) {
   // ==========================LOGIN PART==========================
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,62 +45,30 @@ function Login({
     }
   }, [accounts]);
 
-  const handleCheckedAmin = () => {
-    let found = false;
-    for (let i = 0; i <= accountList.length - 1; i++) {
-      const checkAccountByIndex = accountList[i];
-      if (inputVal.email === checkAccountByIndex.email) {
-        if (inputVal.password === checkAccountByIndex.password) {
-          found = true;
-          onCloseModal();
-          authChecked();
-          dispatch(addAuthAccount(inputVal));
-          window.alert(`${checkAccountByIndex.email} login successfully`);
-          return;
-        } else {
-          window.alert("wrong password!");
-          return;
-        }
-      }
-    }
-    if (!found) {
-      window.alert("wrong email!");
-    }
-  };
-
-  // ==========================AUTH PART==========================
-  const [inputVal, setInputVal] = useState({
-    email: "",
-    password: "",
-  });
-
   const [inputAuth] = useState<AccountAuth>({
     email: selectedAccount.email,
     password: selectedAccount.password,
   });
 
   const checkAuthorization = () => {
-    if (inputVal.email === inputAuth.email) {
-      if (inputVal.password === inputAuth.password) {
-        authChecked();
-        onCloseModal();
+    if (formik.values.email && formik.values.password) {
+      if (formik.values.email === inputAuth.email) {
+        if (formik.values.password === inputAuth.password) {
+          authChecked();
+          onCloseModal();
+        } else {
+          window.alert("Wrong password!");
+        }
       } else {
-        window.alert("Wrong password!");
+        window.alert("Wrong email!");
       }
-    } else {
-      window.alert("Wrong email!");
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputVal({ ...inputVal, [name]: value });
   };
 
   // =========================COMMON=========================
   const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    mode === "auth" ? checkAuthorization() : handleCheckedAmin();
+    mode === "auth" ? checkAuthorization() : formik.handleSubmit();
   };
 
   const handleMode = () => {
@@ -108,9 +80,54 @@ function Login({
     setShowForm(true);
   }, []);
 
+  // =======================VALIDATE=======================
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .min(2, "at least 2 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      password: Yup.string()
+        .min(6, "at least 6 characters")
+        .max(20, "less than 20 characters")
+        .required("required"),
+    }),
+    onSubmit: async (value) => {
+      let found = false;
+      for (let i = 0; i <= accountList.length - 1; i++) {
+        const checkAccountByIndex = accountList[i];
+        if (value.email === checkAccountByIndex.email) {
+          if (value.password === checkAccountByIndex.password) {
+            found = true;
+            onCloseModal();
+            authChecked();
+            dispatch(addAuthAccount(value));
+            window.alert(`${checkAccountByIndex.email} login successfully`);
+            return;
+          } else {
+            window.alert("wrong password!");
+            return;
+          }
+        }
+      }
+      if (!found) {
+        window.alert("wrong email!");
+      }
+    },
+  });
+
   return (
     <div className="form-container">
-      <form className={showForm ? "login-form active" : "login-form"}>
+      <form
+        className={showForm ? "login-form active" : "login-form"}
+        onSubmit={formik.handleSubmit}
+      >
         <FontAwesomeIcon
           className="close-icon"
           icon={faXmark}
@@ -119,36 +136,47 @@ function Login({
         <h2>Login</h2>
         <div className="form-content">
           <label htmlFor="email">
-            Email:
+            Email:{" "}
+            {formik.touched.email && formik.errors.email ? (
+              <div className="error">{formik.errors.email}</div>
+            ) : null}
             <input
               name="email"
               type="email"
               placeholder="Enter Email"
-              onChange={handleChange}
-              value={inputVal.email}
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
           </label>
 
           <label htmlFor="password">
-            Password:
+            Password:{" "}
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error">{formik.errors.password}</div>
+            ) : null}
             <input
               name="password"
               type="password"
               placeholder="Enter Password"
-              onChange={handleChange}
-              value={inputVal.password}
+              onChange={formik.handleChange}
+              value={formik.values.password}
             />
           </label>
         </div>
 
-        {mode === "login" && (
+        {mode === "login" && extraMode === "off-admin" && (
           <p>
-            Not having any accounts yet? <a onClick={handleMode}>Register</a>
+            Not having accounts? <a onClick={handleMode}>Register here</a>
+          </p>
+        )}
+        {mode === "auth" && extraMode === "on-admin" && (
+          <p>
+            For got password? <a>Click here</a>
           </p>
         )}
         <div className="form-btns">
-          <button className="login-btn" onClick={handleLogin}>
-            login
+          <button className="login-btn" onClick={handleLogin} type="submit">
+            Login
           </button>
         </div>
       </form>

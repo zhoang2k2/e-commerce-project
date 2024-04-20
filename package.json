@@ -19,6 +19,7 @@
     "@kinde-oss/kinde-auth-react": "^3.0.28",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.7",
+    "formik": "^2.4.5",
     "json-server": "^1.0.0-alpha.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +28,8 @@
     "react-sticky-box": "^2.0.5",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.5",

@@ -6,7 +6,6 @@ import {
 } from "../../../redux/reducer/ProductsSlide";
 import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../../types/ProductType";
-import TitlePop from "../Title/TitlePop";
 import ConfirmPop from "../Confirm/ConfirmPop";
 import { createPortal } from "react-dom";
 import Loading from "../../Loading/Loading";
@@ -193,7 +192,6 @@ function AddingPop({
                   Image:
                 </a>
                 {/* CSS HOVER */}
-                <TitlePop title="Image Source" className="image-source-title" />
                 <input
                   className="product-image"
                   type="text"
@@ -220,7 +218,7 @@ function AddingPop({
 
             <section>
               <button className="save-btn" onClick={handleAdd}>
-                Save
+                {loading ? <Loading /> : <>Save</>}
               </button>
               <button className="cancle-btn" onClick={onCancle}>
                 Cancle
@@ -242,8 +240,6 @@ function AddingPop({
           />,
           document.body
         )}
-
-      {loading && createPortal(<Loading />, document.body)}
     </>
   );
 }

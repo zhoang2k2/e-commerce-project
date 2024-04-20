@@ -9,60 +9,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { addAccount } from "../../../redux/reducer/AccountsSlide";
 import { useDispatch } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Loading from "../../Loading/Loading";
 
 type SignupProps = {
+  mode: "on-admin" | "off-admin";
   onCloseModal: () => void;
   onChangeMode: () => void;
   onSubmitSuccess: () => void;
 };
 
-function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [inputVal, setInputVal] = useState({
-    id: "",
-    fullname: "",
-    gender: "",
-    email: "",
-    password: "",
-    phone: "",
-    birthday: "",
-    address: "",
-  });
-
+function SignUp({
+  mode,
+  onCloseModal,
+  onChangeMode,
+  onSubmitSuccess,
+}: SignupProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-
-  const [registerState, setRegisterState] = useState(false);
-  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!registerState) {
-      if (confirmPassword === inputVal.password) {
-        const randomID = Math.floor(Math.random() * 10000);
-        const updatedVal = { ...inputVal, id: randomID.toString() };
-        if (updatedVal.id !== "") {
-          await dispatch(addAccount(updatedVal));
-          alert("Register Sucessfully");
-          onSubmitSuccess();
-          onCloseModal();
-        }
-      }
-      setRegisterState(false);
-    } else {
-      window.alert("Your confirmation is different from password!!");
-    }
-  };
-
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setInputVal({ ...inputVal, [name]: value });
-  };
+  // const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
+    formik.setFieldValue("confirmPassword", e.target.value);
   };
 
   const handleMode = () => {
@@ -90,9 +59,76 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
     setShowForm(true);
   }, []);
 
+  //====================== VALIDATION======================
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      fullname: "",
+      email: "",
+      gender: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+      birthday: "",
+      address: "",
+    },
+    validationSchema: Yup.object({
+      fullname: Yup.string()
+        .min(2, "at least 2 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      email: Yup.string()
+        .email("Invalid email address")
+        .min(2, "at least 2 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      gender: Yup.string().required("Required"),
+
+      password: Yup.string()
+        .matches(
+          /^(?=.*[A-Z])(?=.*[0-9])/,
+          "must contain at least 1 uppercase letter and 1 number"
+        )
+        .min(6, "at least 6 characters")
+        .max(20, "less than 20 characters")
+        .required("required"),
+
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Passwords must match")
+        .required("Please confirm related to your password"),
+
+      phone: Yup.string()
+        .min(10, "at least 10 characters")
+        .max(12, "less than 12 characters")
+        .required("required"),
+
+      birthday: Yup.date().required("Required"),
+
+      address: Yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2400);
+
+      setTimeout(() => {
+        const randomID = Math.floor(Math.random() * 10000);
+        const updatedVal = { ...values, id: randomID.toString() };
+        dispatch(addAccount(updatedVal));
+        alert("Register Successfully");
+        onSubmitSuccess();
+        onCloseModal();
+      }, 2400);
+    },
+  });
+
   return (
     <div className="form-container">
-      <form className={showForm ? "active" : ""}>
+      <form className={showForm ? "active" : ""} onSubmit={formik.handleSubmit}>
         <FontAwesomeIcon
           className="close-icon"
           icon={faXmark}
@@ -127,35 +163,44 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
         {signupStages === 1 && (
           <div className="form-content">
             <label htmlFor="fullname">
-              fullname
+              fullname:{" "}
+              {formik.touched.fullname && formik.errors.fullname ? (
+                <div className="error">{formik.errors.fullname}</div>
+              ) : null}
               <input
                 name="fullname"
                 type="text"
                 placeholder="Enter fullname..."
-                value={inputVal.fullname}
-                onChange={handleChange}
+                value={formik.values.fullname}
+                onChange={formik.handleChange}
               />
             </label>
 
             <label htmlFor="email">
-              email:
+              email:{" "}
+              {formik.touched.email && formik.errors.email ? (
+                <div className="error">{formik.errors.email}</div>
+              ) : null}
               <input
                 name="email"
                 type="email"
                 placeholder="Enter email..."
-                value={inputVal.email}
-                onChange={handleChange}
+                value={formik.values.email}
+                onChange={formik.handleChange}
               />
             </label>
 
             <label htmlFor="phone">
-              phone:
+              phone:{" "}
+              {formik.touched.phone && formik.errors.phone ? (
+                <div className="error">{formik.errors.phone}</div>
+              ) : null}
               <input
                 name="phone"
-                type="number"
-                placeholder="Enter phonenumber..."
-                value={inputVal.phone}
-                onChange={handleChange}
+                type="text"
+                placeholder="Enter your phone number..."
+                value={formik.values.phone}
+                onChange={formik.handleChange}
               />
             </label>
           </div>
@@ -164,11 +209,14 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
         {signupStages === 2 && (
           <div className="form-content">
             <label htmlFor="gender">
-              Gender
+              Gender:{" "}
+              {formik.touched.gender && formik.errors.gender ? (
+                <div className="error">{formik.errors.gender}</div>
+              ) : null}
               <select
                 name="gender"
-                value={inputVal.gender}
-                onChange={handleChange}
+                value={formik.values.gender}
+                onChange={formik.handleChange}
               >
                 <option value="prefer not to say">Prefer not to say</option>
                 <option value="male">Male</option>
@@ -177,23 +225,29 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
             </label>
 
             <label htmlFor="birthday">
-              birthday:
+              birthday:{" "}
+              {formik.touched.birthday && formik.errors.birthday ? (
+                <div className="error">{formik.errors.birthday}</div>
+              ) : null}
               <input
                 name="birthday"
                 type="date"
-                value={inputVal.birthday}
-                onChange={handleChange}
+                value={formik.values.birthday}
+                onChange={formik.handleChange}
               />
             </label>
 
             <label htmlFor="address">
-              address:
+              address:{" "}
+              {formik.touched.address && formik.errors.address ? (
+                <div className="error">{formik.errors.address}</div>
+              ) : null}
               <input
                 name="address"
                 type="text"
                 placeholder="Enter address..."
-                value={inputVal.address}
-                onChange={handleChange}
+                value={formik.values.address}
+                onChange={formik.handleChange}
               />
             </label>
           </div>
@@ -207,9 +261,12 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
                 name="password"
                 type={visiblePassword ? "text" : "password"}
                 placeholder="Enter password..."
-                value={inputVal.password}
-                onChange={handleChange}
+                value={formik.values.password}
+                onChange={formik.handleChange}
               />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error">{formik.errors.password}</div>
+              ) : null}
               <button onClick={handleVisiblePassword}>
                 {visiblePassword ? (
                   <FontAwesomeIcon icon={faEyeSlash} />
@@ -220,36 +277,54 @@ function SignUp({ onCloseModal, onChangeMode, onSubmitSuccess }: SignupProps) {
             </label>
 
             <label htmlFor="confirm-password">
-              confirm password:
+              confirm:
               <input
                 name="confirm-password"
                 type="password"
                 placeholder="Confirm password..."
-                value={confirmPassword}
+                value={formik.values.confirmPassword}
                 onChange={handleConfirmPassword}
               />
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="error">{formik.errors.confirmPassword}</div>
+              ) : null}
             </label>
           </div>
         )}
 
-        <p>
-          Already have account? <a onClick={handleMode}>login here</a>
-        </p>
+        {mode === "off-admin" && (
+          <p>
+            Already have account? <a onClick={handleMode}>login here</a>
+          </p>
+        )}
         {signupStages === 3 ? (
           <div className="form-btns">
-            <button className="prev-btn" onClick={handlePrevStage}>
+            <button
+              className="prev-btn"
+              onClick={handlePrevStage}
+              type="submit"
+            >
               Move back
             </button>
-            <button onClick={handleRegister} className="submit-btn">
-              register
+            <button className="submit-btn" type="submit">
+            {loading ? <Loading /> : <>Register</>}
             </button>
           </div>
         ) : (
           <div className="form-btns">
-            <button className="prev-btn" onClick={handlePrevStage}>
+            <button
+              className="prev-btn"
+              onClick={handlePrevStage}
+              type="submit"
+            >
               Move back
             </button>
-            <button className="next-btn" onClick={handleNextStage}>
+            <button
+              className="next-btn"
+              onClick={handleNextStage}
+              type="submit"
+            >
               Forward
             </button>
           </div>

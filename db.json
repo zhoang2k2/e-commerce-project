@@ -1,4 +1,22 @@
 {
+  "add-to-cart": [
+    {
+      "id": "717b",
+      "productID": "1000"
+    },
+    {
+      "id": "a37d",
+      "productID": "999"
+    },
+    {
+      "id": "c88a",
+      "productID": "9203"
+    },
+    {
+      "id": "f664",
+      "productID": "123"
+    }
+  ],
   "carouselImages": [
     {
       "id": "1",
@@ -12,58 +30,50 @@
   "accounts": [
     {
       "id": "7890",
-      "fullname": "nguyen van hoang",
-      "gender": "male",
+      "fullname": "Nguyen Van Hoang",
       "email": "nvhoang2012002@gmail.com",
-      "password": "123456",
+      "password": "Hoang201",
+      "gender": "male",
       "phone": "0905734471",
       "birthday": "2002-01-20",
       "address": "hai chau, da nang"
     },
     {
-      "id": "1111",
-      "fullname": "nguyen van hoang",
-      "gender": "male",
+      "id": "3893",
+      "fullname": "admin1 change test",
       "email": "admin1@gmail.com",
-      "password": "1",
-      "phone": "333",
-      "birthday": "",
-      "address": "hcm"
+      "password": "Hoang201",
+      "gender": "male",
+      "phone": "0905000000",
+      "birthday": "2000-01-20",
+      "address": "hai chau, da nang"
     },
     {
-      "id": "2222",
-      "fullname": "nguyen van hoang",
-      "gender": "male",
+      "id": "5173",
+      "fullname": "Admin2",
       "email": "admin2@gmail.com",
-      "password": "123456",
-      "phone": "",
-      "birthday": "",
-      "address": "ha noi"
-    },
-    {
-      "id": "7628",
-      "fullname": "testing",
-      "gender": "male",
-      "email": "testing@gmail.com",
-      "password": "123123",
-      "phone": "123123123",
-      "birthday": "2000-01-01",
+      "gender": "female",
+      "password": "Hoang201",
+      "confirmPassword": "Hoang201",
+      "phone": "0905111111",
+      "birthday": "2002-02-20",
       "address": "da nang"
     },
     {
-      "id": "2252",
-      "fullname": "",
-      "gender": "",
-      "email": "",
-      "password": "",
-      "phone": "",
-      "birthday": "",
-      "address": ""
+      "id": "5766",
+      "fullname": "admin3",
+      "email": "admin3@gmail.com",
+      "gender": "male",
+      "password": "Hoang201",
+      "confirmPassword": "Hoang201",
+      "phone": "0905777777",
+      "birthday": "1111-11-11",
+      "address": "da nang"
     }
   ],
   "admin-on-work": {
     "email": "nvhoang2012002@gmail.com",
-    "password": "123456"
+    "password": "Hoang201"
   },
   "products": [
     {

@@ -16,6 +16,7 @@ import {
   selectAuthAccountState,
 } from "../../redux/reducer/AuthAccountSlides";
 import SignUp from "../popUp/LoginSignup/Signup";
+import CustomerInfo from "../popUp/Customer/Customer";
 
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,6 +73,16 @@ function Navbar() {
     }
   }, [currentAccount]);
 
+  // ============================ADDING TO CART============================
+  const [addToCart, setAddToCart] = useState(false);
+  const handleAddToCart = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    setAddToCart(true);
+  };
+  const handleCloseAddToCart = () => {
+    setAddToCart(false);
+  };
+
   return (
     <>
       <div className="navbar-container">
@@ -88,7 +99,7 @@ function Navbar() {
             </div>
 
             <div className="nav-buttons">
-              <button className="cart-btn">
+              <button className="cart-btn" onClick={handleAddToCart}>
                 <FontAwesomeIcon icon={faCartShopping} />
               </button>
               <button className="admin-btn" onClick={handleFirstLogin}>
@@ -98,7 +109,6 @@ function Navbar() {
                   <FontAwesomeIcon icon={faUserShield} />
                 )}
               </button>
-              <button>Login</button>
             </div>
           </div>
         </nav>
@@ -108,6 +118,7 @@ function Navbar() {
         createPortal(
           <Login
             mode="login"
+            extraMode="off-admin"
             onCloseModal={handleCloseLogin}
             onChangeMode={handleSwitchToSingup}
             authChecked={handleForAdmin}
@@ -119,10 +130,17 @@ function Navbar() {
       {modal.signup &&
         createPortal(
           <SignUp
+            mode="off-admin"
             onChangeMode={handleSwitchToLogin}
             onSubmitSuccess={handleRegisterSuccess}
             onCloseModal={handleCloseSignup}
           />,
+          document.body
+        )}
+
+      {addToCart &&
+        createPortal(
+          <CustomerInfo onClose={handleCloseAddToCart} />,
           document.body
         )}
     </>

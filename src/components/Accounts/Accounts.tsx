@@ -4,7 +4,7 @@ import { fetchAccounts } from "../../redux/reducer/AccountsSlide";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./accounts.scss";
-import Login from "../popUp/LoginSignup/Login";
+// import Login from "../popUp/LoginSignup/Login";
 import { createPortal } from "react-dom";
 import SignUp from "../popUp/LoginSignup/Signup";
 
@@ -30,19 +30,19 @@ function AdminAccounts() {
     setShowPopup({ ...showPopup, signup: true });
   };
 
-  const handleCloseLogin = () => {
-    setShowPopup({ ...showPopup, login: false });
-  };
+  // const handleCloseLogin = () => {
+  //   setShowPopup({ ...showPopup, login: false });
+  // };
   const handleCloseSignup = () => {
     setShowPopup({ ...showPopup, signup: false });
   };
 
-  const handleLoginToSignup = () => {
-    setShowPopup({ ...showPopup, login: false, signup: true });
-  };
-  const handleSignupToLogin = () => {
-    setShowPopup({ ...showPopup, signup: false, login: true });
-  };
+  // const handleLoginToSignup = () => {
+  //   setShowPopup({ ...showPopup, login: false, signup: true });
+  // };
+  // const handleSignupToLogin = () => {
+  //   setShowPopup({ ...showPopup, signup: false, login: true });
+  // };
 
   return (
     <>
@@ -70,7 +70,7 @@ function AdminAccounts() {
         </table>
       </div>
 
-      {showPopup.login &&
+      {/* {showPopup.login &&
         createPortal(
           <Login
             mode="login"
@@ -80,14 +80,15 @@ function AdminAccounts() {
             authChecked={() => {}}
           />,
           document.body
-        )}
+        )} */}
 
       {showPopup.signup &&
         createPortal(
           <SignUp
+            mode="on-admin"
             onSubmitSuccess={() => setReset(reset + 1)}
             onCloseModal={handleCloseSignup}
-            onChangeMode={handleSignupToLogin}
+            onChangeMode={() => {}}
           />,
           document.body
         )}

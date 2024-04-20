@@ -1,5 +1,21 @@
 @import "../../../styles/mixin.scss";
 
+.error,
+.checked {
+  position: absolute;
+  top: 3px;
+  left: 90px;
+  line-height: 1.25;
+  font-size: 12px;
+}
+
+.error {
+  color: red;
+}
+.checked {
+  color: #09bc8a;
+}
+
 .form-container {
   position: fixed;
   top: 0;
@@ -9,7 +25,8 @@
   background-color: transparent;
 
   .login-form {
-    height: 350px;
+    min-height: 300px;
+    max-height: 350px;
     opacity: 0.9;
   }
 
@@ -23,7 +40,7 @@
     display: flex;
     flex-direction: column;
     width: 450px;
-    height: 500px;
+    height: auto;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -114,7 +131,7 @@
     }
 
     .form-content {
-      height: 255px;
+      height: auto;
 
       label {
         font-size: 18px;
@@ -123,6 +140,10 @@
         display: flex;
         flex-direction: column;
         position: relative;
+
+        .phone-input {
+          appearance: none;
+        }
 
         input,
         select {
@@ -183,7 +204,7 @@
 
       .login-btn {
         width: 100%;
-        margin: 30px 0 10px;
+        margin-top: 25px;
         padding: 10px 0;
       }
 

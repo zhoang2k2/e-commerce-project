@@ -3,6 +3,7 @@ import ProductsSlide from "./reducer/ProductsSlide";
 import { HomepageSlice } from "./reducer/HomepageSlide";
 import AccountSlice from "./reducer/AccountsSlide";
 import AuthAccountSlice from "./reducer/AuthAccountSlides";
+import CartSlice from "./reducer/CartSlide";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     accounts: AccountSlice.reducer,
     products: ProductsSlide.reducer,
     homepage: HomepageSlice.reducer,
+    cart: CartSlice.reducer,
   },
 });
 

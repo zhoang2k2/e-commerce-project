@@ -222,6 +222,50 @@ function Shop() {
             />
           </div>
         </div>
+
+        <div className="shop-handbook">
+          <h2>TIPS FOR "CON SEN"</h2>
+          <div className="handbook-container">
+            <a
+              target="blank"
+              href="https://www.facebook.com/permalink.php?story_fbid=pfbid025MHmB6sgGCRFJLsGRAk6f9yAvgLsYS2BEmuGFeJme1b8B1qcFdtATGtb3KoqWHQ6l&id=61554856859064&__cft__[0]=AZVywIiRC6gToiVwaAg6E5I97vBBwXLQuo5mPcd92UMuR7glTC7Nx47dkChlACHSSkjQVGpS-6cg9n7Mdp5wcBEukUpMU4Cro0nEfUdeQtKD1FRbhC2iprA_kSJBOuuCLbQNCszEEe8fIQK5aq_SzCokQSu1c29JPpwQP07hmxDRViMzaZeZo0-eNfoBAuZJs1msU9j4II591aJspYD96vTR&__tn__=%2CO%2CP-R"
+              className="handbook-card"
+            >
+              <img src="https://i.imgur.com/gMqJm1Z.jpeg" alt="handbook 1" />
+              <h3>What are kitty needs?</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua
+              </p>
+            </a>
+
+            <a
+              target="blank"
+              href="https://www.facebook.com/mintmintspa.petshop/posts/pfbid0mpsTydv86749PihZhQP3TWG21G3LRbfNcc29y1DBNfjHUQGBJKqDLPnHMVL2WpMul"
+              className="handbook-card"
+            >
+              <img src="https://i.imgur.com/NabhOtD.jpeg" alt="handbook 2" />
+              <h3>Feeding from cat to pig</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua
+              </p>
+            </a>
+
+            <a
+              target="blank"
+              href="https://www.facebook.com/permalink.php?story_fbid=pfbid0wByQ6jrSi9jWbyokA6AxE2hWQjsA9RBPjVLgCksQKa9Cjwo4TVxhRyMj5vQqZWfnl&id=61554856859064&__cft__[0]=AZVv8D0q0zRZWpXSyE03JAjqtaWfvoQ1nrrKAgyeussWWzUkhg5ZEo-Nl4w1cSMNOkTPWqO5iuz1Kvged-qUhPllr4lqiok78RjMrNo1U5hXsY7JcR17EUlNzEmf9YAvX7p6WQIcoMy3FZP-_jfI38OHYYO-XJeHGwK6pSwa0uar6dlYkbgHK4YDwYXQy_Q8j5QoD5FZo7qCPRRda-Ugz8Xc&__tn__=%2CO%2CP-Rl"
+              className="handbook-card"
+            >
+              <img src="https://i.imgur.com/z3frUXb.jpeg" alt="handbook 1" />
+              <h3>Avoding these from your "BOSS"</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua
+              </p>
+            </a>
+          </div>
+        </div>
       </div>
     </>
   );

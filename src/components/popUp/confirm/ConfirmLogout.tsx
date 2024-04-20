@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom";
 import Loading from "../../Loading/Loading";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -44,7 +43,7 @@ function ConfirmLogout({ onCancle }: ConfirmLogoutProps) {
           </div>
           <div className="footer">
             <button className="confirm-btn" onClick={handleClick}>
-              Accept
+              {loading ? <Loading /> : <>Accept</>}
             </button>
             <button className="deny-btn" onClick={onCancle}>
               Cancle
@@ -52,8 +51,6 @@ function ConfirmLogout({ onCancle }: ConfirmLogoutProps) {
           </div>
         </div>
       </div>
-
-      {loading && createPortal(<Loading />, document.body)}
     </>
   );
 }
