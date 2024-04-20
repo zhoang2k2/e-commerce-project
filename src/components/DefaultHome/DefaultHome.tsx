@@ -26,10 +26,6 @@ import {
 import type { Product } from "../../types/ProductType";
 import { useStickyBox } from "react-sticky-box";
 import Pagination from "../Pagination/Pagination";
-import {
-  addProductsToCart,
-  fetchProductsFromCart,
-} from "../../redux/reducer/CartSlide";
 
 function DefaultHome() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,15 +99,6 @@ function DefaultHome() {
 
   // ==========================CART HANDLING==========================
   // e: React.MouseEvent<HTMLElement>
-
-  // const { cart } = useSelector(selectCartState);
-  useEffect(() => {
-    dispatch(fetchProductsFromCart());
-  }, [dispatch]);
-
-  const handleAddProductToCart = (id: string) => {
-    dispatch(addProductsToCart(id));
-  };
 
   return (
     <>
@@ -218,7 +205,7 @@ function DefaultHome() {
                   <div
                     className="new-product-card product-card"
                     key={product.id}
-                    onClick={() => handleAddProductToCart(product.id ?? "")}
+                    onClick={() => {}}
                   >
                     <FontAwesomeIcon
                       icon={faCartPlus}

@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
+import type { Product } from "../../types/ProductType";
 
 interface CartState {
-  cart: string[];
+  cart: Product[];
   status: string;
 }
 
@@ -27,10 +28,10 @@ export const fetchProductsFromCart = createAsyncThunk(
 
 export const addProductsToCart = createAsyncThunk(
   "cart/add",
-  async (productID: string) => {
+  async (product: Product) => {
     try {
       const response = await axios.post("http://localhost:3000/add-to-cart", {
-        productID,
+        product,
       });
       return response.data;
     } catch (error) {

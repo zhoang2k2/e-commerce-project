@@ -1,22 +1,5 @@
 {
-  "add-to-cart": [
-    {
-      "id": "717b",
-      "productID": "1000"
-    },
-    {
-      "id": "a37d",
-      "productID": "999"
-    },
-    {
-      "id": "c88a",
-      "productID": "9203"
-    },
-    {
-      "id": "f664",
-      "productID": "123"
-    }
-  ],
+  "add-to-cart": [],
   "carouselImages": [
     {
       "id": "1",

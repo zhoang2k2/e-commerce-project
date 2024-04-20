@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleleProductFromCart,
   fetchProductsFromCart,
   selectCartState,
 } from "../../../redux/reducer/CartSlide";
@@ -47,6 +48,19 @@ function CustomerInfo({ onClose }: CustomerInfoProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return cart.some((cartItem: any) => cartItem.productID === product.id);
   });
+
+  const [total, setTotal] = useState(1);
+  const handlePlus = () => {
+    setTotal((prevTotal) => prevTotal + 1);
+  };
+
+  const handleMinus = (id: string) => {
+    if (total === 1) {
+      dispatch(deleleProductFromCart(id));
+    } else {
+      setTotal((prevTotal) => prevTotal - 1);
+    }
+  };
 
   return (
     <div className="customer-container">
@@ -120,13 +134,16 @@ function CustomerInfo({ onClose }: CustomerInfoProps) {
                         <p className="price">{formatCurrence}</p>
                       </div>
                       <div className="cart-action">
-                        <button className="plus">
+                        <button className="plus" onClick={handlePlus}>
                           <FontAwesomeIcon icon={faPlus} />
                         </button>
-                        <button className="minus">
+                        <button
+                          className="minus"
+                          onClick={() => handleMinus(item.id ?? "")}
+                        >
                           <FontAwesomeIcon icon={faMinus} />
                         </button>
-                        <span className="result-quantity">x1</span>
+                        <span className="result-quantity">{total}</span>
                       </div>
                     </div>
                   );
