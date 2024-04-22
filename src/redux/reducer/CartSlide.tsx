@@ -3,21 +3,28 @@ import axios from "axios";
 import type { RootState } from "../Store";
 import type { Product } from "../../types/ProductType";
 
+interface Customer {
+  id: string;
+  products: Product[];
+}
+
 interface CartState {
-  cart: Product[];
+  customers: Customer[];
   status: string;
 }
 
 const initialState: CartState = {
-  cart: [],
+  customers: [],
   status: "IDLE",
 };
 
-export const fetchProductsFromCart = createAsyncThunk(
+export const fetchProductInCart = createAsyncThunk(
   "cart/fetch",
-  async () => {
+  async (customerId: string) => {
     try {
-      const response = await axios.get("http://localhost:3000/add-to-cart");
+      const response = await axios.get(
+        `http://localhost:3000/custombers${customerId}/products`
+      );
       return response.data;
     } catch (error) {
       console.error("Error when get products in cart");
@@ -28,27 +35,17 @@ export const fetchProductsFromCart = createAsyncThunk(
 
 export const addProductsToCart = createAsyncThunk(
   "cart/add",
-  async (product: Product) => {
+  async ({ customerId, product }: { customerId: string; product: Product }) => {
     try {
-      const response = await axios.post("http://localhost:3000/add-to-cart", {
-        product,
-      });
+      const response = await axios.post(
+        `http://localhost:3000/customers/${customerId}/products`,
+        {
+          product,
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error when adding products into cart");
-      throw error;
-    }
-  }
-);
-
-export const deleleProductFromCart = createAsyncThunk(
-  "cart/delete",
-  async (productID: string) => {
-    try {
-      await axios.delete(`http://localhost:3000/add-to-cart/${productID}`);
-      return productID;
-    } catch (error) {
-      console.error("Error when delete product from cart");
       throw error;
     }
   }
@@ -60,16 +57,20 @@ const CartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProductsFromCart.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.cart = action.payload;
+      .addCase(fetchProductInCart.fulfilled, (state, action) => {
+        const { customerId, product } = action.payload;
+        const customerIndex = state.customers.findIndex(
+          (customer) => customer.id === customerId
+        );
+        if (customerIndex !== -1) {
+          state.customers[customerIndex].products.push(product);
           state.status = "SUCCESS";
         }
       })
-      .addCase(fetchProductsFromCart.pending, (state) => {
+      .addCase(fetchProductInCart.pending, (state) => {
         state.status = "LOADING";
       })
-      .addCase(fetchProductsFromCart.rejected, (state) => {
+      .addCase(fetchProductInCart.rejected, (state) => {
         state.status = "FAIL";
       });
   },

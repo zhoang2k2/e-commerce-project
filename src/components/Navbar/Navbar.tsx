@@ -16,7 +16,8 @@ import {
   selectAuthAccountState,
 } from "../../redux/reducer/AuthAccountSlides";
 import SignUp from "../popUp/LoginSignup/Signup";
-import CustomerInfo from "../popUp/Customer/Customer";
+import CustomerInfo from "../popUp/Customer/CustomerInfo";
+import CustomerLogin from "../popUp/Customer/CustomerLogin";
 
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,13 +75,26 @@ function Navbar() {
   }, [currentAccount]);
 
   // ============================ADDING TO CART============================
-  const [addToCart, setAddToCart] = useState(false);
-  const handleAddToCart = (e: React.MouseEvent<HTMLElement>) => {
+  const [customerModal, setCustomerModal] = useState({
+    register: false,
+    login: false,
+  });
+  const handleCustomerRegister = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setAddToCart(true);
+    setCustomerModal({ ...customerModal, register: true });
   };
-  const handleCloseAddToCart = () => {
-    setAddToCart(false);
+  const handleCloseCustomerRegister = () => {
+    setCustomerModal({ ...customerModal, register: false });
+  };
+  const handleCloseCustomerLogin = () => {
+    setCustomerModal({ ...customerModal, login: false });
+  };
+
+  const handleCustomerSwitchToLogin = () => {
+    setCustomerModal({ ...customerModal, register: false, login: true });
+  };
+  const handleCustomerSwitchToRegister = () => {
+    setCustomerModal({ ...customerModal, register: true, login: false });
   };
 
   return (
@@ -99,7 +113,7 @@ function Navbar() {
             </div>
 
             <div className="nav-buttons">
-              <button className="cart-btn" onClick={handleAddToCart}>
+              <button className="cart-btn">
                 <FontAwesomeIcon icon={faCartShopping} />
               </button>
               <button className="admin-btn" onClick={handleFirstLogin}>
@@ -109,6 +123,7 @@ function Navbar() {
                   <FontAwesomeIcon icon={faUserShield} />
                 )}
               </button>
+              <button onClick={handleCustomerRegister}>Register</button>
             </div>
           </div>
         </nav>
@@ -137,9 +152,21 @@ function Navbar() {
           document.body
         )}
 
-      {addToCart &&
+      {customerModal.register &&
         createPortal(
-          <CustomerInfo onClose={handleCloseAddToCart} />,
+          <CustomerInfo
+            onClose={handleCloseCustomerRegister}
+            onChangeMode={handleCustomerSwitchToLogin}
+          />,
+          document.body
+        )}
+
+      {customerModal.login &&
+        createPortal(
+          <CustomerLogin
+            onClose={handleCloseCustomerLogin}
+            onChangeMode={handleCustomerSwitchToRegister}
+          />,
           document.body
         )}
     </>

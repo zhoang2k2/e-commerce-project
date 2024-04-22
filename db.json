@@ -1,5 +1,15 @@
 {
-  "add-to-cart": [],
+  "customers": [
+    {
+      "id": "262",
+      "username": "User3",
+      "password": "Hoang201"
+    }
+  ],
+  "customer-online": {
+    "username": "User3",
+    "password": "Hoang201"
+  },
   "carouselImages": [
     {
       "id": "1",
@@ -13,7 +23,7 @@
   "accounts": [
     {
       "id": "7890",
-      "fullname": "Hoang Nguyen",
+      "fullname": "Nguyen Hoang",
       "password": "Hoang201",
       "email": "nvhoang2012002@gmail.com",
       "gender": "male",
@@ -44,8 +54,8 @@
     }
   ],
   "admin-on-work": {
-    "email": "nvhoang2012002@gmail.com",
-    "password": "Hoang201"
+    "email": "",
+    "password": ""
   },
   "products": [
     {
