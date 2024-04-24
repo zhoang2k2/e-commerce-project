@@ -8,6 +8,7 @@ import {
   faCreditCard,
   faDollarSign,
   faMagnifyingGlass,
+  faPlus,
   faRankingStar,
   faStar,
   faTruck,
@@ -204,11 +205,14 @@ function Shop() {
                       <h3>{product.name}</h3>
                       <div className="rate">{ratingStar}</div>
                       <div className="sales">({product.sales} rated)</div>
-                      <div className="price">{formatCurrence}</div>
                       <div className="quantity">
                         <FontAwesomeIcon icon={faBoxOpen} />
                         {product.quantity} left
                       </div>
+                      <div className="price">{formatCurrence}</div>
+                      <button className="add-to-cart-btn">
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
                     </div>
                   </div>
                 );

@@ -3,12 +3,19 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { addAuthAccount } from "../../../redux/reducer/AuthAccountSlides";
+import { addAuthCustomer } from "../../../redux/reducer/AuthCustomerSlide";
 
 type ConfirmLogoutProps = {
   onCancle: () => void;
+  onLogoutSuccess: () => void;
+  mode: "admin" | "customer";
 };
 
-function ConfirmLogout({ onCancle }: ConfirmLogoutProps) {
+function ConfirmLogout({
+  onCancle,
+  onLogoutSuccess,
+  mode,
+}: ConfirmLogoutProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const [loading, setLoading] = useState(false);
@@ -24,12 +31,22 @@ function ConfirmLogout({ onCancle }: ConfirmLogoutProps) {
     }, 2000);
 
     setTimeout(() => {
-      const removedAdmin = {
-        email: "",
-        password: "",
-      };
-      dispatch(addAuthAccount(removedAdmin));
-      history.push("/");
+      if (mode === "admin") {
+        const logout = {
+          email: "",
+          password: "",
+        };
+        dispatch(addAuthAccount(logout));
+        history.push("/");
+      } else {
+        const logout = {
+          username: "",
+          password: "",
+        };
+        dispatch(addAuthCustomer(logout));
+        onLogoutSuccess();
+        onCancle();
+      }
     }, 2000);
   };
 

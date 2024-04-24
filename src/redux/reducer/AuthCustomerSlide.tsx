@@ -8,13 +8,13 @@ export interface CurrentCustomer {
   password: string;
 }
 
-const currentAccount: CurrentCustomer = {
+const currentCustomerAccount: CurrentCustomer = {
   username: "",
   password: "",
 };
 
 const initialState = {
-  currentAccount,
+  currentCustomerAccount,
   status: "IDLE",
 };
 
@@ -52,7 +52,7 @@ const AuthCustomerSlice = createSlice({
     builder
       .addCase(fetchAuthCustomer.fulfilled, (state, action) => {
         if (action.payload) {
-          state.currentAccount = action.payload;
+          state.currentCustomerAccount = action.payload;
           state.status = "SUCCESS";
         }
       })

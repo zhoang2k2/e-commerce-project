@@ -13,10 +13,11 @@ import {
 
 type CustomerAccountProps = {
   onClose: () => void;
+  onCustomerRegisterSuccess: () => void;
   onChangeMode: () => void;
 };
 
-function CustomerAccount({ onClose, onChangeMode }: CustomerAccountProps) {
+function CustomerAccount({ onClose, onChangeMode,onCustomerRegisterSuccess }: CustomerAccountProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
 
@@ -38,6 +39,7 @@ function CustomerAccount({ onClose, onChangeMode }: CustomerAccountProps) {
       username: "",
       password: "",
       confirm: "",
+      products: [],
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -78,6 +80,7 @@ function CustomerAccount({ onClose, onChangeMode }: CustomerAccountProps) {
         dispatch(addCustomerData(updatedVal));
         onClose();
         alert("Register Successfully");
+        onCustomerRegisterSuccess()
       }, 2400);
     },
   });

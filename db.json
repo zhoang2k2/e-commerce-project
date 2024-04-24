@@ -1,25 +1,75 @@
 {
   "customers": [
     {
-      "id": "262",
+      "id": "3839",
+      "username": "User1",
+      "password": "Hoang201",
+      "products": [
+        {
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
+          "color": "black",
+          "rate": "3",
+          "sales": "15",
+          "status": "new"
+        },
+        {
+          "id": "999",
+          "name": "American Short Assa",
+          "price": "10000000",
+          "quantity": "7",
+          "image": "https://i.imgur.com/ksICYvi.jpeg",
+          "catBreed": "American Shorthair",
+          "age": "8",
+          "color": "gray",
+          "rate": "4",
+          "sales": "18",
+          "status": "new"
+        },
+        {
+          "id": "222",
+          "name": "British Short T",
+          "price": "16000000",
+          "quantity": "2",
+          "image": "https://i.imgur.com/Fs0RINA.jpeg",
+          "catBreed": "British Shorthair",
+          "age": "5",
+          "color": "gray",
+          "rate": "4",
+          "sales": "14",
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "2583",
+      "username": "User2",
+      "password": "Hoang201",
+      "products": []
+    },
+
+    {
+      "id": "1671",
       "username": "User3",
-      "password": "Hoang201"
+      "password": "Hoang201",
+      "products": []
+    },
+    {
+      "id": "8978",
+      "username": "User4",
+      "password": "Hoang201",
+      "products": []
     }
   ],
   "customer-online": {
-    "username": "User3",
+    "username": "User1",
     "password": "Hoang201"
   },
-  "carouselImages": [
-    {
-      "id": "1",
-      "image": "https://i.imgur.com/iJa5LLf.jpg"
-    },
-    {
-      "id": "2",
-      "image": "https://i.imgur.com/ZxXPNhR.jpg"
-    }
-  ],
   "accounts": [
     {
       "id": "7890",

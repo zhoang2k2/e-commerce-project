@@ -13,10 +13,15 @@ import { addAuthCustomer } from "../../../redux/reducer/AuthCustomerSlide";
 
 type CustomerLoginProps = {
   onClose: () => void;
+  onLoginSuccess: () => void;
   onChangeMode: () => void;
 };
 
-function CustomerLogin({ onClose, onChangeMode }: CustomerLoginProps) {
+function CustomerLogin({
+  onClose,
+  onChangeMode,
+  onLoginSuccess,
+}: CustomerLoginProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { customerInfo } = useSelector(selectCustomerState);
@@ -67,6 +72,7 @@ function CustomerLogin({ onClose, onChangeMode }: CustomerLoginProps) {
               window.alert(
                 `${checkAccountByIndex.username} login successfully`
               );
+              onLoginSuccess();
               onClose();
               return;
             } else {
@@ -94,7 +100,7 @@ function CustomerLogin({ onClose, onChangeMode }: CustomerLoginProps) {
           <FontAwesomeIcon
             className="close-icon"
             icon={faXmark}
-            // onClick={onCloseModal}
+            onClick={onClose}
           />
         </div>
 

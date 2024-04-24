@@ -10,7 +10,7 @@ const initialState: AccountState = {
   status: "IDLE",
 };
 
-export const fetchAccounts = createAsyncThunk("accounts/fetch", async () => {
+export const fetchAccounts = createAsyncThunk("admins/fetch", async () => {
   try {
     const response = await axios.get("http://localhost:3000/accounts");
     return response.data as AccountType[];
@@ -21,7 +21,7 @@ export const fetchAccounts = createAsyncThunk("accounts/fetch", async () => {
 });
 
 export const addAccount = createAsyncThunk(
-  "accounts/add",
+  "admins/add",
   async (newAccount: AccountType) => {
     try {
       const response = await axios.post(
@@ -37,7 +37,7 @@ export const addAccount = createAsyncThunk(
 );
 
 export const deleteAccount = createAsyncThunk(
-  "accounts/delete",
+  "admins/delete",
   async (id: string) => {
     try {
       await axios.delete(`http://localhost:3000/accounts/${id}`);
@@ -50,7 +50,7 @@ export const deleteAccount = createAsyncThunk(
 );
 
 export const editAccount = createAsyncThunk(
-  "accounts/edit",
+  "admins/edit",
   async (account: AccountEditedType) => {
     try {
       if (!account.id) {
@@ -69,7 +69,7 @@ export const editAccount = createAsyncThunk(
 );
 
 const AccountSlice = createSlice({
-  name: "accounts",
+  name: "admins",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -90,4 +90,4 @@ const AccountSlice = createSlice({
 });
 
 export default AccountSlice;
-export const selectAccountState = (state: RootState) => state.accounts;
+export const selectAccountState = (state: RootState) => state.admins;

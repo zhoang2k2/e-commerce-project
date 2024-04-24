@@ -81,7 +81,14 @@ function Sidebar() {
       </div>
 
       {confirmLogout &&
-        createPortal(<ConfirmLogout onCancle={handleCancle} />, document.body)}
+        createPortal(
+          <ConfirmLogout
+            onCancle={handleCancle}
+            mode="admin"
+            onLogoutSuccess={() => {}}
+          />,
+          document.body
+        )}
     </>
   );
 }

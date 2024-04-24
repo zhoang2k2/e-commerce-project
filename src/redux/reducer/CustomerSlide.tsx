@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
+import type { Product } from "../../types/ProductType";
 
 export interface CustomerInfo {
   id: string;
   username: string;
   password: string;
+  products: Product[];
 }
 
 interface CustomerState {
@@ -19,7 +21,7 @@ const initialState: CustomerState = {
 };
 
 export const fetchCustomerData = createAsyncThunk(
-  "customer/fetch",
+  "customers/fetch",
   async () => {
     try {
       const response = await axios.get("http://localhost:3000/customers");
@@ -32,7 +34,7 @@ export const fetchCustomerData = createAsyncThunk(
 );
 
 export const addCustomerData = createAsyncThunk(
-  "customer/add",
+  "customers/add",
   async (newAccount: CustomerInfo) => {
     try {
       const response = await axios.post(
@@ -48,7 +50,7 @@ export const addCustomerData = createAsyncThunk(
 );
 
 const CustomerSlide = createSlice({
-  name: "customer",
+  name: "customers",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -69,4 +71,4 @@ const CustomerSlide = createSlice({
 });
 
 export default CustomerSlide;
-export const selectCustomerState = (state: RootState) => state.customer;
+export const selectCustomerState = (state: RootState) => state.customers;

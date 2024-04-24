@@ -6,6 +6,7 @@ import {
   faComments,
   faCreditCard,
   faLeftLong,
+  faPlus,
   faQuoteRight,
   faRightLong,
   faStar,
@@ -17,7 +18,6 @@ import "./contact/contact.scss";
 import "./feedback/feedback.scss";
 import "./newProduct/newProducts.scss";
 import { useEffect, useState } from "react";
-import type { Slide } from "../../redux/reducer/HomepageSlide";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
@@ -26,11 +26,22 @@ import {
 import type { Product } from "../../types/ProductType";
 import { useStickyBox } from "react-sticky-box";
 import Pagination from "../Pagination/Pagination";
+import {
+  fetchAuthCustomer,
+  selectAuthCustomerState,
+} from "../../redux/reducer/AuthCustomerSlide";
+import { putProductsToCart } from "../../redux/reducer/CartSlide";
+import {
+  fetchCustomerData,
+  selectCustomerState,
+} from "../../redux/reducer/CustomerSlide";
 
 function DefaultHome() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { products } = useSelector(selectProductState);
+  const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
+  const { customerInfo } = useSelector(selectCustomerState);
 
   // ========================NEW PRODUCT========================
   useEffect(() => {
@@ -98,12 +109,48 @@ function DefaultHome() {
   };
 
   // ==========================CART HANDLING==========================
-  // e: React.MouseEvent<HTMLElement>
+  useEffect(() => {
+    dispatch(fetchAuthCustomer());
+    dispatch(fetchCustomerData());
+  }, [dispatch]);
+
+  const matchCustomerAccount = customerInfo.find((account) => {
+    return (
+      currentCustomerAccount.username === account.username &&
+      currentCustomerAccount.password === account.password
+    );
+  });
+
+  const addToCart = (product: Product) => {
+    if (matchCustomerAccount) {
+      const catchProductInCart = matchCustomerAccount.products;
+      let found = false;
+      for (let i = 0; i <= catchProductInCart.length - 1; i++) {
+        if (catchProductInCart[i].id === product.id) {
+          found = true;
+          window.alert("You already have this kitty in cart!");
+          break;
+        }
+      }
+      if (found === false) {
+        const updateStatus = {
+          id: matchCustomerAccount.id,
+          username: matchCustomerAccount.username,
+          password: matchCustomerAccount.password,
+          products: [...matchCustomerAccount.products, product],
+        };
+
+        dispatch(putProductsToCart(updateStatus)).then(() => {
+          dispatch(fetchCustomerData());
+        });
+      }
+    }
+  };
 
   return (
     <>
       <div className="carousel-container">
-        {slides.map((slide: Slide) => {
+        {slides.map((slide) => {
           return (
             <div
               className={
@@ -207,10 +254,7 @@ function DefaultHome() {
                     key={product.id}
                     onClick={() => {}}
                   >
-                    <FontAwesomeIcon
-                      icon={faCartPlus}
-                      className="add-to-cart"
-                    />
+                    <FontAwesomeIcon icon={faCartPlus} className="cart-icon" />
                     <div
                       className="product-img"
                       style={{ backgroundImage: `url(${product.image})` }}
@@ -218,12 +262,22 @@ function DefaultHome() {
                     <div className="new-product-title product-title">
                       <h3>{product.name}</h3>
                       <div className="rate">{ratingStar}</div>
+
                       <div className="sales">({product.sales} rated)</div>
-                      <div className="price">{formatCurrence}</div>
+
                       <div className="quantity">
                         <FontAwesomeIcon icon={faBoxOpen} />
                         {product.quantity} left
                       </div>
+
+                      <div className="price">{formatCurrence}</div>
+
+                      <button
+                        className="add-to-cart-btn"
+                        onClick={() => addToCart(product)}
+                      >
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
                     </div>
                   </div>
                 );

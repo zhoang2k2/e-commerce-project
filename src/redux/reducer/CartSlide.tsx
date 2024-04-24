@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
-import type { Product } from "../../types/ProductType";
+// import type { Product } from "../../types/ProductType";
+import type { CustomerInfo } from "./CustomerSlide";
 
-interface Customer {
-  id: string;
-  products: Product[];
-}
+// export interface Customer {
+//   id: string;
+//   username: string;
+//   password: string;
+//   products: Product[];
+// }
 
 interface CartState {
-  customers: Customer[];
+  customers: CustomerInfo[];
   status: string;
 }
 
@@ -23,7 +26,7 @@ export const fetchProductInCart = createAsyncThunk(
   async (customerId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/custombers${customerId}/products`
+        `http://localhost:3000/customers/${customerId}`
       );
       return response.data;
     } catch (error) {
@@ -33,15 +36,13 @@ export const fetchProductInCart = createAsyncThunk(
   }
 );
 
-export const addProductsToCart = createAsyncThunk(
+export const putProductsToCart = createAsyncThunk(
   "cart/add",
-  async ({ customerId, product }: { customerId: string; product: Product }) => {
+  async (updateStatus: CustomerInfo) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/customers/${customerId}/products`,
-        {
-          product,
-        }
+      const response = await axios.put(
+        `http://localhost:3000/customers/${updateStatus.id}`,
+        updateStatus
       );
       return response.data;
     } catch (error) {
@@ -58,12 +59,12 @@ const CartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductInCart.fulfilled, (state, action) => {
-        const { customerId, product } = action.payload;
+        const { customerId, products } = action.payload;
         const customerIndex = state.customers.findIndex(
           (customer) => customer.id === customerId
         );
         if (customerIndex !== -1) {
-          state.customers[customerIndex].products.push(product);
+          state.customers[customerIndex].products = products;
           state.status = "SUCCESS";
         }
       })

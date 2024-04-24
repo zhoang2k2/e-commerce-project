@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ProductsSlide from "./reducer/ProductsSlide";
-import { HomepageSlice } from "./reducer/HomepageSlide";
 import AccountSlice from "./reducer/AccountsSlide";
 import AuthAccountSlice from "./reducer/AuthAccountSlides";
 import CartSlice from "./reducer/CartSlide";
@@ -9,12 +8,11 @@ import AuthCustomerSlice from "./reducer/AuthCustomerSlide";
 
 const store = configureStore({
   reducer: {
-    accounts: AccountSlice.reducer,
+    admins: AccountSlice.reducer,
     currentAccount: AuthAccountSlice.reducer,
     products: ProductsSlide.reducer,
-    homepage: HomepageSlice.reducer,
     cart: CartSlice.reducer,
-    customer: CustomerSlide.reducer,
+    customers: CustomerSlide.reducer,
     currentCustomer: AuthCustomerSlice.reducer,
   },
 });

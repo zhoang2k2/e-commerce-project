@@ -1,3 +1,5 @@
+@import "../../styles/mixin.scss";
+
 .product-card {
   background-color: #fff;
   border-radius: 10px;
@@ -22,7 +24,7 @@
   .product-title {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 17px;
     padding: 20px;
     position: relative;
 
@@ -36,6 +38,7 @@
 
     .rate {
       display: flex;
+      align-items: center;
       gap: 5px;
 
       svg {
@@ -43,15 +46,16 @@
         color: orange;
       }
     }
+
     .sales {
+      text-align: right;
+      position: absolute;
+      right: 30px;
+      bottom: 95px;
       color: #a3a3a3;
     }
 
     .quantity {
-      text-align: right;
-      position: absolute;
-      right: 25px;
-      bottom: 20px;
       color: #a3a3a3;
       svg {
         margin-right: 5px;
@@ -63,6 +67,14 @@
       margin-top: auto;
       font-weight: 500;
       letter-spacing: 1px;
+    }
+
+    .add-to-cart-btn {
+      @include button(#74accf, #fff);
+      padding: 7.5px 25px;
+      position: absolute;
+      right: 25px;
+      bottom: 20px;
     }
   }
 }
