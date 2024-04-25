@@ -1,9 +1,8 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./login-signup.scss";
 import { useEffect, useState } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import type { AccountAuth } from "../../../types/AccountType";
+import type { AccountType } from "../../../types/AccountType";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAccounts,
@@ -32,18 +31,18 @@ function Login({
   // ==========================LOGIN PART==========================
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  const { accounts } = useSelector(selectAccountState);
-  const [accountList, setAccountList] = useState<AccountAuth[]>([]);
+  const { adminAccounts } = useSelector(selectAccountState);
+  const [accountList, setAccountList] = useState<Array<AccountType>>([]);
 
   useEffect(() => {
     dispatch(fetchAccounts());
   }, [dispatch]);
 
   useEffect(() => {
-    if (accounts && accounts.length > 0) {
-      setAccountList(accounts);
+    if (adminAccounts && adminAccounts.length > 0) {
+      setAccountList(adminAccounts);
     }
-  }, [accounts]);
+  }, [adminAccounts]);
 
   const checkAuthorization = () => {
     const foundAccount = accountList.find(
@@ -70,7 +69,11 @@ function Login({
           found = true;
           onCloseModal();
           authChecked();
-          dispatch(addAuthAccount(formik.values));
+          const updateValues = {
+            ...formik.values,
+            id: checkAccountByIndex.id ?? "",
+          };
+          dispatch(addAuthAccount(updateValues));
           window.alert(`${checkAccountByIndex.email} login successfully`);
           return;
         } else {
@@ -100,6 +103,7 @@ function Login({
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
+      id: "",
       email: "",
       password: "",
     },

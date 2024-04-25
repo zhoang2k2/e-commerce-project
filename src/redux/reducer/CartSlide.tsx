@@ -1,15 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../Store";
-// import type { Product } from "../../types/ProductType";
 import type { CustomerInfo } from "./CustomerSlide";
-
-// export interface Customer {
-//   id: string;
-//   username: string;
-//   password: string;
-//   products: Product[];
-// }
 
 interface CartState {
   customers: CustomerInfo[];

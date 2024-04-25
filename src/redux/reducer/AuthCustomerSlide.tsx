@@ -3,12 +3,13 @@ import axios from "axios";
 import type { RootState } from "../Store";
 
 export interface CurrentCustomer {
-  id?: string;
+  id: string;
   username: string;
   password: string;
 }
 
 const currentCustomerAccount: CurrentCustomer = {
+  id: "",
   username: "",
   password: "",
 };
@@ -18,7 +19,7 @@ const initialState = {
   status: "IDLE",
 };
 
-export const fetchAuthCustomer = createAsyncThunk("", async () => {
+export const fetchAuthCustomer = createAsyncThunk("auth-customer/fetch", async () => {
   try {
     const response = await axios.get("http://localhost:3000/customer-online");
     return response.data;

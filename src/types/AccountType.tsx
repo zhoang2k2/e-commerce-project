@@ -10,7 +10,6 @@ export interface AccountType {
   authenticated?: boolean;
 }
 
-
 export interface AccountEditedType {
   id?: string;
   fullname: string;
@@ -23,12 +22,12 @@ export interface AccountEditedType {
 }
 
 export interface AccountAuth {
-  id?: string;
+  id: string;
   email: string;
   password: string;
 }
 
 export interface AccountState {
-  accounts: AccountType[];
+  adminAccounts: AccountType[];
   status: string;
 }

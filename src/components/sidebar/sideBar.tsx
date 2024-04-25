@@ -18,9 +18,9 @@ import ConfirmLogout from "../popUp/Confirm/ConfirmLogout";
 function Sidebar() {
   const { url } = useRouteMatch();
   const { currentAccount } = useSelector(selectAuthAccountState);
-  const { accounts } = useSelector(selectAccountState);
+  const { adminAccounts } = useSelector(selectAccountState);
 
-  const matchAccount = accounts.find(
+  const matchAccount = adminAccounts.find(
     (account) => account.email === currentAccount.email
   );
 

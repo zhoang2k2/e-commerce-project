@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function AccountTbody() {
-  const { accounts } = useSelector(selectAccountState);
+  const { adminAccounts } = useSelector(selectAccountState);
 
   const [showPopup, setShowPopup] = useState({
     auth: false,
@@ -41,7 +41,7 @@ function AccountTbody() {
 
   const handleAuthorization = (account: AccountAuth) => {
     setAuthenticatedRow(account.id ?? "");
-   
+
     setShowPopup({ ...showPopup, auth: true });
   };
 
@@ -59,7 +59,7 @@ function AccountTbody() {
   return (
     <>
       <tbody>
-        {accounts.map((account) => {
+        {adminAccounts.map((account) => {
           const isAuthRow = authenticatedRow === account.id;
 
           return (

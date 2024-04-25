@@ -43,6 +43,19 @@
           "rate": "4",
           "sales": "14",
           "status": "new"
+        },
+        {
+          "id": "556",
+          "name": "Maine Snow White",
+          "price": "20000000",
+          "quantity": "5",
+          "image": "https://i.imgur.com/JUVAC2X.jpeg",
+          "catBreed": "Maine Coon",
+          "age": "14",
+          "color": "white",
+          "rate": "5",
+          "sales": "8",
+          "status": "new"
         }
       ]
     },
@@ -52,7 +65,6 @@
       "password": "Hoang201",
       "products": []
     },
-
     {
       "id": "1671",
       "username": "User3",
@@ -67,6 +79,7 @@
     }
   ],
   "customer-online": {
+    "id": "3839",
     "username": "User1",
     "password": "Hoang201"
   },

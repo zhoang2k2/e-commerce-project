@@ -6,7 +6,7 @@ import type { AccountEditedType, AccountState, AccountType} from "../../types/Ac
 
 
 const initialState: AccountState = {
-  accounts: [],
+  adminAccounts: [],
   status: "IDLE",
 };
 
@@ -69,14 +69,14 @@ export const editAccount = createAsyncThunk(
 );
 
 const AccountSlice = createSlice({
-  name: "admins",
+  name: "adminAccounts",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAccounts.fulfilled, (state, action) => {
         if (action.payload) {
-          state.accounts = action.payload;
+          state.adminAccounts = action.payload;
           state.status = "SUCCESS";
         }
       })
@@ -90,4 +90,4 @@ const AccountSlice = createSlice({
 });
 
 export default AccountSlice;
-export const selectAccountState = (state: RootState) => state.admins;
+export const selectAccountState = (state: RootState) => state.adminAccounts;

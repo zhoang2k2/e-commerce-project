@@ -37,6 +37,7 @@ function CustomerLogin({
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
+      id: "",
       username: "",
       password: "",
     },
@@ -68,7 +69,8 @@ function CustomerLogin({
           if (formik.values.username === checkAccountByIndex.username) {
             if (formik.values.password === checkAccountByIndex.password) {
               found = true;
-              dispatch(addAuthCustomer(values));
+              const updateValue = { ...values, id: checkAccountByIndex.id };
+              dispatch(addAuthCustomer(updateValue));
               window.alert(
                 `${checkAccountByIndex.username} login successfully`
               );

@@ -8,7 +8,7 @@ import AuthCustomerSlice from "./reducer/AuthCustomerSlide";
 
 const store = configureStore({
   reducer: {
-    admins: AccountSlice.reducer,
+    adminAccounts: AccountSlice.reducer,
     currentAccount: AuthAccountSlice.reducer,
     products: ProductsSlide.reducer,
     cart: CartSlice.reducer,

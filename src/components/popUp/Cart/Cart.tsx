@@ -1,15 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./cart.scss";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchProductInCart,
-  selectCartState,
-} from "../../../redux/reducer/CartSlide";
-import { selectAuthCustomerState } from "../../../redux/reducer/AuthCustomerSlide";
+  faCheck,
+  faMinus,
+  faPlus,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductInCart } from "../../../redux/reducer/CartSlide";
+import {
+  fetchAuthCustomer,
+  selectAuthCustomerState,
+} from "../../../redux/reducer/AuthCustomerSlide";
 import { useEffect, useState } from "react";
-import { fetchAuthAccount } from "../../../redux/reducer/AuthAccountSlides";
+
 import type { Product } from "../../../types/ProductType";
+import { selectCustomerState } from "../../../redux/reducer/CustomerSlide";
 
 type CartPopProps = {
   onClose: () => void;
@@ -22,29 +28,31 @@ function CartPop({ onClose }: CartPopProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  const { customers } = useSelector(selectCartState);
   const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
+  const { customerInfo } = useSelector(selectCustomerState);
 
   useEffect(() => {
-    dispatch(fetchAuthAccount());
+    dispatch(fetchAuthCustomer());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchProductInCart(currentCustomerAccount.id ?? ""));
-  }, [dispatch, currentCustomerAccount]);
-
+  const [cartById, setCartById] = useState<string>("");
   const [productInCart, setProductInCart] = useState<Product[]>([]);
 
   useEffect(() => {
-    if (customers && currentCustomerAccount) {
-      const index = customers.findIndex(
+    if (customerInfo && currentCustomerAccount) {
+      const index = customerInfo.findIndex(
         (customer) => customer.id === currentCustomerAccount.id
       );
       if (index !== -1) {
-        setProductInCart(customers[index].products);
+        setProductInCart(customerInfo[index].products);
+        setCartById(customerInfo[index].id);
       }
     }
-  }, [customers, currentCustomerAccount]);
+  }, [customerInfo, currentCustomerAccount]);
+
+  useEffect(() => {
+    dispatch(fetchProductInCart(cartById));
+  }, [dispatch]);
 
   return (
     <>
@@ -86,9 +94,43 @@ function CartPop({ onClose }: CartPopProps) {
               </button>
             </div>
             <div className="cart-products">
-              {productInCart.map((item) => {
-                return <div key={item.id}>{item.name}</div>;
-              })}
+              <ul>
+                {productInCart.map((item) => {
+                  const formatCurrence = new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(parseInt(item.price));
+                  return (
+                    <li key={item.id}>
+                      <div className="sub-card-img">
+                        <img src={item.image} alt="product-img" />
+                      </div>
+
+                      <div className="sub-card-title">
+                        <h3>{item.name}</h3>
+                        <p className="price">{formatCurrence}</p>
+                        <p className="cat-breed">Kind: {item.catBreed}</p>
+                        <p className="age">Age: {item.age} months</p>
+                        <p className="color">Color: {item.color}</p>
+                      </div>
+
+                      <div className="sub-card-action">
+                        <button className="increase-btn">
+                          <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                        <button className="decrease-btn">
+                          <FontAwesomeIcon icon={faMinus} />
+                        </button>
+                        <button className="delete-btn">
+                          <FontAwesomeIcon icon={faXmark} />
+                        </button>
+                      </div>
+
+                      <div className="total-item">x1</div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </div>
