@@ -92,9 +92,9 @@
     }
   ],
   "customer-online": {
-    "id": "3839",
-    "username": "User1",
-    "password": "Hoang201"
+    "id": "",
+    "username": "",
+    "password": ""
   },
   "accounts": [
     {
@@ -130,9 +130,9 @@
     }
   ],
   "admin-on-work": {
-    "id": "7890",
-    "email": "nvhoang2012002@gmail.com",
-    "password": "Hoang201"
+    "id": "",
+    "email": "",
+    "password": ""
   },
   "products": [
     {

@@ -35,6 +35,8 @@ import {
   fetchCustomerData,
   selectCustomerState,
 } from "../../redux/reducer/CustomerSlide";
+import { createPortal } from "react-dom";
+import CustomerLogin from "../PopUp/Customer/CustomerLogin";
 
 function DefaultHome() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,10 +111,16 @@ function DefaultHome() {
   };
 
   // ==========================CART HANDLING==========================
+  const [reset, setReset] = useState(1);
+  const [showLogin, setShowLogin] = useState(false);
+  const handleCloseLogin = () => {
+    setShowLogin(false);
+  };
+
   useEffect(() => {
     dispatch(fetchAuthCustomer());
     dispatch(fetchCustomerData());
-  }, [dispatch]);
+  }, [dispatch, reset]);
 
   const matchCustomerAccount = customerInfo.find((account) => {
     return (
@@ -122,27 +130,34 @@ function DefaultHome() {
   });
 
   const addToCart = (product: Product) => {
-    if (matchCustomerAccount) {
-      const catchProductInCart = matchCustomerAccount.products;
-      let found = false;
-      for (let i = 0; i <= catchProductInCart.length - 1; i++) {
-        if (catchProductInCart[i].id === product.id) {
-          found = true;
-          window.alert("You already have this kitty in cart!");
-          break;
+    if (
+      currentCustomerAccount.username === "" ||
+      currentCustomerAccount.password === ""
+    ) {
+      setShowLogin(true);
+    } else {
+      if (matchCustomerAccount) {
+        const catchProductInCart = matchCustomerAccount.products;
+        let found = false;
+        for (let i = 0; i <= catchProductInCart.length - 1; i++) {
+          if (catchProductInCart[i].id === product.id) {
+            found = true;
+            window.alert("You already have this kitty in cart!");
+            break;
+          }
         }
-      }
-      if (found === false) {
-        const updateStatus = {
-          id: matchCustomerAccount.id,
-          username: matchCustomerAccount.username,
-          password: matchCustomerAccount.password,
-          products: [...matchCustomerAccount.products, product],
-        };
+        if (found === false) {
+          const updateStatus = {
+            id: matchCustomerAccount.id,
+            username: matchCustomerAccount.username,
+            password: matchCustomerAccount.password,
+            products: [...matchCustomerAccount.products, product],
+          };
 
-        dispatch(putProductsToCart(updateStatus)).then(() => {
-          dispatch(fetchCustomerData());
-        });
+          dispatch(putProductsToCart(updateStatus)).then(() => {
+            dispatch(fetchCustomerData());
+          });
+        }
       }
     }
   };
@@ -376,6 +391,18 @@ function DefaultHome() {
           </div>
         </div>
       </div>
+
+      {showLogin &&
+        createPortal(
+          <CustomerLogin
+            onClose={handleCloseLogin}
+            onChangeMode={() => {}}
+            onLoginSuccess={() => {
+              setReset((prev) => prev + 1);
+            }}
+          />,
+          document.body
+        )}
     </>
   );
 }

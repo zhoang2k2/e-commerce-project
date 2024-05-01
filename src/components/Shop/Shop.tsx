@@ -22,9 +22,17 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../types/ProductType";
 import Pagination from "../Pagination/Pagination";
 import TitlePop from "../PopUp/Title/TitlePop";
-import { fetchAuthCustomer, selectAuthCustomerState } from "../../redux/reducer/AuthCustomerSlide";
-import { fetchCustomerData, selectCustomerState } from "../../redux/reducer/CustomerSlide";
+import {
+  fetchAuthCustomer,
+  selectAuthCustomerState,
+} from "../../redux/reducer/AuthCustomerSlide";
+import {
+  fetchCustomerData,
+  selectCustomerState,
+} from "../../redux/reducer/CustomerSlide";
 import { putProductsToCart } from "../../redux/reducer/CartSlide";
+import { createPortal } from "react-dom";
+import CustomerLogin from "../PopUp/Customer/CustomerLogin";
 
 function Shop() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,13 +120,19 @@ function Shop() {
   }, []);
 
   // HANDLE ADD TO CART
+  const [showLogin, setShowLogin] = useState(false);
+  const [reset, setReset] = useState(1);
+  const handleCloseLogin = () => {
+    setShowLogin(false);
+  };
+
   const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
   const { customerInfo } = useSelector(selectCustomerState);
 
   useEffect(() => {
     dispatch(fetchAuthCustomer());
     dispatch(fetchCustomerData());
-  }, [dispatch]);
+  }, [dispatch, reset]);
 
   const matchCustomerAccount = customerInfo.find((account) => {
     return (
@@ -128,27 +142,34 @@ function Shop() {
   });
 
   const addToCart = (product: Product) => {
-    if (matchCustomerAccount) {
-      const catchProductInCart = matchCustomerAccount.products;
-      let found = false;
-      for (let i = 0; i <= catchProductInCart.length - 1; i++) {
-        if (catchProductInCart[i].id === product.id) {
-          found = true;
-          window.alert("You already have this kitty in cart!");
-          break;
+    if (
+      currentCustomerAccount.username === "" ||
+      currentCustomerAccount.password === ""
+    ) {
+      setShowLogin(true);
+    } else {
+      if (matchCustomerAccount) {
+        const catchProductInCart = matchCustomerAccount.products;
+        let found = false;
+        for (let i = 0; i <= catchProductInCart.length - 1; i++) {
+          if (catchProductInCart[i].id === product.id) {
+            found = true;
+            window.alert("You already have this kitty in cart!");
+            break;
+          }
         }
-      }
-      if (found === false) {
-        const updateStatus = {
-          id: matchCustomerAccount.id,
-          username: matchCustomerAccount.username,
-          password: matchCustomerAccount.password,
-          products: [...matchCustomerAccount.products, product],
-        };
+        if (found === false) {
+          const updateStatus = {
+            id: matchCustomerAccount.id,
+            username: matchCustomerAccount.username,
+            password: matchCustomerAccount.password,
+            products: [...matchCustomerAccount.products, product],
+          };
 
-        dispatch(putProductsToCart(updateStatus)).then(() => {
-          dispatch(fetchCustomerData());
-        });
+          dispatch(putProductsToCart(updateStatus)).then(() => {
+            dispatch(fetchCustomerData());
+          });
+        }
       }
     }
   };
@@ -255,7 +276,10 @@ function Shop() {
                         {product.quantity} left
                       </div>
                       <div className="price">{formatCurrence}</div>
-                      <button className="add-to-cart-btn" onClick={() => addToCart(product)}>
+                      <button
+                        className="add-to-cart-btn"
+                        onClick={() => addToCart(product)}
+                      >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
                     </div>
@@ -316,6 +340,18 @@ function Shop() {
           </div>
         </div>
       </div>
+
+      {showLogin &&
+        createPortal(
+          <CustomerLogin
+            onClose={handleCloseLogin}
+            onChangeMode={() => {}}
+            onLoginSuccess={() => {
+              setReset((prev) => prev + 1);
+            }}
+          />,
+          document.body
+        )}
     </>
   );
 }
