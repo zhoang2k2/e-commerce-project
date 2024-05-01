@@ -1,4 +1,3 @@
-import "./addingPop.scss";
 import { useDispatch } from "react-redux";
 import {
   addProduct,
@@ -12,6 +11,7 @@ import Loading from "../../Loading/Loading";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ConfirmPop from "../../PopUp/Confirm/ConfirmPop";
+import "../../PopUp/Adding/addingPop.scss";
 
 type AddingPopProps = {
   initialState?: Product;

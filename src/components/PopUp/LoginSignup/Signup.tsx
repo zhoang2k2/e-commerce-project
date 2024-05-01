@@ -137,10 +137,6 @@ function SignUp({
 
         <div className="stages">
           <div className="stage1">
-            <FontAwesomeIcon
-              icon={faArrowRightLong}
-              className={signupStages === 1 ? "active-svg" : ""}
-            />
             <div className={signupStages === 1 ? "active-stage" : ""}></div>
           </div>
           <div className="stage2">
@@ -307,7 +303,7 @@ function SignUp({
               Move back
             </button>
             <button className="submit-btn" type="submit">
-            {loading ? <Loading /> : <>Register</>}
+              {loading ? <Loading /> : <>Register</>}
             </button>
           </div>
         ) : (

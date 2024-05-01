@@ -107,15 +107,16 @@
         align-items: center;
         width: 26px;
         height: 26px;
-        border: 3px solid #7631fe; /* Border mặc định */
-        border-radius: 100px; /* Độ cong tạo thành hình tròn */
-        background-color: #fff; /* Màu nền */
+        border: 3px solid #7631fe;
+        border-radius: 50px;
+        background-color: #fff;
         z-index: 2;
 
         div {
           width: 20px;
           height: 20px;
-          border-radius: 100px;
+          border: none;
+          border-radius: 50px;
           position: absolute;
           transition: 0.25s ease-in-out;
         }

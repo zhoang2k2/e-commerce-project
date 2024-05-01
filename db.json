@@ -19,19 +19,6 @@
           "status": "new"
         },
         {
-          "id": "556",
-          "name": "Maine Snow White",
-          "price": "20000000",
-          "quantity": "5",
-          "image": "https://i.imgur.com/JUVAC2X.jpeg",
-          "catBreed": "Maine Coon",
-          "age": "14",
-          "color": "white",
-          "rate": "5",
-          "sales": "8",
-          "status": "new"
-        },
-        {
           "id": "222",
           "name": "British Short T",
           "price": "16000000",
@@ -68,6 +55,19 @@
           "color": "black",
           "rate": "3",
           "sales": "15",
+          "status": "new"
+        },
+        {
+          "id": "123",
+          "name": "Russian No Fun",
+          "price": "13000000",
+          "quantity": "4",
+          "image": "https://i.imgur.com/9Y06JSw.jpeg",
+          "catBreed": "Russian Blue",
+          "age": "3",
+          "color": "black",
+          "rate": "3",
+          "sales": "10",
           "status": "new"
         }
       ]
