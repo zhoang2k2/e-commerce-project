@@ -23,7 +23,7 @@ export const addProduct = createAsyncThunk(
   "products/add",
   async (newProduct: Product) => {
     try {
-      const response = await axios.post<Product>(
+      const response = await axios.post(
         "http://localhost:3000/products",
         newProduct
       );

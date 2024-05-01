@@ -14,7 +14,7 @@ const initialState = {
   status: "IDLE",
 };
 
-export const fetchAuthAccount = createAsyncThunk("", async () => {
+export const fetchAuthAccount = createAsyncThunk("auth-admin/fetch", async () => {
   try {
     const response = await axios.get("http://localhost:3000/admin-on-work");
     return response.data as AccountAuth;
@@ -25,7 +25,7 @@ export const fetchAuthAccount = createAsyncThunk("", async () => {
 });
 
 export const addAuthAccount = createAsyncThunk(
-  "auth-account/put",
+  "auth-admin/put",
   async (authAccount: AccountAuth) => {
     try {
       const response = await axios.put(

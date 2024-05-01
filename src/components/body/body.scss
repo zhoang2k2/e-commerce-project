@@ -3,7 +3,7 @@
 .body-container {
   margin-left: 250px;
   min-width: 1440px;
-  height: 1250px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #f7f1ff;

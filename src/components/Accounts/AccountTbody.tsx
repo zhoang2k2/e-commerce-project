@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { selectAccountState } from "../../redux/reducer/AccountsSlide";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import Login from "../popUp/LoginSignup/Login";
@@ -14,8 +12,12 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
-function AccountTbody() {
-  const { adminAccounts } = useSelector(selectAccountState);
+type AccountTbodyProps = {
+  currentItems: AccountType[]
+}
+
+function AccountTbody({currentItems} : AccountTbodyProps) {
+  // const { adminAccounts } = useSelector(selectAccountState);
 
   const [showPopup, setShowPopup] = useState({
     auth: false,
@@ -41,7 +43,6 @@ function AccountTbody() {
 
   const handleAuthorization = (account: AccountAuth) => {
     setAuthenticatedRow(account.id ?? "");
-
     setShowPopup({ ...showPopup, auth: true });
   };
 
@@ -59,7 +60,7 @@ function AccountTbody() {
   return (
     <>
       <tbody>
-        {adminAccounts.map((account) => {
+        {currentItems.map((account) => {
           const isAuthRow = authenticatedRow === account.id;
 
           return (

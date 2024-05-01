@@ -70,7 +70,7 @@ function Tbody({ currentItems, filterVal }: TbodyProps) {
                 <td>{product.id}</td>
                 <td>{product.name}</td>
                 <td>
-                  <img src={product.image} alt={`cat ${product.id}`} />
+                  <img loading="lazy" src={product.image} alt={`cat ${product.id}`} />
                 </td>
                 <td>{formatCurrence}</td>
                 <td>{product.quantity}</td>

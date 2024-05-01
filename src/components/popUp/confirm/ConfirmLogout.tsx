@@ -33,6 +33,7 @@ function ConfirmLogout({
     setTimeout(() => {
       if (mode === "admin") {
         const logout = {
+          id: "",
           email: "",
           password: "",
         };
@@ -40,6 +41,7 @@ function ConfirmLogout({
         history.push("/");
       } else {
         const logout = {
+          id: "",
           username: "",
           password: "",
         };

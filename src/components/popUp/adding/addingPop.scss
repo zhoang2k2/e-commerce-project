@@ -10,7 +10,7 @@
 
   .wrap-form {
     margin: auto;
-    padding: 50px;
+    padding: 40px;
     background-color: #fff;
     border: 2px solid #7f7f7f;
     border-radius: 10px;
@@ -25,7 +25,8 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 40px 10px;
-        margin-bottom: 20px;
+        padding-bottom: 75px;
+        position: relative;
 
         label {
           font-size: 16px;
@@ -85,10 +86,12 @@
         }
       }
 
-      section {
+      .form-actions {
         display: flex;
         gap: 0 20px;
-        margin-top: 50px;
+        position: absolute;
+        bottom: 0px;
+        right: 50px;
 
         button {
           &.save-btn {

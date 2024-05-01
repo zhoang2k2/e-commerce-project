@@ -22,6 +22,9 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../types/ProductType";
 import Pagination from "../Pagination/Pagination";
 import TitlePop from "../popUp/Title/TitlePop";
+import { fetchAuthCustomer, selectAuthCustomerState } from "../../redux/reducer/AuthCustomerSlide";
+import { fetchCustomerData, selectCustomerState } from "../../redux/reducer/CustomerSlide";
+import { putProductsToCart } from "../../redux/reducer/CartSlide";
 
 function Shop() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,6 +110,48 @@ function Shop() {
       behavior: "smooth",
     });
   }, []);
+
+  // HANDLE ADD TO CART
+  const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
+  const { customerInfo } = useSelector(selectCustomerState);
+
+  useEffect(() => {
+    dispatch(fetchAuthCustomer());
+    dispatch(fetchCustomerData());
+  }, [dispatch]);
+
+  const matchCustomerAccount = customerInfo.find((account) => {
+    return (
+      currentCustomerAccount.username === account.username &&
+      currentCustomerAccount.password === account.password
+    );
+  });
+
+  const addToCart = (product: Product) => {
+    if (matchCustomerAccount) {
+      const catchProductInCart = matchCustomerAccount.products;
+      let found = false;
+      for (let i = 0; i <= catchProductInCart.length - 1; i++) {
+        if (catchProductInCart[i].id === product.id) {
+          found = true;
+          window.alert("You already have this kitty in cart!");
+          break;
+        }
+      }
+      if (found === false) {
+        const updateStatus = {
+          id: matchCustomerAccount.id,
+          username: matchCustomerAccount.username,
+          password: matchCustomerAccount.password,
+          products: [...matchCustomerAccount.products, product],
+        };
+
+        dispatch(putProductsToCart(updateStatus)).then(() => {
+          dispatch(fetchCustomerData());
+        });
+      }
+    }
+  };
 
   return (
     <>
@@ -210,7 +255,7 @@ function Shop() {
                         {product.quantity} left
                       </div>
                       <div className="price">{formatCurrence}</div>
-                      <button className="add-to-cart-btn">
+                      <button className="add-to-cart-btn" onClick={() => addToCart(product)}>
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
                     </div>

@@ -4,11 +4,13 @@ import {
   addProduct,
   fetchProducts,
 } from "../../../redux/reducer/ProductsSlide";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import type { Product } from "../../../types/ProductType";
 import ConfirmPop from "../Confirm/ConfirmPop";
 import { createPortal } from "react-dom";
 import Loading from "../../Loading/Loading";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 type AddingPopProps = {
   initialState?: Product;
@@ -28,61 +30,83 @@ function AddingPop({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
 
-  const [fields, setFields] = useState<Product>({
-    id: "",
-    name: "",
-    price: "",
-    quantity: "",
-    image: "",
-    catBreed: "",
-    age: "",
-    color: "",
-    rate: "",
-    sales: "",
-    status: "",
-  });
-
   const [loading, setLoading] = useState(false);
-  const [addState, setAddState] = useState(false);
-  const handleAdd = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2400);
 
-    setTimeout(() => {
-      if (!addState && mode === "add") {
-        setAddState(true);
-        const randomID = Math.floor(Math.random() * 10000);
-        const updatedFields = { ...fields, id: randomID.toString() };
-        if (updatedFields.id !== "") {
-          dispatch(addProduct(updatedFields));
-          onSubmitSuccess();
-          onCancle();
-          dispatch(fetchProducts());
-        }
-        setAddState(false);
+  const formik = useFormik({
+    initialValues: initialState || {
+      id: "",
+      name: "",
+      price: "",
+      quantity: "",
+      image: "",
+      catBreed: "",
+      age: "",
+      color: "",
+      rate: "",
+      sales: "",
+      status: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .min(2, "at least 2 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      price: Yup.string()
+        .min(5, "at least 5 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      quantity: Yup.string()
+        .min(1, "at least 1 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      image: Yup.string().required("Required"),
+
+      catBreed: Yup.string().required("Required"),
+
+      age: Yup.string()
+        .min(1, "at least 1 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      color: Yup.string().required("Required"),
+
+      rate: Yup.string().required("Required"),
+
+      sales: Yup.string()
+        .min(1, "at least 1 characters")
+        .max(50, "less than 50 characters")
+        .required("required"),
+
+      status: Yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2400);
+
+      if (mode === "add") {
+        setTimeout(() => {
+          const randomID = Math.floor(Math.random() * 10000);
+          const updatedValues = { ...values, id: randomID.toString() };
+          dispatch(addProduct(updatedValues)).then(() => {
+            console.log("after");
+            onSubmitSuccess();
+            onCancle();
+            dispatch(fetchProducts());
+          });
+        }, 2400);
       }
-    }, 2400);
 
-    if (mode === "edit") {
-      setLoading(false);
-      setModalEditConfirm(true);
-    }
-  };
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
-  };
-
-  useEffect(() => {
-    if (initialState) {
-      setFields(initialState);
-    }
-  }, [initialState]);
+      if (mode === "edit") {
+        setLoading(false);
+        setModalEditConfirm(true);
+      }
+    },
+  });
 
   const [modalEditConfirm, setModalEditConfirm] = useState(false);
 
@@ -91,48 +115,60 @@ function AddingPop({
       <div className="adding-popup">
         <div className="wrap-form">
           <div className="form">
-            <form>
+            <form onSubmit={formik.handleSubmit}>
               <label htmlFor="name">
-                Name:
+                Name:{" "}
+                {formik.touched.name && formik.errors.name ? (
+                  <div className="error">{formik.errors.name}</div>
+                ) : null}
                 <input
                   type="text"
                   name="name"
-                  value={fields.name}
-                  onChange={handleChange}
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
                   placeholder="Enter name..."
                 />
               </label>
 
               <label htmlFor="catBreed">
-                Cat breed:
+                Cat breed:{" "}
+                {formik.touched.catBreed && formik.errors.catBreed ? (
+                  <div className="error">{formik.errors.catBreed}</div>
+                ) : null}
                 <input
                   type="text"
                   name="catBreed"
-                  value={fields.catBreed}
-                  onChange={handleChange}
+                  value={formik.values.catBreed}
+                  onChange={formik.handleChange}
                   placeholder="Enter breed..."
                 />
               </label>
 
               <label htmlFor="age">
-                Age:
+                Age:{" "}
+                {formik.touched.age && formik.errors.age ? (
+                  <div className="error">{formik.errors.age}</div>
+                ) : null}
                 <input
                   type="number"
                   name="age"
-                  value={fields.age}
-                  onChange={handleChange}
+                  value={formik.values.age}
+                  onChange={formik.handleChange}
                   placeholder="Enter age (by months)..."
                 />
               </label>
 
               <label htmlFor="color">
-                Color:
+                Color:{" "}
+                {formik.touched.color && formik.errors.color ? (
+                  <div className="error">{formik.errors.color}</div>
+                ) : null}
                 <select
                   name="color"
-                  value={fields.color}
-                  onChange={handleChange}
+                  value={formik.values.color}
+                  onChange={formik.handleChange}
                 >
-                  <option value="other">Other</option>
+                  <option value="">Other</option>
                   <option value="black">Black</option>
                   <option value="white">White</option>
                   <option value="gray">Gray</option>
@@ -143,31 +179,44 @@ function AddingPop({
               </label>
 
               <label htmlFor="price">
-                Price:
+                Price:{" "}
+                {formik.touched.price && formik.errors.price ? (
+                  <div className="error">{formik.errors.price}</div>
+                ) : null}
                 <input
                   type="number"
                   name="price"
-                  value={fields.price}
-                  onChange={handleChange}
+                  value={formik.values.price}
+                  onChange={formik.handleChange}
                   placeholder="Enter price..."
                 />
               </label>
 
               <label htmlFor="quantity">
-                Quantity:
+                Quantity:{" "}
+                {formik.touched.quantity && formik.errors.quantity ? (
+                  <div className="error">{formik.errors.quantity}</div>
+                ) : null}
                 <input
                   type="number"
                   name="quantity"
-                  value={fields.quantity}
-                  onChange={handleChange}
+                  value={formik.values.quantity}
+                  onChange={formik.handleChange}
                   placeholder="Enter quantity..."
                 />
               </label>
 
               <label htmlFor="rate">
-                Rate:
-                <select name="rate" value={fields.rate} onChange={handleChange}>
-                  <option value=""></option>
+                Rate:{" "}
+                {formik.touched.rate && formik.errors.rate ? (
+                  <div className="error">{formik.errors.rate}</div>
+                ) : null}
+                <select
+                  name="rate"
+                  value={formik.values.rate}
+                  onChange={formik.handleChange}
+                >
+                  <option value="">Rating</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -177,53 +226,59 @@ function AddingPop({
               </label>
 
               <label htmlFor="sales">
-                Total Sales:
+                Total Sales:{" "}
+                {formik.touched.sales && formik.errors.sales ? (
+                  <div className="error">{formik.errors.sales}</div>
+                ) : null}
                 <input
                   type="text"
                   name="sales"
-                  value={fields.sales}
-                  onChange={handleChange}
+                  value={formik.values.sales}
+                  onChange={formik.handleChange}
                   placeholder="Enter sales number..."
                 />
               </label>
 
               <label htmlFor="image">
-                <a href="https://imgur.com/a/PiSwOET" target="_blank">
-                  Image:
-                </a>
-                {/* CSS HOVER */}
+                Image:{" "}
+                {formik.touched.image && formik.errors.image ? (
+                  <div className="error">{formik.errors.image}</div>
+                ) : null}
                 <input
                   className="product-image"
                   type="text"
                   name="image"
-                  value={fields.image}
-                  onChange={handleChange}
+                  value={formik.values.image}
+                  onChange={formik.handleChange}
                   placeholder="Enter URL..."
                 />
               </label>
 
               <label htmlFor="status">
-                Status:
+                Status:{" "}
+                {formik.touched.status && formik.errors.status ? (
+                  <div className="error">{formik.errors.status}</div>
+                ) : null}
                 <select
                   name="status"
-                  value={fields.status}
-                  onChange={handleChange}
+                  value={formik.values.status}
+                  onChange={formik.handleChange}
                 >
-                  <option value=""></option>
+                  <option value="">Version</option>
                   <option value="old">Old</option>
                   <option value="new">New</option>
                 </select>
               </label>
-            </form>
 
-            <section>
-              <button className="save-btn" onClick={handleAdd}>
-                {loading ? <Loading /> : <>Save</>}
-              </button>
-              <button className="cancle-btn" onClick={onCancle}>
-                Cancle
-              </button>
-            </section>
+              <div className="form-actions">
+                <button className="save-btn" type="submit">
+                  {loading && mode === "add" ? <Loading /> : <>Save</>}
+                </button>
+                <button className="cancle-btn" onClick={onCancle}>
+                  Cancle
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -232,7 +287,7 @@ function AddingPop({
         createPortal(
           <ConfirmPop
             mode="edit"
-            selectedFields={fields}
+            selectedFields={formik.values}
             onCancle={() => {
               setModalEditConfirm(false);
             }}

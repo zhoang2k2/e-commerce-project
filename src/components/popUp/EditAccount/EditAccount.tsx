@@ -62,7 +62,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
             onClick={handleCloseModal}
           />
           <h2>
-            Editing: <span>{formik.values.email}</span>
+            <span>{formik.values.email}</span>
           </h2>
           <div className="form-content">
             <div className="edit-information">

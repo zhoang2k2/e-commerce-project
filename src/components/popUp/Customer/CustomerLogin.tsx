@@ -1,4 +1,4 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../Loading/Loading";
 import { useFormik } from "formik";
@@ -94,6 +94,12 @@ function CustomerLogin({
     onChangeMode();
   };
 
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setVisiblePassword(!visiblePassword);
+  };
+
   return (
     <div className="customer-container">
       <div className={showForm ? "customer-pop active" : "customer-pop"}>
@@ -129,11 +135,18 @@ function CustomerLogin({
               ) : null}
               <input
                 name="password"
-                type="password"
+                type={visiblePassword ? "text" : "password"}
                 placeholder="Enter Password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
               />
+                <button onClick={handleVisiblePassword}>
+                {visiblePassword ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
+              </button>
             </label>
 
             <p>

@@ -44,6 +44,27 @@ export const putProductsToCart = createAsyncThunk(
   }
 );
 
+export const deleteProductsFromCart = createAsyncThunk(
+  "cart/delete",
+  async ({
+    customer,
+    productId,
+  }: {
+    customer: CustomerInfo;
+    productId: string;
+  }) => {
+    try {
+      await axios.put(`http://localhost:3000/customers/${customer.id}`, {
+        ...customer,
+      });
+      return productId;
+    } catch (error) {
+      console.error("Error when remove products from cart");
+      throw error;
+    }
+  }
+);
+
 const CartSlice = createSlice({
   name: "cart",
   initialState,
@@ -65,6 +86,19 @@ const CartSlice = createSlice({
       })
       .addCase(fetchProductInCart.rejected, (state) => {
         state.status = "FAIL";
+      })
+      .addCase(deleteProductsFromCart.fulfilled, (state, action) => {
+        const customerId = action.meta.arg.customer.id;
+        const productId = action.payload;
+        const customerIndex = state.customers.findIndex(
+          (customer) => customer.id === customerId.toString()
+        );
+        if (customerIndex !== -1) {
+          state.customers[customerIndex].products = state.customers[
+            customerIndex
+          ].products.filter((item) => item.id !== productId.toString());
+          state.status = "SUCCESS";
+        }
       });
   },
 });

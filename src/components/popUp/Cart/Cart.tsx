@@ -1,11 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./cart.scss";
-import {
-  faCheck,
-  faMinus,
-  faPlus,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductInCart } from "../../../redux/reducer/CartSlide";
 import {
@@ -15,7 +10,12 @@ import {
 import { useEffect, useState } from "react";
 
 import type { Product } from "../../../types/ProductType";
-import { selectCustomerState } from "../../../redux/reducer/CustomerSlide";
+import {
+  fetchCustomerData,
+  selectCustomerState,
+  type CustomerInfo,
+} from "../../../redux/reducer/CustomerSlide";
+import CartItem from "./CartItem";
 
 type CartPopProps = {
   onClose: () => void;
@@ -33,31 +33,63 @@ function CartPop({ onClose }: CartPopProps) {
 
   useEffect(() => {
     dispatch(fetchAuthCustomer());
+    dispatch(fetchCustomerData());
   }, [dispatch]);
 
-  const [cartById, setCartById] = useState<string>("");
-  const [productInCart, setProductInCart] = useState<Product[]>([]);
-
+  const [productsInCart, setProductsInCart] = useState<Product[]>([]);
+  const [customerOnline, setCustomerOnline] = useState<CustomerInfo>();
   useEffect(() => {
-    if (customerInfo && currentCustomerAccount) {
+    if (customerInfo.length > 0 && currentCustomerAccount) {
       const index = customerInfo.findIndex(
         (customer) => customer.id === currentCustomerAccount.id
       );
       if (index !== -1) {
-        setProductInCart(customerInfo[index].products);
-        setCartById(customerInfo[index].id);
+        setProductsInCart(customerInfo[index].products);
+        setCustomerOnline(customerInfo[index]);
+        dispatch(fetchProductInCart(customerInfo[index].id));
       }
     }
-  }, [customerInfo, currentCustomerAccount]);
+  }, [customerInfo, currentCustomerAccount, dispatch]);
 
+  // HANDLING QUANTITY
+  const [productQuantities, setProductQuantities] = useState<{
+    [key: string]: number;
+  }>({});
+
+  const handleIncrease = (productId: string) => {
+    setProductQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: (prevQuantities[productId] || 1) + 1,
+    }));
+  };
+
+  const handleDecrease = (productId: string) => {
+    setProductQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: (prevQuantities[productId] || 1) - 1,
+    }));
+  };
+
+  // HANDLING PURCHASE
+  const totalPrice = productsInCart.reduce((total, product) => {
+    const quantity = productQuantities[product.id] || 1;
+    return total + parseInt(product.price) * quantity;
+  }, 0);
+
+  const totalPriceFormatCurrence = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(totalPrice);
+
+  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
-    dispatch(fetchProductInCart(cartById));
-  }, [dispatch]);
+    setShowForm(true);
+  }, []);
 
   return (
     <>
       <div className="cart-container">
-        <div className="cart-wrapper">
+        <div className={showForm ? "cart-wrapper active" : "cart-wrapper"}>
           <h2>CART</h2>
           <FontAwesomeIcon
             icon={faXmark}
@@ -85,49 +117,36 @@ function CartPop({ onClose }: CartPopProps) {
                   />
                 </label>
               </form>
-              <div className="price">
-                <ul className="each-price">each</ul>
-                <span className="total-price">total</span>
-              </div>
+              <div className="purchase">Total: {totalPriceFormatCurrence}</div>
               <button className="buy-btn">
                 Buy <FontAwesomeIcon icon={faCheck} />
               </button>
             </div>
             <div className="cart-products">
               <ul>
-                {productInCart.map((item) => {
+                {productsInCart.map((item) => {
                   const formatCurrence = new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   }).format(parseInt(item.price));
+
                   return (
-                    <li key={item.id}>
-                      <div className="sub-card-img">
-                        <img src={item.image} alt="product-img" />
-                      </div>
-
-                      <div className="sub-card-title">
-                        <h3>{item.name}</h3>
-                        <p className="price">{formatCurrence}</p>
-                        <p className="cat-breed">Kind: {item.catBreed}</p>
-                        <p className="age">Age: {item.age} months</p>
-                        <p className="color">Color: {item.color}</p>
-                      </div>
-
-                      <div className="sub-card-action">
-                        <button className="increase-btn">
-                          <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                        <button className="decrease-btn">
-                          <FontAwesomeIcon icon={faMinus} />
-                        </button>
-                        <button className="delete-btn">
-                          <FontAwesomeIcon icon={faXmark} />
-                        </button>
-                      </div>
-
-                      <div className="total-item">x1</div>
-                    </li>
+                    <CartItem
+                      handleIncrease={handleIncrease}
+                      handleDecrease={handleDecrease}
+                      quantity={productQuantities[item.id] || 1}
+                      key={item.id}
+                      formatCurrence={formatCurrence}
+                      item={item}
+                      customerOnline={
+                        customerOnline ?? {
+                          id: "",
+                          username: "",
+                          password: "",
+                          products: [],
+                        }
+                      }
+                    />
                   );
                 })}
               </ul>

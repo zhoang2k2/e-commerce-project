@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./login-signup.scss";
 import { useEffect, useState } from "react";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { AccountType } from "../../../types/AccountType";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -88,7 +88,6 @@ function Login({
   };
 
   // =========================COMMON=========================
-
   const handleMode = () => {
     onChangeMode();
   };
@@ -135,6 +134,12 @@ function Login({
     },
   });
 
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setVisiblePassword(!visiblePassword);
+  };
+
   return (
     <div className="form-container">
       <form
@@ -169,11 +174,18 @@ function Login({
             ) : null}
             <input
               name="password"
-              type="password"
+              type={visiblePassword ? "text" : "password"}
               placeholder="Enter Password"
               onChange={formik.handleChange}
               value={formik.values.password}
             />
+              <button onClick={handleVisiblePassword}>
+                {visiblePassword ? (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                ) : (
+                  <FontAwesomeIcon icon={faEye} />
+                )}
+              </button>
           </label>
         </div>
 

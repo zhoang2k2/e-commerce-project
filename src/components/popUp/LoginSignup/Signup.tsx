@@ -28,7 +28,6 @@ function SignUp({
 }: SignupProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  // const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue("confirmPassword", e.target.value);

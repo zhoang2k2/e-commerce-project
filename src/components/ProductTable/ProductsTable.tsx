@@ -100,6 +100,13 @@ function ProductsTable() {
     setCurrentPage(1);
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [currentPage]);
+
   return (
     <>
       <div className="action-body">

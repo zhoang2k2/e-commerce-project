@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchAccounts } from "../../redux/reducer/AccountsSlide";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAccounts,
+  selectAccountState,
+} from "../../redux/reducer/AccountsSlide";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./accounts.scss";
@@ -9,6 +12,7 @@ import { createPortal } from "react-dom";
 import SignUp from "../popUp/LoginSignup/Signup";
 
 import AccountTbody from "./AccountTbody";
+import Pagination from "../Pagination/Pagination";
 
 function AdminAccounts() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,6 +24,8 @@ function AdminAccounts() {
     confirm: false,
     edit: false,
   });
+
+  const { adminAccounts } = useSelector(selectAccountState);
 
   const [reset, setReset] = useState(1);
   useEffect(() => {
@@ -37,12 +43,20 @@ function AdminAccounts() {
     setShowPopup({ ...showPopup, signup: false });
   };
 
-  // const handleLoginToSignup = () => {
-  //   setShowPopup({ ...showPopup, login: false, signup: true });
-  // };
-  // const handleSignupToLogin = () => {
-  //   setShowPopup({ ...showPopup, signup: false, login: true });
-  // };
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const [itemsPerPage] = useState(5);
+
+  const totalItem = [...adminAccounts];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const totalPage = Math.ceil(totalItem.length / itemsPerPage);
+
+  const currentItems = totalItem.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -66,8 +80,15 @@ function AdminAccounts() {
               <th>Action</th>
             </tr>
           </thead>
-          <AccountTbody />
+          <AccountTbody currentItems={currentItems} />
         </table>
+
+        <Pagination
+          mode="full"
+          totalPage={totalPage}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+        />
       </div>
 
       {/* {showPopup.login &&

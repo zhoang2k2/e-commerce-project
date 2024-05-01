@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./sidebar.scss";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import {
+  faCartShopping,
   faHouse,
   faRightFromBracket,
   faTableList,
@@ -68,6 +69,12 @@ function Sidebar() {
               <NavLink exact to={`${url}/accounts`} activeStyle={styleNav}>
                 <FontAwesomeIcon icon={faUsers} />
                 admin account
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact to={`${url}/orders`} activeStyle={styleNav}>
+                <FontAwesomeIcon icon={faCartShopping} />
+                Manage orders
               </NavLink>
             </li>
           </ul>

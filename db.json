@@ -6,19 +6,6 @@
       "password": "Hoang201",
       "products": [
         {
-          "id": "1000",
-          "name": "Persiant cat da sussy gray cat",
-          "price": "15000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/ks54Sb7.jpeg",
-          "catBreed": "Persiant",
-          "age": "18",
-          "color": "black",
-          "rate": "3",
-          "sales": "15",
-          "status": "new"
-        },
-        {
           "id": "999",
           "name": "American Short Assa",
           "price": "10000000",
@@ -29,6 +16,19 @@
           "color": "gray",
           "rate": "4",
           "sales": "18",
+          "status": "new"
+        },
+        {
+          "id": "556",
+          "name": "Maine Snow White",
+          "price": "20000000",
+          "quantity": "5",
+          "image": "https://i.imgur.com/JUVAC2X.jpeg",
+          "catBreed": "Maine Coon",
+          "age": "14",
+          "color": "white",
+          "rate": "5",
+          "sales": "8",
           "status": "new"
         },
         {
@@ -45,16 +45,29 @@
           "status": "new"
         },
         {
-          "id": "556",
-          "name": "Maine Snow White",
-          "price": "20000000",
-          "quantity": "5",
-          "image": "https://i.imgur.com/JUVAC2X.jpeg",
-          "catBreed": "Maine Coon",
-          "age": "14",
-          "color": "white",
+          "id": "9203",
+          "name": "American Short Orag",
+          "price": "10000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/QCIzY6a.jpeg",
+          "catBreed": "American Shorthair",
+          "age": "12",
+          "color": "orange",
           "rate": "5",
-          "sales": "8",
+          "sales": "18",
+          "status": "new"
+        },
+        {
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
+          "color": "black",
+          "rate": "3",
+          "sales": "15",
           "status": "new"
         }
       ]
@@ -86,7 +99,7 @@
   "accounts": [
     {
       "id": "7890",
-      "fullname": "Nguyen Hoang",
+      "fullname": "Hoang Nguyen",
       "password": "Hoang201",
       "email": "nvhoang2012002@gmail.com",
       "gender": "male",
@@ -117,8 +130,9 @@
     }
   ],
   "admin-on-work": {
-    "email": "",
-    "password": ""
+    "id": "7890",
+    "email": "nvhoang2012002@gmail.com",
+    "password": "Hoang201"
   },
   "products": [
     {
@@ -505,7 +519,7 @@
       "quantity": "1",
       "image": "https://i.imgur.com/2mN1PM7.jpeg",
       "catBreed": "Persian",
-      "age": "1",
+      "age": 5,
       "color": "black",
       "rate": "1",
       "sales": "20",
