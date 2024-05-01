@@ -3,7 +3,7 @@ import "./editAccount.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { AccountEditedType } from "../../../types/AccountType";
-import ConfirmAccount from "../Confirm/ConfirmAccount";
+import ConfirmAccount from "../../PopUp/Confirm/ConfirmAccount";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 

@@ -15,7 +15,7 @@ import {
   selectCustomerState,
   type CustomerInfo,
 } from "../../../redux/reducer/CustomerSlide";
-import CartItem from "./CartItem";
+import CartItem from "../../PopUp/Cart/CartItem";
 
 type CartPopProps = {
   onClose: () => void;
