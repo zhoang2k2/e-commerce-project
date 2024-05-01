@@ -5,9 +5,9 @@ import type { Product } from "../../types/ProductType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import AddingPop from "../popUp/Adding/AddingPop";
+import AddingPop from "../PopUp/Adding/AddingPop";
 import { createPortal } from "react-dom";
-import ConfirmPop from "../popUp/Confirm/ConfirmPop";
+import ConfirmPop from "../PopUp/Confirm/ConfirmPop";
 
 type TbodyProps = {
   currentItems: Product[];

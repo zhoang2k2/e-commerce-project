@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import "./table.scss";
 import type { Product } from "../../types/ProductType";
 import { useEffect, useState, type ChangeEvent } from "react";
-import AddingPop from "../popUp/Adding/AddingPop";
+import AddingPop from "../PopUp/Adding/AddingPop";
 import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +13,7 @@ import {
   faRotateLeft,
   faTableList,
 } from "@fortawesome/free-solid-svg-icons";
-import TitlePop from "../popUp/Title/TitlePop";
+import TitlePop from "../PopUp/Title/TitlePop";
 import Tbody from "./Tbody";
 import Pagination from "../Pagination/Pagination";
 import { selectProductState } from "../../redux/reducer/ProductsSlide";

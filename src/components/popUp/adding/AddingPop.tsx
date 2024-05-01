@@ -6,11 +6,12 @@ import {
 } from "../../../redux/reducer/ProductsSlide";
 import { useState } from "react";
 import type { Product } from "../../../types/ProductType";
-import ConfirmPop from "../Confirm/ConfirmPop";
+
 import { createPortal } from "react-dom";
 import Loading from "../../Loading/Loading";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import ConfirmPop from "../../PopUp/Confirm/ConfirmPop";
 
 type AddingPopProps = {
   initialState?: Product;

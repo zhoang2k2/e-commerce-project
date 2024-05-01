@@ -14,7 +14,7 @@ import { selectAuthAccountState } from "../../redux/reducer/AuthAccountSlides";
 import { useState } from "react";
 import { selectAccountState } from "../../redux/reducer/AccountsSlide";
 import { createPortal } from "react-dom";
-import ConfirmLogout from "../popUp/Confirm/ConfirmLogout";
+import ConfirmLogout from "../PopUp/Confirm/ConfirmLogout";
 
 function Sidebar() {
   const { url } = useRouteMatch();

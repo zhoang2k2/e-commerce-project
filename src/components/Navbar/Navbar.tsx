@@ -10,21 +10,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, NavLink, useHistory } from "react-router-dom";
-import Login from "../popUp/LoginSignup/Login";
+import Login from "../PopUp/LoginSignup/Login";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAuthAccount,
   selectAuthAccountState,
 } from "../../redux/reducer/AuthAccountSlides";
-import SignUp from "../popUp/LoginSignup/Signup";
-import CustomerInfo from "../popUp/Customer/CustomerInfo";
-import CustomerLogin from "../popUp/Customer/CustomerLogin";
+
+import CustomerInfo from "../PopUp/Customer/CustomerInfo";
+import CustomerLogin from "../PopUp/Customer/CustomerLogin";
 import {
   fetchAuthCustomer,
   selectAuthCustomerState,
 } from "../../redux/reducer/AuthCustomerSlide";
-import ConfirmLogout from "../popUp/Confirm/ConfirmLogout";
-import CartPop from "../popUp/Cart/Cart";
+import ConfirmLogout from "../PopUp/Confirm/ConfirmLogout";
+import SignUp from "../PopUp/LoginSignup/Signup";
+import CartPop from "../PopUp/Cart/Cart";
+
 
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

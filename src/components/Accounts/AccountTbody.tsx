@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import Login from "../popUp/LoginSignup/Login";
-import ConfirmAccount from "../popUp/Confirm/ConfirmAccount";
-import EditAccount from "../popUp/EditAccount/EditAccount";
+import Login from "../PopUp/LoginSignup/Login";
+import ConfirmAccount from "../PopUp/Confirm/ConfirmAccount";
+import EditAccount from "../PopUp/EditAccount/EditAccount";
 import type { AccountAuth, AccountType } from "../../types/AccountType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,10 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 type AccountTbodyProps = {
-  currentItems: AccountType[]
-}
+  currentItems: AccountType[];
+};
 
-function AccountTbody({currentItems} : AccountTbodyProps) {
+function AccountTbody({ currentItems }: AccountTbodyProps) {
   // const { adminAccounts } = useSelector(selectAccountState);
 
   const [showPopup, setShowPopup] = useState({

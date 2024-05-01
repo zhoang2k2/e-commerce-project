@@ -9,7 +9,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./accounts.scss";
 // import Login from "../popUp/LoginSignup/Login";
 import { createPortal } from "react-dom";
-import SignUp from "../popUp/LoginSignup/Signup";
+import SignUp from "../PopUp/LoginSignup/Signup";
 
 import AccountTbody from "./AccountTbody";
 import Pagination from "../Pagination/Pagination";

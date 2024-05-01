@@ -21,7 +21,7 @@ import {
 import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../types/ProductType";
 import Pagination from "../Pagination/Pagination";
-import TitlePop from "../popUp/Title/TitlePop";
+import TitlePop from "../PopUp/Title/TitlePop";
 import { fetchAuthCustomer, selectAuthCustomerState } from "../../redux/reducer/AuthCustomerSlide";
 import { fetchCustomerData, selectCustomerState } from "../../redux/reducer/CustomerSlide";
 import { putProductsToCart } from "../../redux/reducer/CartSlide";
