@@ -18,7 +18,7 @@ import {
   fetchProducts,
   selectProductState,
 } from "../../redux/reducer/ProductsSlide";
-import { useEffect, useState, type ChangeEvent } from "react";
+import {  useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../types/ProductType";
 import Pagination from "../Pagination/Pagination";
 import TitlePop from "../PopUp/Title/TitlePop";
@@ -263,10 +263,9 @@ function Shop() {
                       icon={faCartPlus}
                       className="add-to-cart"
                     />
-                    <div
-                      className="product-img"
-                      style={{ backgroundImage: `url(${product.image})` }}
-                    ></div>
+                    <div className="product-img">
+                      <img loading="lazy" src={product.image} alt="img" />
+                    </div>
                     <div className="product-title">
                       <h3>{product.name}</h3>
                       <div className="rate">{ratingStar}</div>

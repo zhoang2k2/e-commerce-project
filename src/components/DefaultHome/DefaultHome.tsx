@@ -270,10 +270,9 @@ function DefaultHome() {
                     onClick={() => {}}
                   >
                     <FontAwesomeIcon icon={faCartPlus} className="cart-icon" />
-                    <div
-                      className="product-img"
-                      style={{ backgroundImage: `url(${product.image})` }}
-                    ></div>
+                    <div className="product-img">
+                      <img loading="lazy" src={product.image} alt="img" />
+                    </div>
                     <div className="new-product-title product-title">
                       <h3>{product.name}</h3>
                       <div className="rate">{ratingStar}</div>

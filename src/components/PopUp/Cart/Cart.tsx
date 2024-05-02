@@ -2,7 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./cart.scss";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductInCart } from "../../../redux/reducer/CartSlide";
+import {
+  fetchProductInCart,
+  putProductsToCart,
+} from "../../../redux/reducer/CartSlide";
 import {
   fetchAuthCustomer,
   selectAuthCustomerState,
@@ -16,6 +19,11 @@ import {
   type CustomerInfo,
 } from "../../../redux/reducer/CustomerSlide";
 import CartItem from "../../PopUp/Cart/CartItem";
+
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Loading from "../../Loading/Loading";
+import { addOrder } from "../../../redux/reducer/OrdersSlide";
 
 type CartPopProps = {
   onClose: () => void;
@@ -56,10 +64,18 @@ function CartPop({ onClose }: CartPopProps) {
     [key: string]: number;
   }>({});
 
+  useEffect(() => {
+    const initialQuantities: { [key: string]: number } = {};
+    productsInCart.forEach((product) => {
+      initialQuantities[product.id] = 1;
+    });
+    setProductQuantities(initialQuantities);
+  }, [productsInCart]);
+
   const handleIncrease = (productId: string) => {
     setProductQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [productId]: (prevQuantities[productId] || 1) + 1,
+      [productId]: (prevQuantities[productId] || 0) + 1,
     }));
   };
 
@@ -86,6 +102,60 @@ function CartPop({ onClose }: CartPopProps) {
     setShowForm(true);
   }, []);
 
+  const [loading, setLoading] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      phone: "",
+      address: "",
+    },
+    validationSchema: Yup.object({
+      phone: Yup.string()
+        .min(10, "at least 10 characters")
+        .max(12, "less than 12 characters")
+        .required("required"),
+
+      address: Yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2400);
+
+      setTimeout(() => {
+        const orderId = Math.floor(Math.random() * 10000).toString();
+        const inTotal = totalPrice.toString();
+        const detailQuantityArray = Object.keys(productQuantities).map(
+          (productId) => ({
+            productId,
+            productQuantity: productQuantities[productId],
+          })
+        );
+        const order = {
+          orderId: orderId,
+          inTotal: inTotal,
+          id: currentCustomerAccount.id,
+          username: currentCustomerAccount.username,
+          password: currentCustomerAccount.password,
+          phone: values.phone,
+          address: values.address,
+          detailQuantities: detailQuantityArray,
+          products: productsInCart,
+        };
+        dispatch(addOrder(order)).then(() => {
+          const updateCart = {
+            ...currentCustomerAccount,
+            products: [],
+          };
+          dispatch(putProductsToCart(updateCart)).then(() => {
+            dispatch(fetchCustomerData());
+            onClose();
+          });
+        });
+      }, 2400);
+    },
+  });
+
   return (
     <>
       <div className="cart-container">
@@ -98,29 +168,49 @@ function CartPop({ onClose }: CartPopProps) {
           />
           <div className="cart-body">
             <div className="cart-info">
-              <form>
+              <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="phone">
-                  Phone:
+                  Phone:{" "}
+                  {formik.touched.phone && formik.errors.phone ? (
+                    <div className="error">{formik.errors.phone}</div>
+                  ) : null}
                   <input
                     name="phone"
                     type="phone"
                     placeholder="Enter you phone number..."
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
                   />
                 </label>
 
                 <label htmlFor="address">
-                  Address:
+                  Address:{" "}
+                  {formik.touched.address && formik.errors.address ? (
+                    <div className="error">{formik.errors.address}</div>
+                  ) : null}
                   <input
                     name="address"
                     type="address"
                     placeholder="Enter you address..."
+                    value={formik.values.address}
+                    onChange={formik.handleChange}
                   />
                 </label>
+
+                <div className="purchase">
+                  Total: {totalPriceFormatCurrence}
+                </div>
+
+                <button className="buy-btn" type="submit">
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      Buy <FontAwesomeIcon icon={faCheck} />
+                    </>
+                  )}
+                </button>
               </form>
-              <div className="purchase">Total: {totalPriceFormatCurrence}</div>
-              <button className="buy-btn">
-                Buy <FontAwesomeIcon icon={faCheck} />
-              </button>
             </div>
             <div className="cart-products">
               <ul>

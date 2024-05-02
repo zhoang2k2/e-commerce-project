@@ -5,9 +5,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import Loading from "../../Loading/Loading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addCustomerData,
+  fetchCustomerData,
+  selectCustomerState,
   type CustomerInfo,
 } from "../../../redux/reducer/CustomerSlide";
 
@@ -17,9 +19,23 @@ type CustomerAccountProps = {
   onChangeMode: () => void;
 };
 
-function CustomerAccount({ onClose, onChangeMode,onCustomerRegisterSuccess }: CustomerAccountProps) {
+function CustomerAccount({
+  onClose,
+  onChangeMode,
+  onCustomerRegisterSuccess,
+}: CustomerAccountProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
+  const { customerInfo } = useSelector(selectCustomerState);
+  useEffect(() => {
+    dispatch(fetchCustomerData());
+  }, [dispatch]);
+
+  const [customerAccount, setCustomerAccount] = useState<string[]>([]);
+  useEffect(() => {
+    const usernames = customerInfo.map((account) => account.username);
+    setCustomerAccount(usernames);
+  }, [customerInfo]);
 
   const [visiblePassword, setVisiblePassword] = useState(false);
   const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,7 +61,7 @@ function CustomerAccount({ onClose, onChangeMode,onCustomerRegisterSuccess }: Cu
       username: Yup.string()
         .matches(
           /^(?=.*[A-Z])(?=.*[0-9])(?!.*[^a-zA-Z0-9])/,
-          "must contain at least 1 uppercase letter, 1 number, and no special icon"
+          "must contain 1 uppercase, 1 number, and without special icon"
         )
         .min(4, "at least 4 characters")
         .max(50, "less than 50 characters")
@@ -69,19 +85,27 @@ function CustomerAccount({ onClose, onChangeMode,onCustomerRegisterSuccess }: Cu
       setTimeout(() => {
         setLoading(false);
       }, 2400);
-      setTimeout(() => {
-        const randomID = Math.floor(Math.random() * 10000);
-        const { confirm, ...userData } = values;
-        console.log(confirm);
-        const updatedVal: CustomerInfo = {
-          ...userData,
-          id: randomID.toString(),
-        };
-        dispatch(addCustomerData(updatedVal));
-        onClose();
-        alert("Register Successfully");
-        onCustomerRegisterSuccess()
-      }, 2400);
+
+      const isExisted = customerAccount.includes(values.username);
+      if (isExisted) {
+        setLoading(false);
+        window.alert("This user has already been used!");
+        return;
+      } else {
+        setTimeout(() => {
+          const randomID = Math.floor(Math.random() * 10000);
+          const { confirm, ...userData } = values;
+          console.log(confirm);
+          const updatedVal: CustomerInfo = {
+            ...userData,
+            id: randomID.toString(),
+          };
+          dispatch(addCustomerData(updatedVal));
+          onClose();
+          alert("Register Successfully");
+          onCustomerRegisterSuccess();
+        }, 2400);
+      }
     },
   });
 

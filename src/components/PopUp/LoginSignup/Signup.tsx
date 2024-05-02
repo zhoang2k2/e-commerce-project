@@ -7,8 +7,12 @@ import {
   faEyeSlash,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { addAccount } from "../../../redux/reducer/AccountsSlide";
-import { useDispatch } from "react-redux";
+import {
+  addAccount,
+  fetchAccounts,
+  selectAccountState,
+} from "../../../redux/reducer/AccountsSlide";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loading from "../../Loading/Loading";
@@ -28,7 +32,19 @@ function SignUp({
 }: SignupProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
+  const { adminAccounts } = useSelector(selectAccountState);
+  useEffect(() => {
+    dispatch(fetchAccounts());
+  }, [dispatch]);
 
+  const [adminEmails, setAdminEmails] = useState<string[]>([]);
+
+  useEffect(() => {
+    const emails = adminAccounts.map((account) => account.email);
+    setAdminEmails(emails);
+  }, [adminAccounts]);
+
+  // HANDLING CONFIRM PASSWORD
   const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue("confirmPassword", e.target.value);
   };
@@ -114,14 +130,22 @@ function SignUp({
         setLoading(false);
       }, 2400);
 
-      setTimeout(() => {
-        const randomID = Math.floor(Math.random() * 10000);
-        const updatedVal = { ...values, id: randomID.toString() };
-        dispatch(addAccount(updatedVal));
-        alert("Register Successfully");
-        onSubmitSuccess();
-        onCloseModal();
-      }, 2400);
+      const isExisted = adminEmails.includes(values.email);
+      if (isExisted) {
+        setLoading(false);
+        window.alert("This email has already been used!");
+        setSignupStages(1);
+        return;
+      } else {
+        setTimeout(() => {
+          const randomID = Math.floor(Math.random() * 10000);
+          const updatedVal = { ...values, id: randomID.toString() };
+          dispatch(addAccount(updatedVal));
+          alert("Register Successfully");
+          onSubmitSuccess();
+          onCloseModal();
+        }, 2400);
+      }
     },
   });
 
@@ -251,7 +275,10 @@ function SignUp({
         {signupStages === 3 && (
           <div className="form-content">
             <label htmlFor="password">
-              password:
+              password:{" "}
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error">{formik.errors.password}</div>
+              ) : null}
               <input
                 name="password"
                 type={visiblePassword ? "text" : "password"}
@@ -259,9 +286,6 @@ function SignUp({
                 value={formik.values.password}
                 onChange={formik.handleChange}
               />
-              {formik.touched.password && formik.errors.password ? (
-                <div className="error">{formik.errors.password}</div>
-              ) : null}
               <button onClick={handleVisiblePassword}>
                 {visiblePassword ? (
                   <FontAwesomeIcon icon={faEyeSlash} />
@@ -272,7 +296,11 @@ function SignUp({
             </label>
 
             <label htmlFor="confirm-password">
-              confirm:
+              confirm:{" "}
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="error">{formik.errors.confirmPassword}</div>
+              ) : null}
               <input
                 name="confirm-password"
                 type="password"
@@ -280,10 +308,6 @@ function SignUp({
                 value={formik.values.confirmPassword}
                 onChange={handleConfirmPassword}
               />
-              {formik.touched.confirmPassword &&
-              formik.errors.confirmPassword ? (
-                <div className="error">{formik.errors.confirmPassword}</div>
-              ) : null}
             </label>
           </div>
         )}

@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAccounts,
   selectAccountState,
 } from "../../redux/reducer/AccountsSlide";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faPlus,
+  faRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import "./accounts.scss";
 // import Login from "../popUp/LoginSignup/Login";
 import { createPortal } from "react-dom";
@@ -13,6 +17,7 @@ import SignUp from "../PopUp/LoginSignup/Signup";
 
 import AccountTbody from "./AccountTbody";
 import Pagination from "../Pagination/Pagination";
+import type { AccountType } from "../../types/AccountType";
 
 function AdminAccounts() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,27 +41,51 @@ function AdminAccounts() {
     setShowPopup({ ...showPopup, signup: true });
   };
 
-  // const handleCloseLogin = () => {
-  //   setShowPopup({ ...showPopup, login: false });
-  // };
   const handleCloseSignup = () => {
     setShowPopup({ ...showPopup, signup: false });
   };
 
+  // HANDLE SEARCH
+  const [filterVal, setFilterVal] = useState("");
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilterVal(e.target.value);
+  };
+  const handleFilter = () => {
+    const filterList = adminAccounts.filter((filtered) => {
+      return (
+        filtered.fullname.toLowerCase().includes(filterVal.toLowerCase()) ||
+        filtered.email.toLowerCase().includes(filterVal.toLowerCase()) ||
+        filtered.phone.toLowerCase().includes(filterVal.toLowerCase())
+      );
+    });
+
+    setCurrentItems(filterList);
+
+    setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    if (adminAccounts.length > 0) {
+      setCurrentItems(adminAccounts);
+    }
+  }, [adminAccounts]);
+
+  // HANDLE PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(3);
+  const [currentItems, setCurrentItems] = useState<AccountType[]>([]);
 
-  const totalItem = [...adminAccounts];
+  const totalItem = [...currentItems];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const totalPage = Math.ceil(totalItem.length / itemsPerPage);
 
-  const currentItems = totalItem.slice(indexOfFirstItem, indexOfLastItem);
+  const renderItems = totalItem.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -65,6 +94,23 @@ function AdminAccounts() {
           <FontAwesomeIcon icon={faPlus} />
           Adding
         </button>
+
+        <div className="search-action">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <input
+            type="text"
+            placeholder="Search Accounts..."
+            value={filterVal}
+            onChange={handleFilterChange}
+          />
+          <button className="search-btn" onClick={handleFilter}>
+            {filterVal === "" ? (
+              <FontAwesomeIcon icon={faRotateLeft} />
+            ) : (
+              <>Search</>
+            )}
+          </button>
+        </div>
 
         <table className="accounts-table">
           <thead>
@@ -80,7 +126,7 @@ function AdminAccounts() {
               <th>Action</th>
             </tr>
           </thead>
-          <AccountTbody currentItems={currentItems} />
+          <AccountTbody currentItems={renderItems} />
         </table>
 
         <Pagination
@@ -90,18 +136,6 @@ function AdminAccounts() {
           currentPage={currentPage}
         />
       </div>
-
-      {/* {showPopup.login &&
-        createPortal(
-          <Login
-            mode="login"
-            onCloseModal={handleCloseLogin}
-            onChangeMode={handleLoginToSignup}
-            selectedAccount={{ id: "", email: "", password: "" }}
-            authChecked={() => {}}
-          />,
-          document.body
-        )} */}
 
       {showPopup.signup &&
         createPortal(

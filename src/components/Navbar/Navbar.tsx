@@ -27,7 +27,6 @@ import ConfirmLogout from "../PopUp/Confirm/ConfirmLogout";
 import SignUp from "../PopUp/LoginSignup/Signup";
 import CartPop from "../PopUp/Cart/Cart";
 
-
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
@@ -140,6 +139,11 @@ function Navbar() {
     setCartModal(false);
   };
 
+  const handleLogoutSuccess = () => {
+    setCustomerStatus(false);
+    setCartModal(false);
+  };
+
   return (
     <>
       <div className="navbar-container">
@@ -233,7 +237,7 @@ function Navbar() {
         createPortal(
           <ConfirmLogout
             onCancle={handleCancleLogout}
-            onLogoutSuccess={() => setCustomerStatus(false)}
+            onLogoutSuccess={handleLogoutSuccess}
             mode="customer"
           />,
           document.body
