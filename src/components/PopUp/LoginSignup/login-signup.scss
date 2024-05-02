@@ -35,7 +35,13 @@
     transform: translate(-50%, -50%);
   }
 
+  .inActive {
+    opacity: 1;
+    transform: translate(-50%, -150%);
+  }
+
   form {
+    opacity: 0;
     transition: 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -44,7 +50,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-100%, -50%);
+    transform: translate(-50%, -150%);
     background-color: #fff;
     box-shadow: 0 0 5px 1px #5a5a5a;
     border-radius: 10px;

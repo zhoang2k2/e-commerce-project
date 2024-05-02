@@ -26,12 +26,15 @@ import {
 import ConfirmLogout from "../PopUp/Confirm/ConfirmLogout";
 import SignUp from "../PopUp/LoginSignup/Signup";
 import CartPop from "../PopUp/Cart/Cart";
+import { fetchProductInCart } from "../../redux/reducer/CartSlide";
+import { selectCustomerState } from "../../redux/reducer/CustomerSlide";
 
 function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { currentAccount } = useSelector(selectAuthAccountState);
   const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
+  const { customerInfo } = useSelector(selectCustomerState);
 
   const history = useHistory();
 
@@ -90,8 +93,7 @@ function Navbar() {
     login: false,
     confirm: false,
   });
-  const handleCustomerLogin = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+  const handleCustomerLogin = () => {
     setCustomerModal({ ...customerModal, login: true });
   };
   const handleCloseCustomerRegister = () => {
@@ -133,16 +135,49 @@ function Navbar() {
 
   const [cartModal, setCartModal] = useState(false);
   const handleOpenCart = () => {
-    setCartModal(true);
+    currentCustomerAccount.username !== "" &&
+    currentCustomerAccount.password !== ""
+      ? setCartModal(true)
+      : handleCustomerLogin();
   };
   const handleCloseCart = () => {
     setCartModal(false);
   };
 
   const handleLogoutSuccess = () => {
+    setCartStatus(false);
     setCustomerStatus(false);
     setCartModal(false);
   };
+
+  useEffect(() => {
+    if (currentCustomerAccount.id) {
+      dispatch(fetchProductInCart(currentCustomerAccount.id));
+    }
+  }, [dispatch, currentCustomerAccount]);
+
+  const [countProductsInCart, setCountProductsInCart] = useState(0);
+  const [cartStatus, setCartStatus] = useState(false);
+
+  useEffect(() => {
+    if (customerInfo.length > 0 && currentCustomerAccount.id) {
+      const index = customerInfo.findIndex(
+        (customer) => customer.id === currentCustomerAccount.id
+      );
+      if (index !== -1) {
+        const lengthProductsInCart = customerInfo[index].products.length;
+        setCountProductsInCart(lengthProductsInCart);
+      } else {
+        console.error("not found");
+      }
+    }
+  }, [customerInfo, currentCustomerAccount.id]);
+
+  useEffect(() => {
+    if (countProductsInCart > 0) {
+      setCartStatus(true);
+    }
+  }, [countProductsInCart]);
 
   return (
     <>
@@ -162,6 +197,7 @@ function Navbar() {
             <div className="nav-buttons">
               <button className="cart-btn" onClick={handleOpenCart}>
                 <FontAwesomeIcon icon={faCartShopping} />
+                {cartStatus ? <span>{countProductsInCart}</span> : ""}
               </button>
               <button className="admin-btn" onClick={handleFirstLogin}>
                 {iconAfterLogin ? (

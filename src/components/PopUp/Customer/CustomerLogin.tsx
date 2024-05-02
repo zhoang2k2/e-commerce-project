@@ -100,15 +100,22 @@ function CustomerLogin({
     setVisiblePassword(!visiblePassword);
   };
 
+  const handleCloseModal = () => {
+    setShowForm(false);
+    setTimeout(() => {
+      onClose();
+    }, 450);
+  };
+
   return (
     <div className="customer-container">
-      <div className={showForm ? "customer-pop active" : "customer-pop"}>
+      <div className={showForm ? "customer-pop active" : "customer-pop inActive"}>
         <div className="customer-title">
           <h2>LOGIN</h2>
           <FontAwesomeIcon
             className="close-icon"
             icon={faXmark}
-            onClick={onClose}
+            onClick={handleCloseModal}
           />
         </div>
 

@@ -59,6 +59,24 @@
         display: flex;
         gap: 20px;
 
+        .cart-btn {
+          position: relative;
+          
+          span {
+            text-align: center;
+            line-height: 1.5;
+            width: 20px;
+            height: 20px;
+            border-radius: 100px;
+            background-color: red;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(10px, -10px);
+          }
+        }
+
         button {
           border: none;
           background-color: transparent;
@@ -81,6 +99,17 @@
         .customer-before-login {
           width: 85px;
           font-size: 18px;
+          border: 3px solid #000;
+          border-radius: 15px;
+          font-weight: 600;
+          padding: 10px 0;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: #fff;
+            background-color: #a8deff;
+            border: 3px solid #a8deff;
+          }
         }
 
         .customer-after-login {

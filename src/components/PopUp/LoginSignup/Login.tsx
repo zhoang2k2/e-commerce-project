@@ -140,16 +140,23 @@ function Login({
     setVisiblePassword(!visiblePassword);
   };
 
+  const handleCloseModal = () => {
+    setShowForm(false);
+    setTimeout(() => {
+      onCloseModal();
+    }, 450);
+  };
+
   return (
     <div className="form-container">
       <form
-        className={showForm ? "login-form active" : "login-form"}
+        className={showForm ? "login-form active" : "login-form inActive"}
         onSubmit={formik.handleSubmit}
       >
         <FontAwesomeIcon
           className="close-icon"
           icon={faXmark}
-          onClick={onCloseModal}
+          onClick={handleCloseModal}
         />
         <h2>Login</h2>
         <div className="form-content">
@@ -179,13 +186,13 @@ function Login({
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-              <button onClick={handleVisiblePassword}>
-                {visiblePassword ? (
-                  <FontAwesomeIcon icon={faEyeSlash} />
-                ) : (
-                  <FontAwesomeIcon icon={faEye} />
-                )}
-              </button>
+            <button onClick={handleVisiblePassword}>
+              {visiblePassword ? (
+                <FontAwesomeIcon icon={faEyeSlash} />
+              ) : (
+                <FontAwesomeIcon icon={faEye} />
+              )}
+            </button>
           </label>
         </div>
 

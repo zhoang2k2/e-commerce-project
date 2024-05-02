@@ -118,12 +118,21 @@ function CustomerAccount({
     setShowForm(true);
   }, []);
 
+  const handleCloseModal = () => {
+    setShowForm(false);
+    setTimeout(() => {
+      onClose();
+    }, 450);
+  };
+
   return (
     <div className="customer-container">
-      <div className={showForm ? "customer-pop active" : "customer-pop"}>
+      <div
+        className={showForm ? "customer-pop active" : "customer-pop inActive"}
+      >
         <div className="customer-title">
           <h2>CUSTOMER INFORMATION</h2>
-          <FontAwesomeIcon icon={faXmark} onClick={onClose} />
+          <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
         </div>
 
         <div className="customer-body">

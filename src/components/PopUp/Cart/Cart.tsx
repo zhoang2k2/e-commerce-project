@@ -31,7 +31,10 @@ type CartPopProps = {
 
 function CartPop({ onClose }: CartPopProps) {
   const handCloseModal = () => {
-    onClose();
+    setShowForm(false);
+    setTimeout(() => {
+      onClose();
+    }, 350);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

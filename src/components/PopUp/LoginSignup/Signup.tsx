@@ -149,13 +149,23 @@ function SignUp({
     },
   });
 
+  const handleCloseModal = () => {
+    setShowForm(false);
+    setTimeout(() => {
+      onCloseModal();
+    }, 450);
+  };
+
   return (
     <div className="form-container">
-      <form className={showForm ? "active" : ""} onSubmit={formik.handleSubmit}>
+      <form
+        className={showForm ? "active" : "inActive"}
+        onSubmit={formik.handleSubmit}
+      >
         <FontAwesomeIcon
           className="close-icon"
           icon={faXmark}
-          onClick={onCloseModal}
+          onClick={handleCloseModal}
         />
         <h2>Register</h2>
 

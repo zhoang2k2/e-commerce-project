@@ -13,6 +13,11 @@
     transform: translate(0, 0) !important;
   }
 
+  .inActive {
+    opacity: 1 !important;
+    transform: translate(0, -150%) !important;
+  }
+
   .customer-pop {
     background-color: #fff;
     border-radius: 20px;
@@ -20,7 +25,7 @@
     width: 500px;
     margin: auto;
     padding: 40px 20px 50px;
-    transform: translate(0, -50%);
+    transform: translate(0, -150%);
     opacity: 0.9;
     transition: 0.5s ease-in-out;
 
