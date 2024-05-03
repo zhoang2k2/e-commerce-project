@@ -3,7 +3,7 @@ import {
   addProduct,
   fetchProducts,
 } from "../../../redux/reducer/ProductsSlide";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "../../../types/ProductType";
 
 import { createPortal } from "react-dom";
@@ -51,17 +51,17 @@ function AddingPop({
       name: Yup.string()
         .min(2, "at least 2 characters")
         .max(50, "less than 50 characters")
-        .required("required"),
+        .required("Required"),
 
       price: Yup.string()
         .min(5, "at least 5 characters")
         .max(50, "less than 50 characters")
-        .required("required"),
+        .required("Required"),
 
       quantity: Yup.string()
         .min(1, "at least 1 characters")
         .max(50, "less than 50 characters")
-        .required("required"),
+        .required("Required"),
 
       image: Yup.string().required("Required"),
 
@@ -70,7 +70,7 @@ function AddingPop({
       age: Yup.string()
         .min(1, "at least 1 characters")
         .max(50, "less than 50 characters")
-        .required("required"),
+        .required("Required"),
 
       color: Yup.string().required("Required"),
 
@@ -79,7 +79,7 @@ function AddingPop({
       sales: Yup.string()
         .min(1, "at least 1 characters")
         .max(50, "less than 50 characters")
-        .required("required"),
+        .required("Required"),
 
       status: Yup.string().required("Required"),
     }),
@@ -110,11 +110,22 @@ function AddingPop({
   });
 
   const [modalEditConfirm, setModalEditConfirm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setTimeout(() => {
+      onCancle();
+    }, 350);
+  };
 
   return (
     <>
       <div className="adding-popup">
-        <div className="wrap-form">
+        <div className={showModal ? "wrap-form active" : "wrap-form inActive"}>
           <div className="form">
             <form onSubmit={formik.handleSubmit}>
               <label htmlFor="name">
@@ -275,7 +286,7 @@ function AddingPop({
                 <button className="save-btn" type="submit">
                   {loading && mode === "add" ? <Loading /> : <>Save</>}
                 </button>
-                <button className="cancle-btn" onClick={onCancle}>
+                <button className="cancle-btn" onClick={handleCloseModal}>
                   Cancle
                 </button>
               </div>

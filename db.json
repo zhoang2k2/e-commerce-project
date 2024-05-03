@@ -6,19 +6,6 @@
       "password": "Hoang201",
       "products": [
         {
-          "id": "999",
-          "name": "American Short Assa",
-          "price": "10000000",
-          "quantity": "7",
-          "image": "https://i.imgur.com/ksICYvi.jpeg",
-          "catBreed": "American Shorthair",
-          "age": "8",
-          "color": "gray",
-          "rate": "4",
-          "sales": "18",
-          "status": "new"
-        },
-        {
           "id": "123",
           "name": "Russian No Fun",
           "price": "13000000",
@@ -29,6 +16,19 @@
           "color": "black",
           "rate": "3",
           "sales": "10",
+          "status": "new"
+        },
+        {
+          "id": "9203",
+          "name": "American Short Orag",
+          "price": "10000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/QCIzY6a.jpeg",
+          "catBreed": "American Shorthair",
+          "age": "12",
+          "color": "orange",
+          "rate": "5",
+          "sales": "18",
           "status": "new"
         }
       ]

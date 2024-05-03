@@ -23,7 +23,8 @@ function ProductsTable() {
   const [sortProducts, setSortProducts] = useState<Product[]>([]);
   const [sortStatus, setSortStatus] = useState("increase");
 
-  const handleOpenAdd = () => {
+  const handleOpenAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setAddModelVisible(true);
   };
 
