@@ -1,6 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./cart.scss";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faTruckArrowRight,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductInCart,
@@ -24,14 +28,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loading from "../../Loading/Loading";
 import { addOrder } from "../../../redux/reducer/OrdersSlide";
+import { createPortal } from "react-dom";
+import PurchaseOrder from "./PurchaseOrder";
 
 type CartPopProps = {
   onClose: () => void;
 };
 
 function CartPop({ onClose }: CartPopProps) {
-  const handCloseModal = () => {
+  const handleCloseModal = () => {
     setShowForm(false);
+    handleClosePurchaseOrder();
     setTimeout(() => {
       onClose();
     }, 350);
@@ -135,13 +142,14 @@ function CartPop({ onClose }: CartPopProps) {
           })
         );
         const order = {
-          orderId: orderId,
+          id: orderId,
           inTotal: inTotal,
-          id: currentCustomerAccount.id,
+          customerId: currentCustomerAccount.id,
           username: currentCustomerAccount.username,
           password: currentCustomerAccount.password,
           phone: values.phone,
           address: values.address,
+          status: "pending",
           detailQuantities: detailQuantityArray,
           products: productsInCart,
         };
@@ -152,12 +160,22 @@ function CartPop({ onClose }: CartPopProps) {
           };
           dispatch(putProductsToCart(updateCart)).then(() => {
             dispatch(fetchCustomerData());
+            window.alert("Order Success Fully!");
+            handleClosePurchaseOrder();
             onClose();
           });
         });
       }, 2400);
     },
   });
+
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenPurchaseOrder = () => {
+    setOpenModal(true);
+  };
+  const handleClosePurchaseOrder = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -167,8 +185,15 @@ function CartPop({ onClose }: CartPopProps) {
           <FontAwesomeIcon
             icon={faXmark}
             className="close-btn"
-            onClick={handCloseModal}
+            onClick={handleCloseModal}
           />
+          <span onClick={handleOpenPurchaseOrder}>
+            <FontAwesomeIcon
+              className="open-purchase-order"
+              icon={faTruckArrowRight}
+            />
+            open purchase
+          </span>
           <div className="cart-body">
             <div className="cart-info">
               <form onSubmit={formik.handleSubmit}>
@@ -247,6 +272,12 @@ function CartPop({ onClose }: CartPopProps) {
           </div>
         </div>
       </div>
+
+      {openModal &&
+        createPortal(
+          <PurchaseOrder onClose={handleClosePurchaseOrder} />,
+          document.body
+        )}
     </>
   );
 }

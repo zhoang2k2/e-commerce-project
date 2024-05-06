@@ -9,13 +9,14 @@ interface ItemQuantity {
 }
 
 export interface CustomerOrder {
-  orderId: string;
-  inTotal: string;
   id: string;
+  inTotal: string;
+  customerId: string;
   username: string;
   password: string;
   phone: string;
   address: string;
+  status: string;
   products: Product[];
   detailQuantities: ItemQuantity[];
 }
@@ -56,6 +57,22 @@ export const addOrder = createAsyncThunk(
   }
 );
 
+export const editOrder = createAsyncThunk(
+  "order/edit",
+  async (updateOrder: CustomerOrder) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/orders/${updateOrder.id}`,
+        updateOrder
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error when editing order");
+      throw error;
+    }
+  }
+);
+
 const OrderSlide = createSlice({
   name: "order",
   initialState,
@@ -73,6 +90,13 @@ const OrderSlide = createSlice({
       })
       .addCase(fetchOrder.rejected, (state) => {
         state.status = "FAIL";
+      })
+      .addCase(editOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.filter((order) => {
+          order.id === action.payload.id;
+          return action.payload;
+        });
+        state.status = "SUCCESS";
       });
   },
 });

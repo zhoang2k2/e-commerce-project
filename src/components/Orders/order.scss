@@ -74,9 +74,19 @@
     tbody {
       .order-tr {
         &:hover button {
-          &.status-btn {
-            border: 1px solid #7631fe;
-            color: #7631fe;
+          &.del-btn {
+            border: 1px solid #ca434a;
+            color: #ca434a;
+          }
+
+          &.edit-btn {
+            border: 1px solid orange;
+            color: orange;
+          }
+
+          &.done-btn {
+            border: 1px solid #09bc8a;
+            color: #09bc8a;
           }
         }
         .orderId-col {
@@ -138,6 +148,28 @@
 
         .status-col {
           text-align: center;
+
+          span {
+            border-radius: 3px;
+            padding: 5px 0;
+            font-weight: normal;
+            display: inline-block;
+            min-width: 75px;
+            text-transform: capitalize;
+            font-weight: 600;
+          }
+
+          .done {
+            border: 1px solid #09bc8a;
+            color: #09bc8a;
+            background-color: rgba(159, 255, 226, 0.2);
+          }
+
+          .pending {
+            border: 1px solid orange;
+            color: orange;
+            background-color: rgba(255, 218, 151, 0.2);
+          }
         }
 
         .action-col {
@@ -155,10 +187,10 @@
             transition: 0.2s ease-in-out;
           }
 
-          .status-btn {
+          .del-btn {
             &:hover {
               color: #fff;
-              background-color: #7631fe;
+              background-color: #ca434a;
             }
           }
 
@@ -169,10 +201,10 @@
             }
           }
 
-          .del-btn {
+          .done-btn {
             &:hover {
               color: #fff;
-              background-color: #ca434a;
+              background-color: #09bc8a;
             }
           }
         }

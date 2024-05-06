@@ -6,29 +6,16 @@
       "password": "Hoang201",
       "products": [
         {
-          "id": "123",
-          "name": "Russian No Fun",
-          "price": "13000000",
-          "quantity": "4",
-          "image": "https://i.imgur.com/9Y06JSw.jpeg",
-          "catBreed": "Russian Blue",
-          "age": "3",
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
           "color": "black",
           "rate": "3",
-          "sales": "10",
-          "status": "new"
-        },
-        {
-          "id": "9203",
-          "name": "American Short Orag",
-          "price": "10000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/QCIzY6a.jpeg",
-          "catBreed": "American Shorthair",
-          "age": "12",
-          "color": "orange",
-          "rate": "5",
-          "sales": "18",
+          "sales": "15",
           "status": "new"
         }
       ]
@@ -65,54 +52,100 @@
   },
   "orders": [
     {
-      "id": "3839",
-      "orderId": "470",
+      "id": "3448",
+      "inTotal": "10000000",
+      "customerId": "3839",
       "username": "User1",
       "password": "Hoang201",
-      "phone": "0905734471",
-      "address": "hai chau, da nang",
-      "inTotal": "69000000",
+      "phone": "0000999888",
+      "address": "1233133113",
+      "status": "done",
       "detailQuantities": [
         {
-          "productId": "123",
+          "productId": "9203",
           "productQuantity": 1
-        },
-        {
-          "productId": "222",
-          "productQuantity": 1
-        },
-        {
-          "productId": "556",
-          "productQuantity": 2
         }
       ],
       "products": [
         {
-          "id": "556",
-          "name": "Maine Snow White",
-          "price": "20000000",
-          "quantity": "5",
-          "image": "https://i.imgur.com/JUVAC2X.jpeg",
-          "catBreed": "Maine Coon",
-          "age": "14",
-          "color": "white",
+          "id": "9203",
+          "name": "American Short Orag",
+          "price": "10000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/QCIzY6a.jpeg",
+          "catBreed": "American Shorthair",
+          "age": "12",
+          "color": "orange",
           "rate": "5",
-          "sales": "8",
+          "sales": "18",
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "6379",
+      "inTotal": "45000000",
+      "customerId": "3839",
+      "username": "User1",
+      "password": "Hoang201",
+      "phone": "0000999888",
+      "address": "hai chau, da nang",
+      "status": "pending",
+      "detailQuantities": [
+        {
+          "productId": "999",
+          "productQuantity": 3
+        },
+        {
+          "productId": "1000",
+          "productQuantity": 1
+        }
+      ],
+      "products": [
+        {
+          "id": "999",
+          "name": "American Short Assa",
+          "price": "10000000",
+          "quantity": "7",
+          "image": "https://i.imgur.com/ksICYvi.jpeg",
+          "catBreed": "American Shorthair",
+          "age": "8",
+          "color": "gray",
+          "rate": "4",
+          "sales": "18",
           "status": "new"
         },
         {
-          "id": "222",
-          "name": "British Short T",
-          "price": "16000000",
-          "quantity": "2",
-          "image": "https://i.imgur.com/Fs0RINA.jpeg",
-          "catBreed": "British Shorthair",
-          "age": "5",
-          "color": "gray",
-          "rate": "4",
-          "sales": "14",
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
+          "color": "black",
+          "rate": "3",
+          "sales": "15",
           "status": "new"
-        },
+        }
+      ]
+    },
+    {
+      "id": "802",
+      "inTotal": "13000000",
+      "customerId": "3839",
+      "username": "User1",
+      "password": "Hoang201",
+      "phone": "0000999888",
+      "address": "hai chau, da nang",
+      "status": "pending",
+      "detailQuantities": [
+        {
+          "productId": "123",
+          "productQuantity": 1
+        }
+      ],
+      "products": [
         {
           "id": "123",
           "name": "Russian No Fun",
@@ -129,105 +162,21 @@
       ]
     },
     {
-      "id": "2583",
-      "orderId": "8769",
-      "username": "User2",
+      "id": "6908",
+      "inTotal": "15000000",
+      "customerId": "1671",
+      "username": "User3",
       "password": "Hoang201",
-      "phone": "0905734471",
-      "address": "hai chau, da nang",
-      "inTotal": "56000000",
-      "detailQuantities": [
-        {
-          "productId": "222",
-          "productQuantity": 1
-        },
-        {
-          "productId": "1000",
-          "productQuantity": 2
-        },
-        {
-          "productId": "9203",
-          "productQuantity": 1
-        }
-      ],
-      "products": [
-        {
-          "id": "1000",
-          "name": "Persiant cat da sussy gray cat",
-          "price": "15000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/ks54Sb7.jpeg",
-          "catBreed": "Persiant",
-          "age": "18",
-          "color": "black",
-          "rate": "3",
-          "sales": "15",
-          "status": "new"
-        },
-        {
-          "id": "9203",
-          "name": "American Short Orag",
-          "price": "10000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/QCIzY6a.jpeg",
-          "catBreed": "American Shorthair",
-          "age": "12",
-          "color": "orange",
-          "rate": "5",
-          "sales": "18",
-          "status": "new"
-        },
-        {
-          "id": "222",
-          "name": "British Short T",
-          "price": "16000000",
-          "quantity": "2",
-          "image": "https://i.imgur.com/Fs0RINA.jpeg",
-          "catBreed": "British Shorthair",
-          "age": "5",
-          "color": "gray",
-          "rate": "4",
-          "sales": "14",
-          "status": "new"
-        }
-      ]
-    },
-    {
-      "id": "3839",
-      "orderId": "3204",
-      "inTotal": "94000000",
-      "username": "User1",
-      "password": "Hoang201",
-      "phone": "0900000000",
-      "address": "testing address",
+      "phone": "0000999881",
+      "address": "1233133113",
+      "status": "pending",
       "detailQuantities": [
         {
           "productId": "200",
-          "productQuantity": 2
-        },
-        {
-          "productId": "888",
-          "productQuantity": 2
-        },
-        {
-          "productId": "5031",
-          "productQuantity": 2
+          "productQuantity": 1
         }
       ],
       "products": [
-        {
-          "id": "5031",
-          "name": "Maine Da Woff",
-          "price": "20000000",
-          "quantity": "2",
-          "image": "https://i.imgur.com/6P8Assz.jpeg",
-          "catBreed": "Maine Coon",
-          "age": "10",
-          "color": "gray",
-          "rate": "2",
-          "sales": "28",
-          "status": "new"
-        },
         {
           "id": "200",
           "name": "Persiant snow",
@@ -239,117 +188,6 @@
           "color": "white",
           "rate": "1",
           "sales": "2",
-          "status": "old"
-        },
-        {
-          "id": "888",
-          "name": "Siamese Sasime",
-          "price": "12000000",
-          "quantity": "5",
-          "image": "https://i.imgur.com/CjP3BPJ.jpeg",
-          "catBreed": "Siamese",
-          "age": "12",
-          "color": "gray",
-          "rate": "2",
-          "sales": "20",
-          "status": "old"
-        }
-      ]
-    },
-    {
-      "id": "1671",
-      "orderId": "2018",
-      "inTotal": "77000000",
-      "username": "User3",
-      "password": "Hoang201",
-      "phone": "0905734471",
-      "address": "test user 3",
-      "detailQuantities": [
-        {
-          "productId": "444",
-          "productQuantity": 1
-        },
-        {
-          "productId": "666",
-          "productQuantity": 1
-        },
-        {
-          "productId": "1978",
-          "productQuantity": 1
-        },
-        {
-          "productId": "2790",
-          "productQuantity": 1
-        },
-        {
-          "productId": "6730",
-          "productQuantity": 1
-        }
-      ],
-      "products": [
-        {
-          "id": "444",
-          "name": "Ragdoll Queen",
-          "price": "19000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/WlyL2cy.jpeg",
-          "catBreed": "Ragdoll",
-          "age": "7",
-          "color": "white",
-          "rate": "4",
-          "sales": "11",
-          "status": "new"
-        },
-        {
-          "id": "666",
-          "name": "Sphynx twin twin",
-          "price": "25000000",
-          "quantity": "1",
-          "image": "https://i.imgur.com/DcrbAfB.jpeg",
-          "catBreed": "Sphynx",
-          "age": "1",
-          "color": "other",
-          "rate": "4",
-          "sales": "5",
-          "status": "old"
-        },
-        {
-          "id": "6730",
-          "name": "British Nightfall",
-          "price": "20000000",
-          "quantity": "9",
-          "image": "https://i.imgur.com/LJUtIim.jpeg",
-          "catBreed": "British Shorthair",
-          "age": "12",
-          "color": "gray",
-          "rate": "4",
-          "sales": "19",
-          "status": "old"
-        },
-        {
-          "id": "1978",
-          "name": "Ragdoll Breeze",
-          "price": "1000000",
-          "quantity": "1",
-          "image": "https://i.imgur.com/biRocNA.jpeg",
-          "catBreed": "Ragdoll",
-          "age": "16",
-          "color": "orange",
-          "rate": "4",
-          "sales": "22",
-          "status": "new"
-        },
-        {
-          "id": "2790",
-          "name": "American Short Lightning",
-          "price": "12000000",
-          "quantity": "10",
-          "image": "https://i.imgur.com/LvXZPIf.jpeg",
-          "catBreed": "American Shorthair",
-          "age": "18",
-          "color": "black",
-          "rate": "3",
-          "sales": "8",
           "status": "old"
         }
       ]
@@ -782,6 +620,32 @@
       "color": "black",
       "rate": "1",
       "sales": "20",
+      "status": "old"
+    },
+    {
+      "id": "4297",
+      "name": "32123",
+      "price": 321312,
+      "quantity": 321,
+      "image": "321",
+      "catBreed": "321",
+      "age": 321,
+      "color": "black",
+      "rate": "1",
+      "sales": "32131",
+      "status": "old"
+    },
+    {
+      "id": "1633",
+      "name": "testing321312",
+      "price": 321312,
+      "quantity": 321,
+      "image": "321321",
+      "catBreed": "321",
+      "age": 321,
+      "color": "gray",
+      "rate": "2",
+      "sales": "321",
       "status": "old"
     }
   ]

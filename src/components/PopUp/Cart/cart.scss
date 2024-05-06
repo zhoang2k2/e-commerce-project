@@ -5,13 +5,12 @@
   top: 100px;
   right: 10px;
   height: 100vh;
-  z-index: 999;
+  z-index: 30;
 
   .active {
     opacity: 1 !important;
     transform: translate(0, 0) !important;
   }
-
 
   .cart-wrapper {
     position: relative;
@@ -24,6 +23,24 @@
     transform: translate(100%, 0);
     opacity: 0.1;
     transition: 0.5s ease-in-out;
+
+    span {
+      position: absolute;
+      top: 235px;
+      right: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+
+      &:hover {
+        color: #90bedb;
+      }
+
+      .open-purchase-order {
+        transform: scaleX(-1);
+        margin-right: 5px;
+      }
+    }
 
     .close-btn {
       position: absolute;

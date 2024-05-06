@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ConfirmPop from "../../PopUp/Confirm/ConfirmPop";
 import "../../PopUp/Adding/addingPop.scss";
+import ConfirmClose from "../Confirm/ConfirmClose";
 
 type AddingPopProps = {
   initialState?: Product;
@@ -104,20 +105,67 @@ function AddingPop({
 
       if (mode === "edit") {
         setLoading(false);
-        setModalEditConfirm(true);
+        setConfirmModal({ ...confirmModal, edit: true });
       }
     },
   });
 
-  const [modalEditConfirm, setModalEditConfirm] = useState(false);
+  const [confirmModal, setConfirmModal] = useState({
+    edit: false,
+    close: false,
+  });
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     setShowModal(true);
   }, []);
 
   const handleCloseModal = () => {
+    if (initialState && mode === "edit") {
+      if (
+        formik.values.name !== initialState.name ||
+        formik.values.price !== initialState.price ||
+        formik.values.quantity !== initialState.quantity ||
+        formik.values.catBreed !== initialState.catBreed ||
+        formik.values.age !== initialState.age ||
+        formik.values.color !== initialState.color ||
+        formik.values.rate !== initialState.rate ||
+        formik.values.sales !== initialState.sales ||
+        formik.values.status !== initialState.status
+      ) {
+        setConfirmModal({ ...confirmModal, close: true });
+      } else {
+        handleConfirmCloseEdit();
+      }
+    } else if (
+      mode === "add" &&
+      (formik.values.name !== "" ||
+        formik.values.price !== "" ||
+        formik.values.quantity !== "" ||
+        formik.values.catBreed !== "" ||
+        formik.values.age !== "" ||
+        formik.values.color !== "" ||
+        formik.values.rate !== "" ||
+        formik.values.sales !== "" ||
+        formik.values.status !== "")
+    ) {
+      setConfirmModal({ ...confirmModal, close: true });
+    } else {
+      handleConfirmCloseEdit();
+    }
+  };
+
+  const handleCancleEdit = () => {
+    setConfirmModal({ ...confirmModal, edit: false });
+  };
+
+  const handleCancleCloseEdit = () => {
+    setConfirmModal({ ...confirmModal, close: false });
+  };
+
+  const handleConfirmCloseEdit = () => {
     setShowModal(false);
     setTimeout(() => {
+      handleCancleCloseEdit();
       onCancle();
     }, 350);
   };
@@ -286,7 +334,11 @@ function AddingPop({
                 <button className="save-btn" type="submit">
                   {loading && mode === "add" ? <Loading /> : <>Save</>}
                 </button>
-                <button className="cancle-btn" onClick={handleCloseModal}>
+                <button
+                  className="cancle-btn"
+                  onClick={handleCloseModal}
+                  type="button"
+                >
                   Cancle
                 </button>
               </div>
@@ -295,15 +347,22 @@ function AddingPop({
         </div>
       </div>
 
-      {modalEditConfirm &&
+      {confirmModal.edit &&
         createPortal(
           <ConfirmPop
             mode="edit"
             selectedFields={formik.values}
-            onCancle={() => {
-              setModalEditConfirm(false);
-            }}
+            onCancle={handleCancleEdit}
             onSubmitSuccess={() => onClose()}
+          />,
+          document.body
+        )}
+
+      {confirmModal.close &&
+        createPortal(
+          <ConfirmClose
+            onCancle={handleCancleCloseEdit}
+            onConfirm={handleConfirmCloseEdit}
           />,
           document.body
         )}

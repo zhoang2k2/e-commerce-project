@@ -12,6 +12,8 @@ import {
   selectCustomerState,
   type CustomerInfo,
 } from "../../../redux/reducer/CustomerSlide";
+import { createPortal } from "react-dom";
+import ConfirmClose from "../Confirm/ConfirmClose";
 
 type CustomerAccountProps = {
   onClose: () => void;
@@ -118,7 +120,20 @@ function CustomerAccount({
     setShowForm(true);
   }, []);
 
+  const [confirmCloseModal, setConfirmCloseModal] = useState(false);
   const handleCloseModal = () => {
+    if (formik.values.username !== "" || formik.values.password !== "") {
+      setConfirmCloseModal(true);
+    } else {
+      handleConfirmClose();
+    }
+  };
+
+  const handleCancleCloseConfirm = () => {
+    setConfirmCloseModal(false);
+  };
+
+  const handleConfirmClose = () => {
     setShowForm(false);
     setTimeout(() => {
       onClose();
@@ -126,77 +141,88 @@ function CustomerAccount({
   };
 
   return (
-    <div className="customer-container">
-      <div
-        className={showForm ? "customer-pop active" : "customer-pop inActive"}
-      >
-        <div className="customer-title">
-          <h2>CUSTOMER INFORMATION</h2>
-          <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
-        </div>
+    <>
+      <div className="customer-container">
+        <div
+          className={showForm ? "customer-pop active" : "customer-pop inActive"}
+        >
+          <div className="customer-title">
+            <h2>CUSTOMER INFORMATION</h2>
+            <FontAwesomeIcon icon={faXmark} onClick={handleCloseModal} />
+          </div>
 
-        <div className="customer-body">
-          <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="username">
-              Username:{" "}
-              {formik.touched.username && formik.errors.username ? (
-                <div className="error">{formik.errors.username}</div>
-              ) : null}
-              <input
-                name="username"
-                type="text"
-                placeholder="Enter your username..."
-                value={formik.values.username}
-                onChange={formik.handleChange}
-              />
-            </label>
+          <div className="customer-body">
+            <form onSubmit={formik.handleSubmit}>
+              <label htmlFor="username">
+                Username:{" "}
+                {formik.touched.username && formik.errors.username ? (
+                  <div className="error">{formik.errors.username}</div>
+                ) : null}
+                <input
+                  name="username"
+                  type="text"
+                  placeholder="Enter your username..."
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                />
+              </label>
 
-            <label htmlFor="password">
-              Password:{" "}
-              {formik.touched.password && formik.errors.password ? (
-                <div className="error">{formik.errors.password}</div>
-              ) : null}
-              <input
-                name="password"
-                type={visiblePassword ? "text" : "password"}
-                placeholder="Enter your password..."
-                value={formik.values.password}
-                onChange={formik.handleChange}
-              />
-              <button onClick={handleVisiblePassword}>
-                {visiblePassword ? (
-                  <FontAwesomeIcon icon={faEyeSlash} />
-                ) : (
-                  <FontAwesomeIcon icon={faEye} />
-                )}
+              <label htmlFor="password">
+                Password:{" "}
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="error">{formik.errors.password}</div>
+                ) : null}
+                <input
+                  name="password"
+                  type={visiblePassword ? "text" : "password"}
+                  placeholder="Enter your password..."
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                />
+                <button onClick={handleVisiblePassword}>
+                  {visiblePassword ? (
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEye} />
+                  )}
+                </button>
+              </label>
+
+              <label htmlFor="confirm">
+                Confirm:
+                <input
+                  name="confirm"
+                  type="password"
+                  placeholder="Confirm password..."
+                  value={formik.values.confirm}
+                  onChange={handleConfirm}
+                />
+                {formik.touched.confirm && formik.errors.confirm ? (
+                  <div className="error">{formik.errors.confirm}</div>
+                ) : null}
+              </label>
+
+              <p>
+                Already have account?{" "}
+                <a onClick={handleChangeMode}>login here</a>
+              </p>
+
+              <button type="submit" className="submit-btn">
+                {loading ? <Loading /> : <>Register</>}
               </button>
-            </label>
-
-            <label htmlFor="confirm">
-              Confirm:
-              <input
-                name="confirm"
-                type="password"
-                placeholder="Confirm password..."
-                value={formik.values.confirm}
-                onChange={handleConfirm}
-              />
-              {formik.touched.confirm && formik.errors.confirm ? (
-                <div className="error">{formik.errors.confirm}</div>
-              ) : null}
-            </label>
-
-            <p>
-              Already have account? <a onClick={handleChangeMode}>login here</a>
-            </p>
-
-            <button type="submit" className="submit-btn">
-              {loading ? <Loading /> : <>Register</>}
-            </button>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      {confirmCloseModal &&
+        createPortal(
+          <ConfirmClose
+            onCancle={handleCancleCloseConfirm}
+            onConfirm={handleConfirmClose}
+          />,
+          document.body
+        )}
+    </>
   );
 }
 

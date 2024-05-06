@@ -6,6 +6,8 @@ import type { AccountEditedType } from "../../../types/AccountType";
 import ConfirmAccount from "../../PopUp/Confirm/ConfirmAccount";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { createPortal } from "react-dom";
+import ConfirmClose from "../Confirm/ConfirmClose";
 
 type EditAccountProps = {
   initialFields: AccountEditedType;
@@ -13,11 +15,39 @@ type EditAccountProps = {
 };
 
 function EditAccount({ onClose, initialFields }: EditAccountProps) {
+  const [confirmModal, setConfirmModal] = useState({
+    edit: false,
+    close: false,
+  });
+
   const handleCloseModal = () => {
-    onClose();
+    if (
+      formik.values.fullname !== initialFields.fullname ||
+      formik.values.gender !== initialFields.gender ||
+      formik.values.phone !== initialFields.phone ||
+      formik.values.birthday !== initialFields.birthday ||
+      formik.values.address !== initialFields.address
+    ) {
+      setConfirmModal({ ...confirmModal, close: true });
+    } else {
+      handleConfirmCloseEdit();
+    }
   };
 
-  const [modalEditConfirm, setModalEditConfirm] = useState(false);
+  const handleCancleEdit = () => {
+    setConfirmModal({ ...confirmModal, edit: false });
+  };
+
+  const handleCancleCloseEdit = () => {
+    setConfirmModal({ ...confirmModal, close: false });
+  };
+
+  const handleConfirmCloseEdit = () => {
+    setTimeout(() => {
+      handleCancleCloseEdit();
+      onClose();
+    }, 350);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -48,7 +78,7 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
       address: Yup.string().required("Required"),
     }),
     onSubmit: () => {
-      setModalEditConfirm(true);
+      setConfirmModal({ ...confirmModal, edit: true });
     },
   });
 
@@ -145,14 +175,25 @@ function EditAccount({ onClose, initialFields }: EditAccountProps) {
         </form>
       </div>
 
-      {modalEditConfirm && (
-        <ConfirmAccount
-          mode="edit"
-          onCancle={() => setModalEditConfirm(false)}
-          onSubmitSuccess={() => onClose()}
-          selectedAccount={formik.values}
-        />
-      )}
+      {confirmModal.edit &&
+        createPortal(
+          <ConfirmAccount
+            mode="edit"
+            onCancle={handleCancleEdit}
+            onSubmitSuccess={() => onClose()}
+            selectedAccount={formik.values}
+          />,
+          document.body
+        )}
+
+      {confirmModal.close &&
+        createPortal(
+          <ConfirmClose
+            onCancle={handleCancleCloseEdit}
+            onConfirm={handleConfirmCloseEdit}
+          />,
+          document.body
+        )}
     </>
   );
 }

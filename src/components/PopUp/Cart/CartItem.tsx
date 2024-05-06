@@ -54,7 +54,7 @@ function CartItem({
 
       <button
         className="delete-btn"
-        onClick={() => handleDeleteItemFromCart(item.id ?? "")}
+        onClick={() => handleDeleteItemFromCart(item.id)}
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>
@@ -67,7 +67,7 @@ function CartItem({
         >
           <FontAwesomeIcon icon={faMinus} />
         </button>
-        <span>{quantity}</span>
+        <p>x{quantity}</p>
         <button
           className="increase-btn"
           onClick={() => {

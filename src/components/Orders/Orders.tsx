@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./order.scss";
 import {
+  editOrder,
   fetchOrder,
   selectOrderState,
   type CustomerOrder,
@@ -9,10 +10,9 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import Pagination from "../Pagination/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCheck,
   faMagnifyingGlass,
-  faPenToSquare,
   faRotateLeft,
-  faTags,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -37,8 +37,9 @@ function Orders() {
       return (
         filtered.username.toLowerCase().includes(filterVal.toLowerCase()) ||
         filtered.phone.toLowerCase().includes(filterVal.toLowerCase()) ||
+        filtered.customerId.toLowerCase().includes(filterVal.toLowerCase()) ||
         filtered.id.toLowerCase().includes(filterVal.toLowerCase()) ||
-        filtered.orderId.toLowerCase().includes(filterVal.toLowerCase())
+        filtered.status.toLowerCase().includes(filterVal.toLowerCase())
       );
     });
     setCurrentItems(filterList);
@@ -73,6 +74,22 @@ function Orders() {
       behavior: "smooth",
     });
   }, [currentPage]);
+
+  // HANDLE STATUS
+  const [status, setStatus] = useState<{ [key: string]: string }>({});
+
+  const handleStatus = (order: CustomerOrder) => {
+    const updatedStatus = { ...status, [order.id]: "done" };
+    setStatus(updatedStatus);
+
+    const orderStatus = updatedStatus[order.id];
+    if (orderStatus === "done") {
+      const updateOrder = { ...order, status: orderStatus };
+      dispatch(editOrder(updateOrder)).then(() => {
+        dispatch(fetchOrder());
+      });
+    }
+  };
 
   return (
     <>
@@ -115,12 +132,12 @@ function Orders() {
               }).format(parseInt(item.inTotal));
 
               return (
-                <tr key={item.orderId} className="order-tr">
-                  <td className="orderId-col">{item.orderId}</td>
+                <tr key={item.id} className="order-tr">
+                  <td className="orderId-col">{item.id}</td>
 
                   <td className="customer-col">
                     <ul>
-                      <li>Customer ID: {item.id}</li>
+                      <li>Customer ID: {item.customerId}</li>
                       <li>Username: {item.username}</li>
                       <li>Password: {item.password}</li>
                     </ul>
@@ -172,15 +189,28 @@ function Orders() {
 
                   <td className="total-purchase-col">{totalPriceFormat}</td>
 
-                  <td className="status-col">pending</td>
+                  <td className="status-col">
+                    <span
+                      className={item.status === "done" ? "done" : "pending"}
+                    >
+                      {status[item.id] === "done"
+                        ? status[item.id]
+                        : item.status}
+                    </span>
+                  </td>
 
                   <td className="action-col">
-                    <button className="status-btn">
-                      <FontAwesomeIcon icon={faTags} />
-                    </button>
-                    <button className="edit-btn">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                    </button>
+                    {item.status === "done" ? (
+                      ""
+                    ) : (
+                      <button
+                        className="done-btn"
+                        onClick={() => handleStatus(item)}
+                      >
+                        <FontAwesomeIcon icon={faCheck} />
+                      </button>
+                    )}
+
                     <button className="del-btn">
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
