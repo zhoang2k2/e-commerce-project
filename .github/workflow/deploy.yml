@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
+      - name: Start JSON Server
+        run: npx json-server db.json --port 3000 &
+
       - name: Build and predeploy project
         run: npm run predeploy
 
