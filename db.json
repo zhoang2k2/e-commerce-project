@@ -4,21 +4,7 @@
       "id": "3839",
       "username": "User1",
       "password": "Hoang201",
-      "products": [
-        {
-          "id": "1000",
-          "name": "Persiant cat da sussy gray cat",
-          "price": "15000000",
-          "quantity": "3",
-          "image": "https://i.imgur.com/ks54Sb7.jpeg",
-          "catBreed": "Persiant",
-          "age": "18",
-          "color": "black",
-          "rate": "3",
-          "sales": "15",
-          "status": "new"
-        }
-      ]
+      "products": []
     },
     {
       "id": "2583",
@@ -341,6 +327,37 @@
           "rate": "5",
           "sales": "8",
           "status": "old"
+        }
+      ]
+    },
+    {
+      "id": "6873",
+      "inTotal": "15000000",
+      "customerId": "3839",
+      "username": "User1",
+      "password": "Hoang201",
+      "phone": "0905734471",
+      "address": "hai chau, da nang",
+      "status": "pending",
+      "detailQuantities": [
+        {
+          "productId": "1000",
+          "productQuantity": 1
+        }
+      ],
+      "products": [
+        {
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
+          "color": "black",
+          "rate": "3",
+          "sales": "15",
+          "status": "new"
         }
       ]
     }
