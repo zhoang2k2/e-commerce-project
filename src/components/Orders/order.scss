@@ -1,69 +1,6 @@
 .order-container {
   position: relative;
 
-  .search-action {
-    position: relative;
-    width: 400px;
-    display: flex;
-    align-items: center;
-    border: 1px solid rgb(129, 129, 129);
-    border-radius: 10px;
-    overflow: hidden;
-    float: right;
-    margin-bottom: 50px;
-
-    svg {
-      font-size: 14px;
-      padding: 0 10px;
-    }
-
-    input {
-      width: 85%;
-      height: 20px;
-      border: none;
-      padding: 10px 0;
-      margin-right: 20px;
-      font-size: 14px;
-
-      &:focus {
-        outline: none;
-      }
-
-      &::placeholder {
-        font-size: 14px;
-      }
-    }
-
-    .search-btn {
-      height: 30px;
-      width: 15%;
-      margin-top: 1px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      color: #fff;
-      background-color: #7631fe;
-      transition: 0.25s ease-in-out;
-
-      &:hover {
-        opacity: 0.75;
-      }
-
-      &::before {
-        content: "";
-        width: 2px;
-        height: 25px;
-        background-color: #f5f5f5;
-        border-radius: 10px;
-        display: inline-block;
-        position: absolute;
-        transform: translate(-20px, -5px);
-      }
-    }
-  }
-
   .products-table {
     .order-head {
       tr {
@@ -74,19 +11,14 @@
     tbody {
       .order-tr {
         &:hover button {
-          &.del-btn {
-            border: 1px solid #ca434a;
-            color: #ca434a;
-          }
-
-          &.edit-btn {
-            border: 1px solid orange;
-            color: orange;
-          }
-
           &.done-btn {
             border: 1px solid #09bc8a;
             color: #09bc8a;
+          }
+
+          &.undone-btn {
+            border: 1px solid #7631fe;
+            color: #7631fe;
           }
         }
         .orderId-col {
@@ -187,24 +119,17 @@
             transition: 0.2s ease-in-out;
           }
 
-          .del-btn {
-            &:hover {
-              color: #fff;
-              background-color: #ca434a;
-            }
-          }
-
-          .edit-btn {
-            &:hover {
-              color: #fff;
-              background-color: orange;
-            }
-          }
-
           .done-btn {
             &:hover {
               color: #fff;
               background-color: #09bc8a;
+            }
+          }
+
+          .undone-btn {
+            &:hover {
+              color: #fff;
+              background-color: #7631fe;
             }
           }
         }

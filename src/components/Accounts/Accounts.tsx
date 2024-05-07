@@ -22,6 +22,8 @@ import type { AccountType } from "../../types/AccountType";
 function AdminAccounts() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
+  const { adminAccounts } = useSelector(selectAccountState);
+
   const [showPopup, setShowPopup] = useState({
     auth: false,
     login: false,
@@ -29,10 +31,12 @@ function AdminAccounts() {
     confirm: false,
     edit: false,
   });
-
-  const { adminAccounts } = useSelector(selectAccountState);
-
+  const [filterVal, setFilterVal] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+  const [currentItems, setCurrentItems] = useState<AccountType[]>([]);
   const [reset, setReset] = useState(1);
+
   useEffect(() => {
     dispatch(fetchAccounts());
   }, [reset, dispatch]);
@@ -46,7 +50,6 @@ function AdminAccounts() {
   };
 
   // HANDLE SEARCH
-  const [filterVal, setFilterVal] = useState("");
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterVal(e.target.value);
   };
@@ -58,9 +61,7 @@ function AdminAccounts() {
         filtered.phone.toLowerCase().includes(filterVal.toLowerCase())
       );
     });
-
     setCurrentItems(filterList);
-
     setCurrentPage(1);
   };
 
@@ -71,20 +72,14 @@ function AdminAccounts() {
   }, [adminAccounts]);
 
   // HANDLE PAGINATION
-  const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const [itemsPerPage] = useState(3);
-  const [currentItems, setCurrentItems] = useState<AccountType[]>([]);
-
   const totalItem = [...currentItems];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
   const totalPage = Math.ceil(totalItem.length / itemsPerPage);
-
   const renderItems = totalItem.slice(indexOfFirstItem, indexOfLastItem);
 
   return (

@@ -17,29 +17,26 @@ type AccountTbodyProps = {
 };
 
 function AccountTbody({ currentItems }: AccountTbodyProps) {
-  // const { adminAccounts } = useSelector(selectAccountState);
-
   const [showPopup, setShowPopup] = useState({
     auth: false,
     signup: false,
     confirm: false,
     edit: false,
   });
-
   const [selectedID, setSelectedID] = useState("");
+  const [initialFields, setInitialFields] = useState<AccountType>();
+  const [authenticatedRow, setAuthenticatedRow] = useState<string>("");
+  const [authForSetting, setAuthForSetting] = useState(false);
+
   const handleConfirmDelete = (id: string) => {
     setShowPopup({ ...showPopup, confirm: true });
     setSelectedID(id);
   };
 
-  const [initialFields, setInitialFields] = useState<AccountType>();
   const handleOpenEdit = (selectedAccount: AccountType) => {
     setShowPopup({ ...showPopup, edit: true });
     setInitialFields(selectedAccount);
   };
-
-  const [authenticatedRow, setAuthenticatedRow] = useState<string>("");
-  const [authForSetting, setAuthForSetting] = useState(false);
 
   const handleAuthorization = (account: AccountAuth) => {
     setAuthenticatedRow(account.id ?? "");

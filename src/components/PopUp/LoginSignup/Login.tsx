@@ -32,7 +32,11 @@ function Login({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { adminAccounts } = useSelector(selectAccountState);
+
   const [accountList, setAccountList] = useState<Array<AccountType>>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [visiblePassword, setVisiblePassword] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccounts());
@@ -92,14 +96,12 @@ function Login({
     onChangeMode();
   };
 
-  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     setShowForm(true);
   }, []);
 
   // =======================VALIDATE=======================
 
-  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -134,7 +136,6 @@ function Login({
     },
   });
 
-  const [visiblePassword, setVisiblePassword] = useState(false);
   const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setVisiblePassword(!visiblePassword);

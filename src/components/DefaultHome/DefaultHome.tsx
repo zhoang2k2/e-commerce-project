@@ -45,6 +45,12 @@ function DefaultHome() {
   const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
   const { customerInfo } = useSelector(selectCustomerState);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
+  const [current, setCurrent] = useState(1);
+  const [reset, setReset] = useState(1);
+  const [showLogin, setShowLogin] = useState(false);
+
   // ========================NEW PRODUCT========================
   useEffect(() => {
     dispatch(fetchProducts());
@@ -56,12 +62,9 @@ function DefaultHome() {
 
   const StickyBox = useStickyBox({ offsetTop: 100, offsetBottom: 20 });
 
-  const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
-  const [itemsPerPage] = useState(6);
 
   const totalItem: Product[] = [...onlyNewProduct];
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -89,8 +92,6 @@ function DefaultHome() {
   }, []);
 
   // ========================CAROUSEL========================
-  const [current, setCurrent] = useState(1);
-
   const slides = [
     {
       id: "1",
@@ -111,8 +112,6 @@ function DefaultHome() {
   };
 
   // ==========================CART HANDLING==========================
-  const [reset, setReset] = useState(1);
-  const [showLogin, setShowLogin] = useState(false);
   const handleCloseLogin = () => {
     setShowLogin(false);
   };

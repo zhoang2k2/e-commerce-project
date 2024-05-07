@@ -12,10 +12,19 @@ import { selectAuthCustomerState } from "../../../redux/reducer/AuthCustomerSlid
 
 type PurchaseOrder = {
   onClose: () => void;
+  addingSuccess: number;
 };
 
-function PurchaseOrder({ onClose }: PurchaseOrder) {
+function PurchaseOrder({ onClose, addingSuccess }: PurchaseOrder) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
+  const { orders } = useSelector(selectOrderState);
+  const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
+
+  const [authOrder, setAuthOrder] = useState<CustomerOrder[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [sortOrder, setSortOrder] = useState<CustomerOrder[]>([]);
+
   useEffect(() => {
     setShowForm(true);
   }, []);
@@ -27,13 +36,6 @@ function PurchaseOrder({ onClose }: PurchaseOrder) {
     }, 350);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dispatch = useDispatch<any>();
-  const { orders } = useSelector(selectOrderState);
-  const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
-
-  const [authOrder, setAuthOrder] = useState<CustomerOrder[]>([]);
-
   useEffect(() => {
     const matchOrders = orders.filter((auth) =>
       auth.customerId.includes(currentCustomerAccount.id)
@@ -43,9 +45,22 @@ function PurchaseOrder({ onClose }: PurchaseOrder) {
 
   useEffect(() => {
     dispatch(fetchOrder());
-  }, [dispatch]);
+  }, [dispatch, addingSuccess]);
 
-  const sortOrder = authOrder.slice().reverse();
+  useEffect(() => {
+    setSortOrder(authOrder.slice().reverse());
+  }, [authOrder]);
+
+  // ACTION
+  const handleFilterDone = () => {
+    setSortOrder(authOrder.filter((item) => item.status === "done"));
+  };
+  const handleFilterPending = () => {
+    setSortOrder(authOrder.filter((item) => item.status === "pending"));
+  };
+  const handleRenderAll = () => {
+    setSortOrder(authOrder.slice().reverse());
+  };
 
   return (
     <>
@@ -59,6 +74,12 @@ function PurchaseOrder({ onClose }: PurchaseOrder) {
             className="close-btn"
             onClick={handleCloseModal}
           />
+          <div className="purchase-action">
+            <button onClick={handleRenderAll}>All</button>
+            <button onClick={handleFilterDone}>Done</button>
+            <button onClick={handleFilterPending}>Pending</button>
+          </div>
+
           <div className="purchase-body">
             <ul>
               {sortOrder &&

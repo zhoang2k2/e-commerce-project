@@ -14,6 +14,7 @@ type CartItemProps = {
   customerOnline: CustomerInfo;
   handleDecrease: (e: string) => void;
   handleIncrease: (e: string) => void;
+  onRemoveSuccess: () => void;
   quantity: number;
 };
 
@@ -24,6 +25,7 @@ function CartItem({
   handleIncrease,
   handleDecrease,
   quantity,
+  onRemoveSuccess
 }: CartItemProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
@@ -34,6 +36,7 @@ function CartItem({
     );
     const customer = { ...customerOnline, products: updateProducts };
     dispatch(deleteProductsFromCart({ productId, customer })).then(() => {
+      onRemoveSuccess()
       dispatch(fetchProductInCart(customerOnline.id));
     });
   };

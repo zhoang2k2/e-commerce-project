@@ -19,9 +19,14 @@ import Pagination from "../Pagination/Pagination";
 import { selectProductState } from "../../redux/reducer/ProductsSlide";
 
 function ProductsTable() {
+  const { products } = useSelector(selectProductState);
+
   const [addModalVisible, setAddModelVisible] = useState(false);
   const [sortProducts, setSortProducts] = useState<Product[]>([]);
   const [sortStatus, setSortStatus] = useState("increase");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemPerPage] = useState(5);
+  const [newQuantity, setNewQuantity] = useState(5);
 
   const handleOpenAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -33,8 +38,6 @@ function ProductsTable() {
       ? setCurrentPage(totalPage)
       : setCurrentPage(totalPage + 1);
   };
-
-  const { products } = useSelector(selectProductState);
 
   const [filterVal, setFilterVal] = useState("");
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -71,12 +74,9 @@ function ProductsTable() {
   }, [products]);
 
   // HANDLE PAGINATION
-  const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
-  const [itemsPerPage, setItemPerPage] = useState(5);
 
   const totalItem: Product[] = [...sortProducts];
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -90,8 +90,6 @@ function ProductsTable() {
   );
 
   // ----------------RESET ITEM PER PAGE----------------
-  const [newQuantity, setNewQuantity] = useState(5);
-
   const handleItemPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNewQuantity(parseInt(e.target.value));
   };

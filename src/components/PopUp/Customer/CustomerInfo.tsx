@@ -34,12 +34,16 @@ function CustomerAccount({
   }, [dispatch]);
 
   const [customerAccount, setCustomerAccount] = useState<string[]>([]);
+  const [confirmCloseModal, setConfirmCloseModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  
   useEffect(() => {
     const usernames = customerInfo.map((account) => account.username);
     setCustomerAccount(usernames);
   }, [customerInfo]);
 
-  const [visiblePassword, setVisiblePassword] = useState(false);
   const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setVisiblePassword(!visiblePassword);
@@ -49,7 +53,6 @@ function CustomerAccount({
     formik.setFieldValue("confirm", e.target.value);
   };
 
-  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -115,12 +118,10 @@ function CustomerAccount({
     onChangeMode();
   };
 
-  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     setShowForm(true);
   }, []);
 
-  const [confirmCloseModal, setConfirmCloseModal] = useState(false);
   const handleCloseModal = () => {
     if (formik.values.username !== "" || formik.values.password !== "") {
       setConfirmCloseModal(true);

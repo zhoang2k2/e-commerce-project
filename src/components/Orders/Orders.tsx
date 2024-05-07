@@ -13,21 +13,29 @@ import {
   faCheck,
   faMagnifyingGlass,
   faRotateLeft,
-  faTrash,
+  faTrashArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { createPortal } from "react-dom";
+import ConfirmUndoneOrder from "../PopUp/Confirm/ConfirmUndoneOrder";
 
 function Orders() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { orders } = useSelector(selectOrderState);
-
   useEffect(() => {
     dispatch(fetchOrder());
   }, [dispatch]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+  const [status, setStatus] = useState<{ [key: string]: string }>({});
+  const [confirmUndone, setConfirmUndone] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<CustomerOrder>();
+
   // HANDLE SEARCH
   const [currentItems, setCurrentItems] = useState<CustomerOrder[]>([]);
   const [filterVal, setFilterVal] = useState("");
+
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterVal(e.target.value);
   };
@@ -47,12 +55,9 @@ function Orders() {
   };
 
   // HANDLE PAGINATION
-  const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
-  const [itemsPerPage] = useState(3);
 
   const totalItem = [...currentItems];
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -76,7 +81,6 @@ function Orders() {
   }, [currentPage]);
 
   // HANDLE STATUS
-  const [status, setStatus] = useState<{ [key: string]: string }>({});
 
   const handleStatus = (order: CustomerOrder) => {
     const updatedStatus = { ...status, [order.id]: "done" };
@@ -91,24 +95,52 @@ function Orders() {
     }
   };
 
+  const handleUnDone = (order: CustomerOrder) => {
+    setConfirmUndone(true);
+    setSelectedOrder(order);
+  };
+
+  const undoneAction = () => {
+    const order = selectedOrder;
+    if (order) {
+      const updatedStatus = { ...status, [order.id]: "pending" };
+      setStatus(updatedStatus);
+
+      const orderStatus = updatedStatus[order.id];
+      if (orderStatus === "pending") {
+        const updateOrder = { ...order, status: orderStatus };
+        dispatch(editOrder(updateOrder)).then(() => {
+          dispatch(fetchOrder());
+        });
+      }
+    }
+  };
+
+  const handleCancleConfirm = () => {
+    setConfirmUndone(false);
+  };
+
   return (
     <>
       <div className="order-container">
-        <div className="search-action">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <input
-            type="text"
-            placeholder="Search orders..."
-            value={filterVal}
-            onChange={handleFilterChange}
-          />
-          <button className="search-btn" onClick={handleFilter}>
-            {filterVal === "" ? (
-              <FontAwesomeIcon icon={faRotateLeft} />
-            ) : (
-              <>Search</>
-            )}
-          </button>
+        <div className="action-body">
+          <div className="button-actions"></div>
+          <div className="search-action">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <input
+              type="text"
+              placeholder="Search orders..."
+              value={filterVal}
+              onChange={handleFilterChange}
+            />
+            <button className="search-btn" onClick={handleFilter}>
+              {filterVal === "" ? (
+                <FontAwesomeIcon icon={faRotateLeft} />
+              ) : (
+                <>Search</>
+              )}
+            </button>
+          </div>
         </div>
 
         <table className="products-table">
@@ -201,7 +233,12 @@ function Orders() {
 
                   <td className="action-col">
                     {item.status === "done" ? (
-                      ""
+                      <button
+                        className="undone-btn"
+                        onClick={() => handleUnDone(item)}
+                      >
+                        <FontAwesomeIcon icon={faTrashArrowUp} />
+                      </button>
                     ) : (
                       <button
                         className="done-btn"
@@ -210,10 +247,6 @@ function Orders() {
                         <FontAwesomeIcon icon={faCheck} />
                       </button>
                     )}
-
-                    <button className="del-btn">
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
                   </td>
                 </tr>
               );
@@ -228,6 +261,15 @@ function Orders() {
           currentPage={currentPage}
         />
       </div>
+
+      {confirmUndone &&
+        createPortal(
+          <ConfirmUndoneOrder
+            onCancle={handleCancleConfirm}
+            onConfirm={undoneAction}
+          />,
+          document.body
+        )}
     </>
   );
 }

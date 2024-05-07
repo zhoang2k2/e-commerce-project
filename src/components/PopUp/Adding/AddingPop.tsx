@@ -32,6 +32,11 @@ function AddingPop({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
 
+  const [confirmModal, setConfirmModal] = useState({
+    edit: false,
+    close: false,
+  });
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -110,11 +115,6 @@ function AddingPop({
     },
   });
 
-  const [confirmModal, setConfirmModal] = useState({
-    edit: false,
-    close: false,
-  });
-  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     setShowModal(true);
   }, []);

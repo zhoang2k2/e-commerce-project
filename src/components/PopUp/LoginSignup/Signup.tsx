@@ -38,6 +38,10 @@ function SignUp({
   }, [dispatch]);
 
   const [adminEmails, setAdminEmails] = useState<string[]>([]);
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const [signupStages, setSignupStages] = useState(1);
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const emails = adminAccounts.map((account) => account.email);
@@ -53,13 +57,11 @@ function SignUp({
     onChangeMode();
   };
 
-  const [visiblePassword, setVisiblePassword] = useState(false);
   const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setVisiblePassword(!visiblePassword);
   };
 
-  const [signupStages, setSignupStages] = useState(1);
   const handleNextStage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setSignupStages(signupStages + 1);
@@ -69,13 +71,11 @@ function SignUp({
     signupStages === 1 ? setSignupStages(1) : setSignupStages(signupStages - 1);
   };
 
-  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     setShowForm(true);
   }, []);
 
   //====================== VALIDATION======================
-  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {

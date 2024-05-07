@@ -17,23 +17,21 @@ type TbodyProps = {
 function Tbody({ currentItems, filterVal }: TbodyProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  const randomKey = () => Math.floor(Math.random() * 100000);
-
-  const [initialState, setInitialState] = useState<Product>();
-
-  const [reset, setReset] = useState(1);
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [reset]);
-
-  const [selectedID, setSelectedID] = useState("");
 
   const [showPopup, setShowPopup] = useState({
     addingPop: false,
     confirmPop: false,
   });
+  const [initialState, setInitialState] = useState<Product>();
+  const [selectedID, setSelectedID] = useState("");
+  const [reset, setReset] = useState(1);
 
+  const randomKey = () => Math.floor(Math.random() * 100000);
   const columnSpan: number = 11;
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [reset]);
 
   const handleConfirmDelete = (id: string) => {
     setShowPopup({ ...showPopup, confirmPop: true });

@@ -36,26 +36,29 @@ type CartPopProps = {
 };
 
 function CartPop({ onClose }: CartPopProps) {
-  const handleCloseModal = () => {
-    setShowForm(false);
-    handleClosePurchaseOrder();
-    setTimeout(() => {
-      onClose();
-    }, 350);
-  };
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { currentCustomerAccount } = useSelector(selectAuthCustomerState);
   const { customerInfo } = useSelector(selectCustomerState);
 
-  useEffect(() => {
-    dispatch(fetchAuthCustomer());
-    dispatch(fetchCustomerData());
-  }, [dispatch]);
-
   const [productsInCart, setProductsInCart] = useState<Product[]>([]);
   const [customerOnline, setCustomerOnline] = useState<CustomerInfo>();
+  const [productQuantities, setProductQuantities] = useState<{
+    [key: string]: number;
+  }>({});
+  const [showForm, setShowForm] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [reset, setReset] = useState(1);
+
+  useEffect(() => {
+    dispatch(fetchAuthCustomer());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCustomerData());
+  }, [dispatch, reset]);
+
   useEffect(() => {
     if (customerInfo.length > 0 && currentCustomerAccount) {
       const index = customerInfo.findIndex(
@@ -70,10 +73,6 @@ function CartPop({ onClose }: CartPopProps) {
   }, [customerInfo, currentCustomerAccount, dispatch]);
 
   // HANDLING QUANTITY
-  const [productQuantities, setProductQuantities] = useState<{
-    [key: string]: number;
-  }>({});
-
   useEffect(() => {
     const initialQuantities: { [key: string]: number } = {};
     productsInCart.forEach((product) => {
@@ -107,12 +106,10 @@ function CartPop({ onClose }: CartPopProps) {
     currency: "VND",
   }).format(totalPrice);
 
-  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     setShowForm(true);
   }, []);
 
-  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       phone: "",
@@ -160,21 +157,35 @@ function CartPop({ onClose }: CartPopProps) {
           };
           dispatch(putProductsToCart(updateCart)).then(() => {
             dispatch(fetchCustomerData());
-            window.alert("Order Success Fully!");
-            handleClosePurchaseOrder();
-            onClose();
+            handleAddSuccess();
+            handleOpenPurchaseOrder();
           });
         });
       }, 2400);
     },
   });
 
-  const [openModal, setOpenModal] = useState(false);
   const handleOpenPurchaseOrder = () => {
     setOpenModal(true);
   };
   const handleClosePurchaseOrder = () => {
     setOpenModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowForm(false);
+    handleClosePurchaseOrder();
+    setTimeout(() => {
+      onClose();
+    }, 350);
+  };
+
+  const handleAddSuccess = () => {
+    setReset((prev) => prev + 1);
+  };
+
+  const handleRemoveSuccess = () => {
+    setReset((prev) => prev + 1);
   };
 
   return (
@@ -250,6 +261,7 @@ function CartPop({ onClose }: CartPopProps) {
 
                   return (
                     <CartItem
+                      onRemoveSuccess={handleRemoveSuccess}
                       handleIncrease={handleIncrease}
                       handleDecrease={handleDecrease}
                       quantity={productQuantities[item.id] || 1}
@@ -275,7 +287,10 @@ function CartPop({ onClose }: CartPopProps) {
 
       {openModal &&
         createPortal(
-          <PurchaseOrder onClose={handleClosePurchaseOrder} />,
+          <PurchaseOrder
+            onClose={handleClosePurchaseOrder}
+            addingSuccess={reset}
+          />,
           document.body
         )}
     </>

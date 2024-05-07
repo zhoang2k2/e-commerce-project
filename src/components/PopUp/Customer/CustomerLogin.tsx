@@ -30,11 +30,13 @@ function CustomerLogin({
   }, [dispatch]);
 
   const [showForm, setShowForm] = useState(false);
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setShowForm(true);
   }, []);
 
-  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -94,7 +96,6 @@ function CustomerLogin({
     onChangeMode();
   };
 
-  const [visiblePassword, setVisiblePassword] = useState(false);
   const handleVisiblePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setVisiblePassword(!visiblePassword);
@@ -109,7 +110,9 @@ function CustomerLogin({
 
   return (
     <div className="customer-container">
-      <div className={showForm ? "customer-pop active" : "customer-pop inActive"}>
+      <div
+        className={showForm ? "customer-pop active" : "customer-pop inActive"}
+      >
         <div className="customer-title">
           <h2>LOGIN</h2>
           <FontAwesomeIcon
@@ -147,7 +150,7 @@ function CustomerLogin({
                 onChange={formik.handleChange}
                 value={formik.values.password}
               />
-                <button onClick={handleVisiblePassword}>
+              <button onClick={handleVisiblePassword}>
                 {visiblePassword ? (
                   <FontAwesomeIcon icon={faEyeSlash} />
                 ) : (

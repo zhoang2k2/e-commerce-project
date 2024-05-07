@@ -42,6 +42,17 @@ function Navbar() {
     login: false,
     signup: false,
   });
+  const [customerModal, setCustomerModal] = useState({
+    register: false,
+    login: false,
+    confirm: false,
+  });
+  const [customerStatus, setCustomerStatus] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
+  const [countProductsInCart, setCountProductsInCart] = useState(0);
+  const [cartStatus, setCartStatus] = useState(false);
+  const [iconAfterLogin, setIconAfterLogin] = useState(false);
+
   const handleFirstLogin = () => {
     if (currentAccount.email === "" || currentAccount.password === "") {
       setModal({ ...modal, login: true });
@@ -69,7 +80,6 @@ function Navbar() {
     }, 250);
   };
 
-  const [iconAfterLogin, setIconAfterLogin] = useState(false);
   const handleForAdmin = () => {
     handleCloseLogin();
     history.push("/admin");
@@ -88,11 +98,6 @@ function Navbar() {
   }, [currentAccount]);
 
   // ============================ADDING TO CART============================
-  const [customerModal, setCustomerModal] = useState({
-    register: false,
-    login: false,
-    confirm: false,
-  });
   const handleCustomerLogin = () => {
     setCustomerModal({ ...customerModal, login: true });
   };
@@ -117,7 +122,6 @@ function Navbar() {
     setCustomerModal({ ...customerModal, confirm: false });
   };
 
-  const [customerStatus, setCustomerStatus] = useState(false);
   useEffect(() => {
     dispatch(fetchAuthCustomer());
   }, [dispatch, customerStatus]);
@@ -133,13 +137,14 @@ function Navbar() {
     }
   }, [currentCustomerAccount]);
 
-  const [cartModal, setCartModal] = useState(false);
+  // HANDLING CART
   const handleOpenCart = () => {
     currentCustomerAccount.username !== "" &&
     currentCustomerAccount.password !== ""
       ? setCartModal(true)
       : handleCustomerLogin();
   };
+
   const handleCloseCart = () => {
     setCartModal(false);
   };
@@ -155,9 +160,6 @@ function Navbar() {
       dispatch(fetchProductInCart(currentCustomerAccount.id));
     }
   }, [dispatch, currentCustomerAccount]);
-
-  const [countProductsInCart, setCountProductsInCart] = useState(0);
-  const [cartStatus, setCartStatus] = useState(false);
 
   useEffect(() => {
     if (customerInfo.length > 0 && currentCustomerAccount.id) {
