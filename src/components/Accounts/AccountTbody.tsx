@@ -27,6 +27,7 @@ function AccountTbody({ currentItems }: AccountTbodyProps) {
   const [initialFields, setInitialFields] = useState<AccountType>();
   const [authenticatedRow, setAuthenticatedRow] = useState<string>("");
   const [authForSetting, setAuthForSetting] = useState(false);
+  const [matchAccount, setMatchAccount] = useState<AccountAuth>()
 
   const handleConfirmDelete = (id: string) => {
     setShowPopup({ ...showPopup, confirm: true });
@@ -40,6 +41,7 @@ function AccountTbody({ currentItems }: AccountTbodyProps) {
 
   const handleAuthorization = (account: AccountAuth) => {
     setAuthenticatedRow(account.id ?? "");
+    setMatchAccount(account)
     setShowPopup({ ...showPopup, auth: true });
   };
 
@@ -142,6 +144,7 @@ function AccountTbody({ currentItems }: AccountTbodyProps) {
               handleCloseAuth;
               setAuthForSetting(true);
             }}
+            matchAccount={matchAccount}
           />,
           document.body
         )}

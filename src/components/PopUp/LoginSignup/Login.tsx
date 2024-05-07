@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./login-signup.scss";
 import { useEffect, useState } from "react";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
-import type { AccountType } from "../../../types/AccountType";
+import type { AccountAuth, AccountType } from "../../../types/AccountType";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAccounts,
@@ -19,6 +19,7 @@ type LoginProps = {
   authChecked: () => void;
   mode: "login" | "auth";
   extraMode: "on-admin" | "off-admin";
+  matchAccount?: AccountAuth;
 };
 
 function Login({
@@ -27,6 +28,7 @@ function Login({
   authChecked,
   mode,
   extraMode,
+  matchAccount,
 }: LoginProps) {
   // ==========================LOGIN PART==========================
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,14 +51,10 @@ function Login({
   }, [adminAccounts]);
 
   const checkAuthorization = () => {
-    const foundAccount = accountList.find(
-      (account) =>
-        account.email === formik.values.email &&
-        account.password === formik.values.password
-    );
-
-    if (foundAccount) {
-      console.log(foundAccount);
+    if (
+      matchAccount?.email === formik.values.email &&
+      matchAccount.password === formik.values.password
+    ) {
       authChecked();
       onCloseModal();
     } else {

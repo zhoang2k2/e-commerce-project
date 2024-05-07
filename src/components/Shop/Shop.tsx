@@ -18,10 +18,9 @@ import {
   fetchProducts,
   selectProductState,
 } from "../../redux/reducer/ProductsSlide";
-import {  useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { Product } from "../../types/ProductType";
 import Pagination from "../Pagination/Pagination";
-import TitlePop from "../PopUp/Title/TitlePop";
 import {
   fetchAuthCustomer,
   selectAuthCustomerState,
@@ -219,17 +218,15 @@ function Shop() {
                 className="sort-by-price"
                 onClick={() => handleSort("price")}
               >
-                <FontAwesomeIcon icon={faDollarSign} />
+                <FontAwesomeIcon icon={faDollarSign} /> Sort by Price
               </button>
-              <TitlePop title="Sort by price" className="price-title" />
 
               <button
                 className="sort-by-rate"
                 onClick={() => handleSort("rate")}
               >
-                <FontAwesomeIcon icon={faRankingStar} />
+                <FontAwesomeIcon icon={faRankingStar} /> Sort by Rate
               </button>
-              <TitlePop title="Sort by rate" className="rate-title" />
             </div>
             <div className="search-product">
               <label>
@@ -254,9 +251,18 @@ function Shop() {
                 }).format(parseInt(product.price));
 
                 const ratingStar = [];
+                const unRatingStar = [];
+                const unRating = 5 - parseInt(product.rate);
                 for (let i = 0; i < parseInt(product.rate); i++) {
                   ratingStar.push(<FontAwesomeIcon icon={faStar} key={i} />);
                 }
+                for (let i = 0; i < unRating; i++) {
+                  unRatingStar.push(
+                    <FontAwesomeIcon icon={faStar} className="unrate" key={i} />
+                  );
+                }
+                const productRating = ratingStar.concat(unRatingStar);
+
                 return (
                   <div className="product-card" key={product.id}>
                     <FontAwesomeIcon
@@ -268,7 +274,7 @@ function Shop() {
                     </div>
                     <div className="product-title">
                       <h3>{product.name}</h3>
-                      <div className="rate">{ratingStar}</div>
+                      <div className="rate">{productRating}</div>
                       <div className="sales">({product.sales} rated)</div>
                       <div className="quantity">
                         <FontAwesomeIcon icon={faBoxOpen} />

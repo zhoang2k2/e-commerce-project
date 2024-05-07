@@ -258,9 +258,15 @@ function DefaultHome() {
                 }).format(parseInt(product.price));
 
                 const ratingStar = [];
+                const unRatingStar = [];
+                const unRating = 5 - parseInt(product.rate);
                 for (let i = 0; i < parseInt(product.rate); i++) {
                   ratingStar.push(<FontAwesomeIcon icon={faStar} key={i} />);
                 }
+                for (let i = 0; i < unRating; i++) {
+                  unRatingStar.push(<FontAwesomeIcon icon={faStar} className="unrate" key={i} />);
+                }
+                const productRating = ratingStar.concat(unRatingStar);
 
                 return (
                   <div
@@ -274,7 +280,7 @@ function DefaultHome() {
                     </div>
                     <div className="new-product-title product-title">
                       <h3>{product.name}</h3>
-                      <div className="rate">{ratingStar}</div>
+                      <div className="rate">{productRating}</div>
 
                       <div className="sales">({product.sales} rated)</div>
 

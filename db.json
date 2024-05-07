@@ -360,27 +360,48 @@
           "status": "new"
         }
       ]
+    },
+    {
+      "id": "7120",
+      "inTotal": "15000000",
+      "customerId": "3839",
+      "username": "User1",
+      "password": "Hoang201",
+      "phone": "0905734471",
+      "address": "hai chau, da nang",
+      "status": "pending",
+      "detailQuantities": [
+        {
+          "productId": "1000",
+          "productQuantity": 1
+        }
+      ],
+      "products": [
+        {
+          "id": "1000",
+          "name": "Persiant cat da sussy gray cat",
+          "price": "15000000",
+          "quantity": "3",
+          "image": "https://i.imgur.com/ks54Sb7.jpeg",
+          "catBreed": "Persiant",
+          "age": "18",
+          "color": "black",
+          "rate": "3",
+          "sales": "15",
+          "status": "new"
+        }
+      ]
     }
   ],
   "accounts": [
     {
       "id": "7890",
-      "fullname": "Hoang Nguyen 2",
+      "fullname": "Hoang",
       "password": "Hoang201",
       "email": "nvhoang2012002@gmail.com",
       "gender": "male",
       "phone": "0905734471",
       "birthday": "2002-01-20",
-      "address": "hai chau, da nang"
-    },
-    {
-      "id": "3893",
-      "fullname": "admin1 change test",
-      "email": "admin1@gmail.com",
-      "password": "Hoang201",
-      "gender": "male",
-      "phone": "0905000000",
-      "birthday": "2000-01-20",
       "address": "hai chau, da nang"
     },
     {
@@ -826,6 +847,19 @@
       "color": "gray",
       "rate": "2",
       "sales": "321",
+      "status": "old"
+    },
+    {
+      "id": "139",
+      "name": "321321",
+      "price": 321321,
+      "quantity": 321321,
+      "image": "https://i.imgur.com/tH5LQC7.jpg",
+      "catBreed": "321321",
+      "age": 321321,
+      "color": "black",
+      "rate": "2",
+      "sales": "321312",
       "status": "old"
     }
   ]
