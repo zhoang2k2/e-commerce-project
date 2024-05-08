@@ -11,7 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "add-domain": "echo \"zhoang2k2.github.io/e-commerce-project\" > dist/CNAME",
-    "predeploy": "npm run build && npm run add-domain",
+    "predeploy": "json-server db.json --port 3000 & npm run build && npm run add-domain",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "gh-pages": "^6.1.1",
     "sass": "^1.71.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
